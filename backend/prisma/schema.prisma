@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+  previewFeatures = ["strictUndefinedChecks"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  Voyageur
+  Admin
+}
+
+enum StatutVoyage {
+  Planifie
+  En_cours
+  Termine
+}
+
+enum TypeHebergement {
+  Hotel
+  Motel
+  AirBnB
+  Auberge
+  Tout_inclus
+  Camping
+  Amis_Famille
+}
+
+enum Continent {
+  Asie
+  Afrique
+  Amerique
+  Europe
+  Oceanie
+}
+
+model InfosSuppPays {
+  countryCode   String @id
+  drapeau_emoji String
+  capitale      String
+  devise        String
+  langages      String
+  destinations  Destination[]
+}
+
+model Avis {
+  id            Int         @id @default(autoincrement())
+  nom           String    
+  nbEtoiles     Int
+  commentaire   String
+  sujet         Destination @relation(fields: [destinationId], references:[id])
+  destinationId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now()) @updatedAt  
+}
+
+model Destination {
+  id              Int           @id @default(autoincrement())
+  ville           String
+  continent       Continent
+  lat             Decimal       @db.Decimal(9,6)
+  long            Decimal       @db.Decimal(9,6)
+  etapes          Etape[]
+  avis            Avis[]
+  infoSuppPaysId  String
+  infosupppays    InfosSuppPays @relation(fields:[infoSuppPaysId],references:[countryCode])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+}
+
+model Etape {
+  id            Int               @id @default(autoincrement())
+  dateDeb       DateTime          @db.Date
+  dateFin       DateTime          @db.Date
+  notes         String?
+  hebergement   TypeHebergement
+  voyage        Voyage            @relation(fields: [voyageId], references: [id], onDelete: Cascade)
+  voyageId      String           
+  destination   Destination       @relation(fields: [destinationId], references:[id])
+  destinationId Int
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @default(now()) @updatedAt
+}
+
+model Voyage {
+  id              String        @id @default(cuid(2))
+  titre           String        @default("Mon Voyage")
+  dateDeb         DateTime      @db.Date
+  dateFin         DateTime      @db.Date
+  statut          StatutVoyage  @default(Planifie)
+  etapes          Etape[]
+  utilisateur     Utilisateur   @relation(fields: [utilisateurId], references: [id], onDelete: Cascade)
+  utilisateurId   String        
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+}
+
+model Utilisateur {
+  
+  id          String      @id @default(uuid())
+  courriel    String      @unique
+  motDePasse  String
+  nom         String
+  prenom      String
+  role        Role        @default(Voyageur)
+  voyages     Voyage[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now()) @updatedAt
+}
