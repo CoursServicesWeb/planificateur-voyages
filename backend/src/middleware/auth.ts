@@ -15,7 +15,6 @@ function authentificationJWT(req:Request,res:Response, next:NextFunction) {
     try {
         const payload = jwt.verify(token as any, process.env.JWT_SECRET!);
         (req as any).user = payload;
-        console.log(payload)
         next()
     }catch (error){
 
@@ -34,7 +33,6 @@ function niveauRequis(role:string) {
         if ((req as any).user.role !== role) {
             return res.status(403).json({message:"accès refusé."})
         }
-        console.log("Autorisé")
         next()
     }
 }
