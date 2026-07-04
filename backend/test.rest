@@ -9,3 +9,22 @@ Content-Type: application/json
 GET http://localhost:3000/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhY2hhbmRlbGphQGdtYWlsLmNvbSIsInJvbGUiOiJWb3lhZ2V1ciIsImlhdCI6MTc4MzEyMjI1NSwiZXhwIjoxNzgzMTI1ODU1fQ.j0ezam55e_l69vpqgM1qoIZnPI3kQfHMkNOLt5KxlmA
+###
+POST http://localhost:3000/api/voyages/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MjgyNWMyNC0yOGUxLTQ5ZGEtOGNmNS1iYjNhZDFmODEyM2MiLCJyb2xlIjoiVm95YWdldXIiLCJpYXQiOjE3ODMxMzEzNTAsImV4cCI6MTc4MzEzNDk1MH0.VqNNzqj-YM1yULZonELknIz3ePVjIlrZSYPAFcDDSCY
+
+{
+    "voyage":{
+        "titre":"Mon beau petit voyage tout doux",
+        "dateDeb":"2026-07-15T00:00:00.000Z",
+        "dateFin":"2026-07-22T00:00:00.000Z"
+    },
+    "etape":{
+        "dateDeb":"2026-07-15T00:00:00.000Z",
+        "dateFin":"2026-07-17T00:00:00.000Z",
+        "hebergement":"AirBnB",
+        "notes":"Party time baby!!!",
+        "destinationId":1
+    }
+}
