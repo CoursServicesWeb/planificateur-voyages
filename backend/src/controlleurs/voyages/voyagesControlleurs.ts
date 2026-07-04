@@ -157,7 +157,46 @@ async function modifierVoyage(req:Request,res:Response) {
 }
 
 async function supprimerVoyage(req:Request,res:Response) {
+    const voyageid = req.params.voyageid || null
+    if (!voyageid) {return res.status(400).json({message:"Le voyageid doit être non-nul."})}
 
+    let voyage;
+    try{
+        voyage = await prisma.voyage.findUnique({
+        where:{id:voyageid as any}
+    })
+        
+    }catch(error) {
+        if (error instanceof Prisma.PrismaClientValidationError) {
+            console.log(`Prisma error - validation error`)
+            return res.status(400).json({message:"Erreur: le voyage à supprimer n'a pu être trouvé avec les informations fournies."})    
+        } else {
+            console.log("Une erreure est survenue lors de la récupération du voyage.")
+            return res.status(404).json({message:"Erreur: le voyage à supprimer n'a pu être trouvé."})
+        }
+    }
+    
+    // Valider si un voyage a été trouvé ou si l'utilisateur connecté est authorisé à modifier le voyage associé à voyageid
+    if ((!voyage) || (voyage.utilisateurId !== (req as any).user.sub)) 
+        {
+            return res.status(404).json({message:"Ce voyage est introuvable à votre compte.  Veuillez vérifier le id."})
+        }
+
+
+    try {
+        const result = await prisma.voyage.delete({
+            where:{id:voyageid as any}
+        })
+        return res.status(200).json(result)
+    } catch(error) {
+        if (error instanceof PrismaClientKnownRequestError){
+            console.error(`Prisma error: ${error.code}`)
+            return res.status(500).json({message:"une erreure interne est survenue.  La suppression n'a pas pu être complétée"})
+        } else {
+            console.error("Une erreure inconnue est survenue lors de la modification de la base de données.")
+            return res.status(500).json({message:"Une erreure est survenue.  La suppression n'a pas pu être complétée."})
+        }
+    }
 }
 
 export { getVoyagesUtlisateur, creerVoyage, modifierVoyage, supprimerVoyage }
