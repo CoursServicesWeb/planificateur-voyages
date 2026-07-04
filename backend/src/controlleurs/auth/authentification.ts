@@ -13,6 +13,12 @@ async function authInscription(req:Request,res:Response) {
         throw new Error("Ces informations sont requises: courriel, mot de passe, nom, prenom.")
     }
 
+    // Valider si user déjà existant
+    const user = await prisma.utilisateur.findUnique({
+        where:{courriel:courriel}
+    })
+    if (user){res.status(409).json({message:"Un compte existe avec ce courriel.  Veuillez choisir une autre adresse."})}
+
     try {
         const mdpHash = await bcrypt.hash(motDePasse,10);
         const user = await prisma.utilisateur.create({
