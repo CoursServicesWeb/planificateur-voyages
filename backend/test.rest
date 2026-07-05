@@ -1,3 +1,5 @@
+@name
+
 POST http://localhost:3000/auth/connexion
 Content-Type: application/json
 
@@ -9,3 +11,30 @@ Content-Type: application/json
 GET http://localhost:3000/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhY2hhbmRlbGphQGdtYWlsLmNvbSIsInJvbGUiOiJWb3lhZ2V1ciIsImlhdCI6MTc4MzEyMjI1NSwiZXhwIjoxNzgzMTI1ODU1fQ.j0ezam55e_l69vpqgM1qoIZnPI3kQfHMkNOLt5KxlmA
+
+
+###
+POST http://localhost:3000/auth/inscription
+Content-Type: application/json
+
+{
+    "courriel":"jean_pelletier@gmail.com",
+    "motDePasse":"lulu3022",
+    "nom": "Pelletier",
+    "prenom": "Jean"
+}
+
+###
+# @name login
+POST http://localhost:3000/auth/connexion
+Content-Type: application/json
+
+{
+    "courriel":"jean_pelletier@gmail.com",
+    "motDePasse":"lulu3022"
+}
+
+###
+GET http://localhost:3000/destinations/test-pays/Japan
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
