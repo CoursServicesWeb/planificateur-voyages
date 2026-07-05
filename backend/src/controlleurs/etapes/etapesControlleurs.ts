@@ -133,13 +133,115 @@ async function getEtapes(req:Request,res:Response) {
         }
     }
 }
-
+/**
+ * @function modifierEtape(req:Request,res:Response)
+ * Permet la modification de un ou plusieurs attributs d'une étape parmi la destination,
+ * le type d'hébergement et/ou les notes.
+ * @param req 
+ * @param res 
+ * @returns status(200) et étape modifié
+ */
 async function modifierEtape(req:Request, res:Response) {
 
+    try {
+        // Valider que le voyageid recu est associé à l'utilisateur
+        const voyage = await prisma.voyage.findUnique({
+            where:{
+                id:(req as any).params.voyageid,
+                utilisateurId:(req as any).user.sub
+            }
+        })
+
+        if (!voyage) {
+            return res.status(404)
+            .json({message:"Le voyage associé n'est pas trouvable pour cet utilisateur.  Veuillez valider la requête."})
+        }
+        // Récupérer l'étape par etapeid et voyageid recus
+        const etape = await prisma.etape.findUnique({
+            where:{
+                id: Number(req.params.etapeid),
+                voyageId:(req as any).params.voyageid
+            }
+        })
+
+        if(!etape) {
+            return res.status(404)
+            .json({message:"L'étape associée à ce voyage est introuvable pour cet utilisateur.  Veuillez valider la requête."})
+            
+        }
+
+        const resultat = await prisma.etape.update({
+            where:{id:Number(req.params.etapeid)},
+            data:{
+                hebergement:req.body.hebergement ?? Prisma.skip,
+                destinationId:req.body.destinationId ?? Prisma.skip,
+                notes:req.body.notes ?? Prisma.skip
+            }
+        })
+        return res.status(200).json({resultat})
+
+    } catch(error){
+        if (error instanceof PrismaClientKnownRequestError) {
+            console.error(`Prisma error: ${error.code}`)
+            return res.status(500).json({message:"une erreure interne est survenue lors de la recherche du voyage de cette étape."})
+        } else {
+            console.error("Une erreure inconnue est survenue lors de la recherche de la base de données.")
+            return res.status(500).json({message:"Une erreure est survenue.  La mise à jour de l'étape n'a pas pu être complétée."})
+        }
+    }
 }
 
+/**
+ * @function supprimerEtape(req:Request,res:Response)
+ * Permet de supprimer une étape pour un voyage donné, pour un utilisateur
+ * authentifié
+ * @param req 
+ * @param res 
+ * @returns status(200) et étape suppriméee
+ */
 async function supprimerEtape(req:Request,res:Response) {
 
+    try {
+        // Valider que le voyageid recu est associé à l'utilisateur
+        const voyage = await prisma.voyage.findUnique({
+            where:{
+                id:(req as any).params.voyageid,
+                utilisateurId:(req as any).user.sub
+            }
+        })
+
+        if (!voyage) {
+            return res.status(404)
+            .json({message:"Le voyage associé n'est pas trouvable pour cet utilisateur.  Veuillez valider la requête."})
+        }
+        // Récupérer l'étape par etapeid et voyageid recus
+        const etape = await prisma.etape.findUnique({
+            where:{
+                id: Number(req.params.etapeid),
+                voyageId:(req as any).params.voyageid
+            }
+        })
+
+        if(!etape) {
+            return res.status(404)
+            .json({message:"L'étape associée à ce voyage est introuvable pour cet utilisateur.  Veuillez valider la requête."})
+            
+        }
+
+        const resultat = await prisma.etape.delete({
+            where:{id:Number(req.params.etapeid)},
+        })
+        return res.status(200).json({resultat})
+
+    } catch(error){
+        if (error instanceof PrismaClientKnownRequestError) {
+            console.error(`Prisma error: ${error.code}`)
+            return res.status(500).json({message:"une erreure interne est survenue lors de la recherche du voyage de cette étape."})
+        } else {
+            console.error("Une erreure inconnue est survenue lors de la recherche de la base de données.")
+            return res.status(500).json({message:"Une erreure est survenue.  La mise à jour de l'étape n'a pas pu être complétée."})
+        }
+    }
 }
 
 export { ajouterEtape, getEtapes, modifierEtape, supprimerEtape }
