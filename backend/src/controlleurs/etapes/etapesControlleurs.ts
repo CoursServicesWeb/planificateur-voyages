@@ -9,7 +9,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
  * précédente déjà dans le voyage ou au plus une journée après.
  * @param req 
  * @param res 
- * @returns 
+ * @returns status 201 et la nouvelle étape
  */
 async function ajouterEtape(req:Request,res:Response) {
     const {voyageid} = req.params
@@ -17,12 +17,15 @@ async function ajouterEtape(req:Request,res:Response) {
     if(!voyageid) {throw new TypeError("voyageid doit être non-nul.")}
 
     // Récuperer le voyage et les étapes associés via id voyage
-    let voyage,etapes; 
+    let voyage,etapes;
 
     try {
             [voyage,etapes] = await Promise.all([
                 await prisma.voyage.findUnique({
-                where: {id:voyageid as any}
+                where: {
+                    id:voyageid as any,
+                    utilisateurId:(req as any).user.sub
+                }
                 }),
                 await prisma.etape.findMany({
                 where:{voyageId:voyageid as any},
@@ -38,11 +41,6 @@ async function ajouterEtape(req:Request,res:Response) {
     }
     
     if (!voyage) {return res.status(404).json({message:"Désolé, nous n'avons pas trouvé votre voyage.  Veuillez vérifier la demande."})}
-
-    // Valider que l'utilisateur est autorisé pour ajouter à ce voyage
-    if ((voyage.utilisateurId !== (req as any).user.sub)) {
-        return res.status(401).json({message:"Ce voyage ou ses étapes sont introuvables à votre compte."})
-    }
 
     const {
         dateDeb:dateDebNouvEtape,
@@ -100,9 +98,40 @@ async function ajouterEtape(req:Request,res:Response) {
     }   
 }    
 
-
+/**
+ * @function getEtapes(req:Request,res:Response)
+ * Récupère les étapes d'un voyage via le id fourni pour un utilisateur authentifié
+ * @param req 
+ * @param res 
+ * @returns status(200) et liste des étapes
+ */
 async function getEtapes(req:Request,res:Response) {
 
+    try {
+
+        const voyage = await prisma.voyage.findUnique({
+            where:{
+                id:(req as any).params.voyageid,
+                utilisateurId:(req as any).user.sub
+            }
+        })
+
+        if(!voyage) {return res.status(404).json({message:"Ce voyage est introuvable.  Veuillez vérifier la requête."})}
+
+        const etapes = await prisma.etape.findMany({
+            where:{
+                voyageId:req.params.voyageid as string
+            }
+        })
+
+        return res.status(200).json(etapes)
+    } catch(error){
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            return res.status(500).json({message:"Erreur lors de la recherche des étapes."})
+        } else if(error instanceof Prisma.PrismaClientValidationError) {
+            return res.status(400).json({message:"Une erreure est survenue lors de la recherche des étapes.  Veuillez vérifier la requête."})
+        }
+    }
 }
 
 async function modifierEtape(req:Request, res:Response) {
