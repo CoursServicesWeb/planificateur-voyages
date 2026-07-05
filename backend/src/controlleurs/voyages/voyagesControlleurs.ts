@@ -21,6 +21,7 @@ async function creerVoyage(req:Request,res:Response) {
         return res.status(400).json({message:"Informations manquantes pour créer un voyage."})
     }
 
+    // Valider que les dates de début/fin de l'étape ne sont respectivement pas avant ou après les dates de début/fin du voyage.
     if ((new Date(dateDebE).getTime()<new Date(dateDebV).getTime()) || (new Date(dateFinE).getTime()>new Date(dateFinV).getTime())) {
         return res.status(400).json({message:"Une ou plus des dates de l'étape ne s'alignent pas avec les dates du voyage."})
     }
@@ -156,6 +157,13 @@ async function modifierVoyage(req:Request,res:Response) {
     }
 }
 
+/**
+ * @function supprimerVoyage(req:Request,res:Response)
+ * Effectue la suppression d'un voyage à partir d'un id voyage
+ * @param req
+ * @param res 
+ * @returns 
+ */
 async function supprimerVoyage(req:Request,res:Response) {
     const voyageid = req.params.voyageid || null
     if (!voyageid) {return res.status(400).json({message:"Le voyageid doit être non-nul."})}
@@ -181,7 +189,6 @@ async function supprimerVoyage(req:Request,res:Response) {
         {
             return res.status(404).json({message:"Ce voyage est introuvable à votre compte.  Veuillez vérifier le id."})
         }
-
 
     try {
         const result = await prisma.voyage.delete({
