@@ -23,7 +23,7 @@ async function authInscription(req:Request,res:Response) {
             prenom:prenom
         }
     })
-        res.status(201).json({id: user.courriel, role:user.role, cree:user.createdAt})
+        res.status(201).json({id:user.courriel, role:user.role, cree:user.createdAt})
     } catch(error){
         res.status(500).json(error)
     }
