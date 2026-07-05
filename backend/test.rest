@@ -35,6 +35,6 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/destinations/test-pays/Japan
+POST http://localhost:3000/destinations/importer/Brazil
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
