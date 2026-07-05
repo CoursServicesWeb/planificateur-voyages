@@ -6,12 +6,24 @@ import * as etapesControlleurs from '../controlleurs/etapes/etapesControlleurs.j
 
 const etapesRouteur = Router();
 
-etapesRouteur.get('/moi/:voyageid',authMiddleware.authentificationJWT,authMiddleware.niveauRequis('Voyageur'),etapesControlleurs.getEtapes)
+etapesRouteur.get('/moi/:voyageid',
+    authMiddleware.authentificationJWT,
+    authMiddleware.niveauRequis('Voyageur'),
+    etapesControlleurs.getEtapes)
 
-etapesRouteur.post('/:voyageid',authMiddleware.authentificationJWT,authMiddleware.niveauRequis('Voyageur'),etapesControlleurs.ajouterEtape)
+etapesRouteur.post('/:voyageid',
+    authMiddleware.authentificationJWT,
+    authMiddleware.niveauRequis('Voyageur'),
+    etapesControlleurs.ajouterEtape)
 
-etapesRouteur.patch('/:voyageid/:etapeid',authMiddleware.authentificationJWT,authMiddleware.niveauRequis('Voyageur'),etapesControlleurs.modifierEtape)
+etapesRouteur.patch('/:voyageid/:etapeid',
+    authMiddleware.authentificationJWT,
+    authMiddleware.niveauRequis('Voyageur'),
+    etapesControlleurs.modifierEtape)
 
-etapesRouteur.delete('/:voyageid/:etapeid',authMiddleware.authentificationJWT,authMiddleware.niveauRequis('Voyageur'),etapesControlleurs.supprimerEtape)
+etapesRouteur.delete('/:voyageid/:etapeid',
+    authMiddleware.authentificationJWT,
+    authMiddleware.niveauRequis('Voyageur'),
+    etapesControlleurs.supprimerEtape)
 
 export default etapesRouteur
