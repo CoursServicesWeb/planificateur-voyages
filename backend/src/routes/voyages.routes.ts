@@ -1,44 +1,18 @@
 import { Router } from "express";
 
 import { authentificationJWT, niveauRequis } from "../middleware/auth.js";
-import * as voyagesCtrls from "../controlleurs/voyages/voyagesControlleurs.js";
 
-const voyagesRouter = Router();
+import * as voyagesCtrls from '../controlleurs/voyages/voyagesControlleurs.js'
 
-// ----- Récupérer les voyages de l'utilisateur connecté -------- //
+const voyagesRouter = Router()
 
-voyagesRouter.get(
-    "/moi",
-    authentificationJWT,
-    niveauRequis("Voyageur"),
-    voyagesCtrls.getVoyagesUtlisateur
-);
+voyagesRouter.get('/moi',authentificationJWT,niveauRequis("Voyageur"),voyagesCtrls.getVoyagesUtlisateur)
 
-// ------- Créer un voyage ------------//
+voyagesRouter.post('/',authentificationJWT,niveauRequis('Voyageur'),voyagesCtrls.creerVoyage)
 
-voyagesRouter.post(
-    "/",
-    authentificationJWT,
-    niveauRequis("Voyageur"),
-    voyagesCtrls.creerVoyage
-);
+voyagesRouter.patch('/:voyageid',authentificationJWT,niveauRequis('Voyageur'),voyagesCtrls.modifierVoyage)
 
-// ----- Modifier un voyage ------- //
+voyagesRouter.delete('/:voyageid',authentificationJWT,niveauRequis('Voyageur'),voyagesCtrls.supprimerVoyage)
 
-voyagesRouter.patch(
-    "/:voyageid",
-    authentificationJWT,
-    niveauRequis("Voyageur"),
-    voyagesCtrls.modifierVoyage
-);
+export default voyagesRouter
 
-// ----- Supprimer un voyage ------ //
-
-voyagesRouter.delete(
-    "/:voyageid",
-    authentificationJWT,
-    niveauRequis("Voyageur"),
-    voyagesCtrls.supprimerVoyage
-);
-
-export default voyagesRouter;

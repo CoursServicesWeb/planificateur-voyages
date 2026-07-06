@@ -1,44 +1,29 @@
 import { Router } from "express";
 
-import * as authMiddleware from '../middleware/auth.js';
-import * as etapesControlleurs from '../controlleurs/etapes/etapesControlleurs.js';
+import * as authMiddleware from '../middleware/auth.js'
+
+import * as etapesControlleurs from '../controlleurs/etapes/etapesControlleurs.js'
 
 const etapesRouteur = Router();
 
-// ---- Récupérer toutes les étapes d'un voyage ------ //
-
-etapesRouteur.get(
-    '/moi/:voyageid',
+etapesRouteur.get('/moi/:voyageid',
     authMiddleware.authentificationJWT,
     authMiddleware.niveauRequis('Voyageur'),
-    etapesControlleurs.getEtapes
-);
+    etapesControlleurs.getEtapes)
 
-// ---- Ajouter une étape à un voyage -------- //
-
-etapesRouteur.post(
-    '/:voyageid',
+etapesRouteur.post('/:voyageid',
     authMiddleware.authentificationJWT,
     authMiddleware.niveauRequis('Voyageur'),
-    etapesControlleurs.ajouterEtape
-);
+    etapesControlleurs.ajouterEtape)
 
-// ----- Modifier une étape d'un voyage ----- //
-
-etapesRouteur.patch(
-    '/:voyageid/:etapeid',
+etapesRouteur.patch('/:voyageid/:etapeid',
     authMiddleware.authentificationJWT,
     authMiddleware.niveauRequis('Voyageur'),
-    etapesControlleurs.modifierEtape
-);
+    etapesControlleurs.modifierEtape)
 
-// ----- Supprimer une étape d'un voyage ------ //
-
-etapesRouteur.delete(
-    '/:voyageid/:etapeid',
+etapesRouteur.delete('/:voyageid/:etapeid',
     authMiddleware.authentificationJWT,
     authMiddleware.niveauRequis('Voyageur'),
-    etapesControlleurs.supprimerEtape
-);
+    etapesControlleurs.supprimerEtape)
 
-export default etapesRouteur;
+export default etapesRouteur
