@@ -82,7 +82,7 @@ destRouter.post(
 
 // La fonction pour modifier les pays dans la Base de données
 destRouter.patch(
-  "/:code",
+  "/pays/:code",
   authentificationJWT,
   niveauRequis("Admin"),
   async (req: Request, res: Response) => {
@@ -102,7 +102,7 @@ destRouter.patch(
 
 // La fonction qui permet de supprimer un pays dans la Base de données
 destRouter.delete(
-  "/:code",
+  "/pays/:code",
   authentificationJWT,
   niveauRequis("Admin"),
   async (req: Request, res: Response) => {
@@ -118,5 +118,7 @@ destRouter.delete(
     }
   },
 );
+
+//  SECTION : DESTINATIONS
 
 export default destRouter;
