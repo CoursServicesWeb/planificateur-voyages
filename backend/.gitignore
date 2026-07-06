@@ -4,6 +4,6 @@ test.rest
 test.http
 generated
 dist/
-
+test.rest
 
 /src/generated/prisma

@@ -1,13 +1,13 @@
-import { Router } from 'express'
+import { Router } from "express";
 
-import * as authController from '../controlleurs/auth/authentification.js';
+import * as authController from "../controlleurs/auth/authentification.js";
 
 const authRouter = Router();
 
 // Inscrire utilisateur
-authRouter.post('/inscription', authController.authInscription)
+authRouter.post("/inscription", authController.authInscription);
 
 // Connexion utilisateur
-authRouter.post('/connexion', authController.authConnexion)
+authRouter.post("/connexion", authController.authConnexion);
 
-export default authRouter
+export default authRouter;
