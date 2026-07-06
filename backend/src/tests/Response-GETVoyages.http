@@ -1,9 +1,0 @@
-HTTP/1.1 200 OK
-X-Powered-By: Express
-Content-Type: application/json; charset=utf-8
-Content-Length: 348
-ETag: W/"15c-DaIXfrhxPB70D/M/WmRovocXo5I"
-Date: Sun, 05 Jul 2026 04:27:27 GMT
-Connection: close
-
-{"utilisateur":"94b4df87-931a-4d34-8597-8fb1a9268570","voyages":[{"id":"evay44v3aq6jcg1mw41sfta1","titre":"VoyageTest","dateDeb":"2026-08-01T00:00:00.000Z","dateFin":"2026-08-08T00:00:00.000Z","statut":"Planifie","utilisateurId":"94b4df87-931a-4d34-8597-8fb1a9268570","createdAt":"2026-07-05T04:27:06.856Z","updatedAt":"2026-07-05T04:27:06.856Z"}]}

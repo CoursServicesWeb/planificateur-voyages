@@ -17,7 +17,7 @@ async function ajouterEtape(req:Request,res:Response) {
     if(!voyageid) {throw new TypeError("voyageid doit être non-nul.")}
 
     // Récuperer le voyage et les étapes associés via id voyage
-    let voyage,etapes;
+    let voyage,etapes:any=[];
 
     try {
             [voyage,etapes] = await Promise.all([
@@ -49,27 +49,20 @@ async function ajouterEtape(req:Request,res:Response) {
         notes,
         destinationId} = req.body
     const {dateDeb:dateDebVoyage,dateFin:dateFinVoyage} = voyage as any
-    const dateFinDernEtape = (etapes![0] as any).dateFin
-
-    // Valider si des dates sont toujours disponibles pour ce voyage en validant si la date de fin
-    // de la dernière étape déjà dans le voyage est égale à la date de fin de ce voyage
-    if (new Date(dateFinDernEtape).getTime()===new Date(dateFinVoyage).getTime()) {
-        return res.status(400).json({message:"Aucun date de disponible pour ce voyage."})
+    
+    // Valider que dates début et fin sont en ordre chronologique
+    if ((new Date(dateFinNouvEtape)).getTime()< (new Date(dateDebNouvEtape)).getTime()) {
+        return res.status(400).json({message:"La date de début de l'étape doit être inférieure à la date de fin."})
     }
+    
+    // Cas 1 d'insertion d'étape: ajout d'une première étape 
+    if (etapes?.length === 0) {
+        
+        // Valider que l'étape débute en même temps que le voyage
+        if ((new Date(dateDebVoyage)).getTime() !== (new Date(dateDebNouvEtape)).getTime()) {
+            return res.status(400).json({message:"Cette étape doit débuter en même temps que le voyage."})
+        }
 
-    // Fixer dates de validation pour insertion soit sur la date de fin de l'étape précédente
-    // ou au plus une journée après
-    const dateFinDernEtapePlusUn = new Date(dateFinDernEtape)
-    dateFinDernEtapePlusUn.setDate(dateFinDernEtapePlusUn.getDate()+1)
-
-    // Valider si la nouvelle étape débute sur la date de fin de la précédente,
-    // ou si elle débute une journée après au plus et ne dépasse pas la date limite du
-    // voyage
-    if (
-        (new Date(dateDebNouvEtape).getTime()===dateFinDernEtape.getTime() || 
-        new Date(dateDebNouvEtape).getTime()===dateFinDernEtapePlusUn.getTime()) &&
-        (new Date(dateFinNouvEtape).getTime()<=new Date(dateFinVoyage).getTime())
-    ) {
         try {
             const result = await prisma.etape.create({
             data:{
@@ -89,12 +82,57 @@ async function ajouterEtape(req:Request,res:Response) {
             {
                 return res.status(400).json({message:"L'étape n'a pas pu être ajoutée.  Veuillez vérifier la requête."})
             }
-        } 
-
+        }
+        // Cas 2 d'insertion d'étape: ajout d'une nième étape
     } else {
-        return res.status(400).json({message:"Erreur: dates début/fin de cette étape sont respectivement avant ou après dates début/fin voyage ou l'étape "+
-            "ne débute pas immédiatement après la dernière étape dejà dans le voyage."
-        })
+
+        const dateFinDernEtape = (etapes![0] as any).dateFin
+
+        // Valider si des dates sont toujours disponibles pour ce voyage en validant si la date de fin
+        // de la dernière étape déjà dans le voyage est égale à la date de fin de ce voyage
+        if (new Date(dateFinDernEtape).getTime()===new Date(dateFinVoyage).getTime()) {
+            return res.status(400).json({message:"Aucun date de disponible pour ce voyage."})
+        }
+
+        // Fixer dates de validation pour insertion soit sur la date de fin de l'étape précédente
+        // ou au plus une journée après
+        const dateFinDernEtapePlusUn = new Date(dateFinDernEtape)
+        dateFinDernEtapePlusUn.setDate(dateFinDernEtapePlusUn.getDate()+1)
+
+        // Valider si la nouvelle étape débute sur la date de fin de la précédente,
+        // ou si elle débute une journée après au plus et ne dépasse pas la date limite du
+        // voyage
+        if (
+            (new Date(dateDebNouvEtape).getTime()===dateFinDernEtape.getTime() || 
+            new Date(dateDebNouvEtape).getTime()===dateFinDernEtapePlusUn.getTime()) &&
+            (new Date(dateFinNouvEtape).getTime()<=new Date(dateFinVoyage).getTime())
+        ) {
+            try {
+                const result = await prisma.etape.create({
+                data:{
+                    dateDeb:dateDebNouvEtape,
+                    dateFin:dateFinNouvEtape,
+                    hebergement:hebergement,
+                    notes: notes ?? Prisma.skip,
+                    voyageId:voyageid as any,
+                    destinationId:destinationId
+                }
+                })
+                return res.status(201).json(result)
+            } catch(error){
+                if (error instanceof Prisma.PrismaClientKnownRequestError) {
+                    return res.status(500).json({message:"Erreur: l'étape n'a pas pu être ajoutée."})
+                } else if(error instanceof Prisma.PrismaClientValidationError)
+                {
+                    return res.status(400).json({message:"L'étape n'a pas pu être ajoutée.  Veuillez vérifier la requête."})
+                }
+            } 
+
+        } else {
+            return res.status(400).json({message:"Erreur: dates début/fin de cette étape sont respectivement avant ou après dates début/fin voyage ou l'étape "+
+                "ne débute pas immédiatement après la dernière étape dejà dans le voyage."
+            })
+        }
     }   
 }    
 
@@ -194,7 +232,7 @@ async function modifierEtape(req:Request, res:Response) {
 /**
  * @function supprimerEtape(req:Request,res:Response)
  * Permet de supprimer une étape pour un voyage donné, pour un utilisateur
- * authentifié
+ * authentifié.  Seule la derniére étape d'un voyage peut être supprimée.
  * @param req 
  * @param res 
  * @returns status(200) et étape suppriméee
@@ -214,22 +252,33 @@ async function supprimerEtape(req:Request,res:Response) {
             return res.status(404)
             .json({message:"Le voyage associé n'est pas trouvable pour cet utilisateur.  Veuillez valider la requête."})
         }
-        // Récupérer l'étape par etapeid et voyageid recus
-        const etape = await prisma.etape.findUnique({
-            where:{
-                id: Number(req.params.etapeid),
+
+        // Récupérer toutes les étapes pour ce voyage et trier descendant par la date de début pour valider la suppression 
+        // de la dernière étape seulement
+        const etapes = await prisma.etape.findMany({
+            where: {
                 voyageId:(req as any).params.voyageid
+            },
+            orderBy: {
+                dateDeb:'desc'
             }
         })
 
-        if(!etape) {
-            return res.status(404)
-            .json({message:"L'étape associée à ce voyage est introuvable pour cet utilisateur.  Veuillez valider la requête."})
-            
+        if(etapes.length === 0) {
+            return res.status(400).json({message:"Aucune étape dans ce voyage pour la suppression."})
         }
 
+        // Valider que l'étape à retirer appartient à ce voyage, à cet utilisateur et est la dernière étape.
+        if(etapes[0]?.id !== Number(req.params.etapeid)) {
+            return res.status(400)
+            .json({message:"Seule la dernière étape du voyage peut être supprimée."})
+        }
+        
         const resultat = await prisma.etape.delete({
-            where:{id:Number(req.params.etapeid)},
+            where:{
+                id:Number(req.params.etapeid),
+                voyageId:(req as any).params.voyageid
+            },
         })
         return res.status(200).json({resultat})
 

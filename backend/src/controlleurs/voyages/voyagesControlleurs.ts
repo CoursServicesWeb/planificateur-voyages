@@ -20,6 +20,11 @@ async function creerVoyage(req:Request,res:Response) {
     if (!titre || !dateDebV|| !dateFinV || !dateDebE || !dateFinE || !hebergement || !destinationId) {
         return res.status(400).json({message:"Informations manquantes pour créer un voyage."})
     }
+    
+    // Valider que dates début et fin sont en ordre chronologique
+    if ((new Date(dateFinV)).getTime()< (new Date(dateDebV)).getTime()) {
+        return res.status(400).json({message:"La date de début du voyage doit être inférieure à la date de fin."})
+    }
 
     // Valider que les dates de début/fin de l'étape ne sont respectivement pas avant ou après les dates de début/fin du voyage.
     if ((new Date(dateDebE).getTime()<new Date(dateDebV).getTime()) || (new Date(dateFinE).getTime()>new Date(dateFinV).getTime())) {
