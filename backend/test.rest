@@ -35,17 +35,17 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/destinations/importer/Germany
+POST http://localhost:3000/pays/importer/Germany
 Authorization: Bearer {{login.response.body.token}}
 
 
 ###
-GET http://localhost:3000/destinations/liste-pays
+GET http://localhost:3000/pays/liste-pays
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
 ### 
-PATCH http://localhost:3000/destinations/pays/FRA
+PATCH http://localhost:3000/pays/pays/FRA
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.token}}
 
@@ -56,5 +56,5 @@ Authorization: Bearer {{login.response.body.token}}
 }
 
 ###
-DELETE http://localhost:3000/destinations/pays/FRA
+DELETE http://localhost:3000/pays/pays/FRA
 Authorization: Bearer {{login.response.body.token}}

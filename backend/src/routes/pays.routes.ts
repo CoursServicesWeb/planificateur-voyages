@@ -4,10 +4,10 @@ import { authentificationJWT, niveauRequis } from "../middleware/auth.js";
 import axios from "axios";
 import { infosPays } from "../api/infosPays.js";
 
-const destRouter = Router();
+const paysRouter = Router();
 
 // La fontion pour récupérer les données d'un pays avec l'API des pays
-async function recupererInfosPays(nomPays: string) {
+export async function recupererInfosPays(nomPays: string) {
   try {
     const infos = await infosPays.get(`/names.common/${nomPays}`);
     return infos.data;
@@ -22,7 +22,7 @@ async function recupererInfosPays(nomPays: string) {
 }
 
 // La fonction qui permet de récupérer les pays qui sont dans la Base de données
-destRouter.get(
+paysRouter.get(
   "/liste-pays",
   authentificationJWT,
   async (req: Request, res: Response) => {
@@ -46,7 +46,7 @@ destRouter.get(
 );
 
 // La fonction qui permet d'envoyer un pays dans la Base de données
-destRouter.post(
+paysRouter.post(
   "/importer/:pays",
   authentificationJWT,
   async (req: Request, res: Response) => {
@@ -64,7 +64,7 @@ destRouter.post(
 
       const infosSupp = await prisma.infosSuppPays.create({
         data: {
-          countryCode: pays.codes?.alpha_3 ?? "N/A",
+          countryCode: pays.codes?.alpha_2 ?? "N/A",
           drapeau_emoji: pays.flag?.url_png ?? "",
           capitale: pays.capitals?.[0]?.name ?? "Inconnue",
           devise: pays.currencies?.[0]?.name ?? "Inconnue",
@@ -81,7 +81,7 @@ destRouter.post(
 );
 
 // La fonction pour modifier les pays dans la Base de données
-destRouter.patch(
+paysRouter.patch(
   "/pays/:code",
   authentificationJWT,
   niveauRequis("Admin"),
@@ -101,7 +101,7 @@ destRouter.patch(
 );
 
 // La fonction qui permet de supprimer un pays dans la Base de données
-destRouter.delete(
+paysRouter.delete(
   "/pays/:code",
   authentificationJWT,
   niveauRequis("Admin"),
@@ -121,4 +121,4 @@ destRouter.delete(
 
 //  SECTION : DESTINATIONS
 
-export default destRouter;
+export default paysRouter;
