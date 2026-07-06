@@ -18,10 +18,10 @@ POST http://localhost:3000/auth/inscription
 Content-Type: application/json
 
 {
-    "courriel":"jean_pelletier@gmail.com",
-    "motDePasse":"lulu3022",
-    "nom": "Pelletier",
-    "prenom": "Jean"
+    "courriel":"gerard_lavoie@gmail.com",
+    "motDePasse":"doglover12",
+    "nom": "Lavoie",
+    "prenom": "Gerard",
 }
 
 ###
@@ -30,11 +30,26 @@ POST http://localhost:3000/auth/connexion
 Content-Type: application/json
 
 {
-    "courriel":"jean_pelletier@gmail.com",
-    "motDePasse":"lulu3022"
+    "courriel":"gerard_lavoie@gmail.com",
+    "motDePasse":"doglover12"
 }
 
 ###
-POST http://localhost:3000/destinations/importer/Brazil
+GET http://localhost:3000/destinations/liste-pays
 Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+### 
+PATCH http://localhost:3000/destinations/FRA
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+    "capitale": "Paris",
+    "devise": "Euro",
+    "langages": "French"
+}
+
+###
+DELETE http://localhost:3000/destinations/FRA
 Authorization: Bearer {{login.response.body.token}}

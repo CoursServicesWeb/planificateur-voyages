@@ -6,6 +6,7 @@ import { infosPays } from "../api/infosPays.js";
 
 const destRouter = Router();
 
+// La fontion pour récupérer les données d'un pays avec l'API des pays
 async function recupererInfosPays(nomPays: string) {
   try {
     const infos = await infosPays.get(`/names.common/${nomPays}`);
@@ -20,23 +21,31 @@ async function recupererInfosPays(nomPays: string) {
   }
 }
 
-destRouter.get("/test-pays/:pays", async (req: Request, res: Response) => {
-  try {
-    const nomPays = req.params.pays as string;
+// La fonction qui permet de récupérer les pays qui sont dans la Base de données
+destRouter.get(
+  "/liste-pays",
+  authentificationJWT,
+  async (req: Request, res: Response) => {
+    try {
+      const listePays = await prisma.infosSuppPays.findMany({
+        orderBy: { countryCode: "asc" },
+      });
 
-    const donneesPays = await recupererInfosPays(nomPays);
-
-    if (!donneesPays) {
+      if (!listePays) {
+        return res
+          .status(404)
+          .json({ erreur: "Aucun pays dans la base de données" });
+      }
+      return res.status(200).json(listePays);
+    } catch (e) {
       return res
-        .status(404)
-        .json({ erreur: "Impossible de récupérer les données de l'API" });
+        .status(400)
+        .json({ erreur: "Erreur dans la requête des pays." });
     }
-    return res.json(donneesPays);
-  } catch (e) {
-    return res.status(500).json({ erreur: "Erreur lors du test de la route" });
-  }
-});
+  },
+);
 
+// La fonction qui permet d'envoyer un pays dans la Base de données
 destRouter.post(
   "/importer/:pays",
   authentificationJWT,
@@ -67,6 +76,45 @@ destRouter.post(
       if (axios.isAxiosError(e)) {
         return res.status(500).json({ erreur: "Erreur de serveur." });
       }
+    }
+  },
+);
+
+// La fonction pour modifier les pays dans la Base de données
+destRouter.patch(
+  "/:code",
+  authentificationJWT,
+  niveauRequis("Admin"),
+  async (req: Request, res: Response) => {
+    const code = req.params.code;
+
+    try {
+      const pays = await prisma.infosSuppPays.update({
+        where: { countryCode: String(code) },
+        data: req.body,
+      });
+      res.json(pays);
+    } catch (e) {
+      res.status(404).json({ erreur: `Pays ${code} n'existe pas` });
+    }
+  },
+);
+
+// La fonction qui permet de supprimer un pays dans la Base de données
+destRouter.delete(
+  "/:code",
+  authentificationJWT,
+  niveauRequis("Admin"),
+  async (req: Request, res: Response) => {
+    const code = req.params.code;
+
+    try {
+      const pays = await prisma.infosSuppPays.delete({
+        where: { countryCode: String(code) },
+      });
+      res.json({ message: `Pays ${code} a été supprimé avec succès !` });
+    } catch (e) {
+      res.status(404).json({ erreur: `Pays ${code} n'existe pas` });
     }
   },
 );
