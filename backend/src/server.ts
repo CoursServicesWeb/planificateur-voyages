@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 import express from "express";
 
 import authRouter from "./routes/auth.routes.js";
-import paysRouter from "./routes/pays.routes.js";
 import voyagesRouter from "./routes/voyages.routes.js";
 import etapesRouter from "./routes/etapes.routes.js";
+import paysRouter from "./routes/pays.routes.js";
 import destinationsRouter from "./routes/destinations.routes.js";
 import avisRouteur from "./routes/avis.routes.js";
 
@@ -16,22 +16,22 @@ const app = express();
 
 app.use(express.json());
 
-// ---------- Authentification ---------- //
+// ---------- Authentification --------------------- //
 app.use("/auth", authRouter);
 
-// ---------- Pays ---------- //
-app.use("/api/pays", paysRouter);
-
-// ---------- Voyages ---------- //
+// ---------- Voyages ------------------------------ //
 app.use("/voyages", voyagesRouter);
 
-// ---------- Étapes ---------- //
+// ---------- Étapes ------------------------------- //
 app.use("/etapes", etapesRouter);
 
-// ---------- Destinations ---------- //
+// ---------- Destinations ------------------------- //
 app.use("/destinations", destinationsRouter);
 
-// ---------- Avis ---------- //
+// ---------- Pays --------------------------------- //
+app.use("/api/pays", paysRouter);
+
+// ---------- Avis --------------------------------- //
 app.use("/avis", avisRouteur);
 
 app.listen(PORT, () => {

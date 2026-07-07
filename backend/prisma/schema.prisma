@@ -56,7 +56,7 @@ model Avis {
   nom           String    
   nbEtoiles     Int
   commentaire   String
-  sujet         Destination @relation(fields: [destinationId], references:[id])
+  sujet         Destination @relation(fields: [destinationId], references:[id], onDelete: Cascade)
   destinationId Int
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @default(now()) @updatedAt  
