@@ -37,7 +37,7 @@ async function getInfosVille(nomVille: string) {
 }
 
 // La fonction pour ajouter une Destination en appelant les 2 API pour les infos supplémentaires
-export async function ajouterDestination(req: Request, res: Response) {
+export async function creerDestination(req: Request, res: Response) {
   try {
     const { ville, continent } = req.body;
 
@@ -165,7 +165,7 @@ export async function getByContinent(req: Request, res: Response) {
 
 // La fonction pour afficher une destination en particulier, avec la note moyenne de ses avis et la liste d'avis
 
-export async function afficherDestination(req: Request, res: Response) {
+export async function getDestinationById(req: Request, res: Response) {
   const id = Number(req.params.id) || null;
 
   if (!id) {
@@ -231,11 +231,9 @@ export async function supprimerDestination(req: Request, res: Response) {
     const destination = await prisma.destination.delete({
       where: { id },
     });
-    return res
-      .status(200)
-      .json({
-        message: `Destination ${destination.ville} supprimée avec succès`,
-      });
+    return res.status(200).json({
+      message: `Destination ${destination.ville} supprimée avec succès`,
+    });
   } catch (e) {
     return res.status(404).json({ erreur: "La destination n'existe pas" });
   }

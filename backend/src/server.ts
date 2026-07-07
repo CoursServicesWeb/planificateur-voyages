@@ -16,9 +16,9 @@ app.use(express.json());
 // Routes
 app.use("/auth", authRouter);
 app.use("/api/pays", paysRouter); // N'oubliez pas d'enregistrer le nouveau routeur !
-app.use("/api/etapes", etapesRouter);
-app.use("/api/voyages", voyagesRouter);
-app.use("/api/destinations", destinationsRouter);
+app.use("/etapes", etapesRouter);
+app.use("/voyages", voyagesRouter);
+app.use("/destinations", destinationsRouter);
 
 app.listen(PORT, () => {
   console.log(`Serveur prêt sur port ${PORT}`);
