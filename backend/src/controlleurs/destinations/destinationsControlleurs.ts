@@ -148,3 +148,40 @@ export async function getByContinent(req: Request, res: Response) {
     return res.status(500).json({ erreur: "Erreur de serveur." });
   }
 }
+
+// La fonction pour afficher une destination en particulier, avec la note moyenne de ses avis et la liste d'avis
+
+export async function afficherDestination(req: Request, res: Response) {
+  const id = Number(req.params.id) || null;
+
+  if (!id) {
+    return res.status(400).json({ erreur: "Vous devez entrer un ID valide." });
+  }
+
+  try {
+    const destination = await prisma.destination.findMany({
+      where: { id },
+    });
+
+    if (!destination) {
+      return res
+        .status(404)
+        .json({ message: "La destination n'a pas été trouvée." });
+    }
+
+    const listeAvis = await prisma.avis.findMany({
+      where: { destinationId: id },
+    });
+
+    const noteMoyenne = await prisma.avis.aggregate({
+      where: { destinationId: id },
+      _avg: {
+        nbEtoiles: true,
+      },
+    });
+
+    return res.status(200).json({ destination, listeAvis, noteMoyenne });
+  } catch (e) {
+    return res.status(500).json({ erreur: "Erreur de serveur." });
+  }
+}

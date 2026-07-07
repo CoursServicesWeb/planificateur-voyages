@@ -10,6 +10,8 @@ destinationsRouter.get("/liste", destinationsCtrls.getDestinations);
 
 destinationsRouter.get("/continent", destinationsCtrls.getByContinent);
 
+destinationsRouter.get("/:id", destinationsCtrls.afficherDestination);
+
 destinationsRouter.post(
   "/",
   authentificationJWT,
