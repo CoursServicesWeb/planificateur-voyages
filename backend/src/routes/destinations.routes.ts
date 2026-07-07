@@ -1,39 +1,41 @@
 import { Router } from "express";
 
 import { authentificationJWT, niveauRequis } from "../middleware/auth.js";
-
 import * as destinationsControlleurs from "../controlleurs/destinations/destinationsControlleurs.js";
 
 const destinationsRouter = Router();
 
-destinationsRouter.get("/", destinationsControlleurs.getDestinations); // La route pour avoir toutes les destinations
+// ------ Récupérer toutes les destinations ------ //
+destinationsRouter.get("/", destinationsControlleurs.getDestinations);
 
-destinationsRouter.get("/continent", destinationsControlleurs.getByContinent); // La route pour filtrer les destinations par continent
+// ------ Filtrer les destinations par continent ------ //
+destinationsRouter.get("/continent", destinationsControlleurs.getByContinent);
 
-destinationsRouter.get("/:id", destinationsControlleurs.getDestinationById); // La route pour obtenir une destination, la liste de ses avis et sa note moyenne
+// ------ Récupérer une destination par identifiant ------ //
+destinationsRouter.get("/:id", destinationsControlleurs.getDestinationById);
 
-// La route pour pouvoir créer une nouvelle destination.  Il faut être admin pour pouvoir le faire.
+// ------ Ajouter une destination (Admin) ------ //
 destinationsRouter.post(
   "/",
   authentificationJWT,
   niveauRequis("Admin"),
-  destinationsControlleurs.creerDestination,
+  destinationsControlleurs.creerDestination
 );
 
-// La route ppur modifier une destination.  Il faut être admin pour pouvoir le faire.
+// ------ Modifier une destination (Admin) ------ //
 destinationsRouter.patch(
   "/:id",
   authentificationJWT,
   niveauRequis("Admin"),
-  destinationsControlleurs.modifierDestination,
+  destinationsControlleurs.modifierDestination
 );
 
-// La route pour supprimer une destination.  Il faut aussi être admin pour pouvoir le faire.
+// ------ Supprimer une destination (Admin) ------ //
 destinationsRouter.delete(
   "/:id",
   authentificationJWT,
   niveauRequis("Admin"),
-  destinationsControlleurs.supprimerDestination,
+  destinationsControlleurs.supprimerDestination
 );
 
 export default destinationsRouter;
