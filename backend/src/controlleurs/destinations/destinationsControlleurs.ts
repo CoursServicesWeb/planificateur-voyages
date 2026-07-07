@@ -6,6 +6,7 @@ import { villeapi } from "../../api/villeapi.js";
 import { count } from "node:console";
 import type { format } from "node:path";
 import { recupererInfosPays } from "../../routes/pays.routes.js";
+import destinationsRouter from "../../routes/destinations.routes.js";
 
 // La fonction pour récupérer le country code, la longitude et la latitude avec une APIT
 async function getInfosVille(nomVille: string) {
@@ -104,6 +105,45 @@ export async function ajouterDestination(req: Request, res: Response) {
     return res
       .status(201)
       .json({ message: `Destination ${ville} ajoutée avec succès !` });
+  } catch (e) {
+    return res.status(500).json({ erreur: "Erreur de serveur." });
+  }
+}
+
+// La fonction pour obtenir toutes les destinations
+export async function getDestinations(req: Request, res: Response) {
+  try {
+    const destinations = await prisma.destination.findMany({
+      orderBy: { continent: "asc" },
+    });
+
+    if (!destinations) {
+      return res.status(404).json({ message: "Aucune destination trouvée." });
+    }
+    return res.json(destinations);
+  } catch (e) {
+    res.status(400).json({ erreur: "La requête n'a pas fonctionné." });
+  }
+}
+
+// La fonction pour filtrer les destinations par continent
+export async function getByContinent(req: Request, res: Response) {
+  const continent = req.query.continent || null;
+  if (!continent) {
+    return res.status(400).json({ erreur: "Vous devez donner un continent." });
+  }
+  try {
+    const destContinent = await prisma.destination.findMany({
+      where: { continent: continent as any },
+    });
+
+    if (!destContinent) {
+      return res
+        .status(404)
+        .json({ erreur: "Aucune destination trouvée avec ce continent" });
+    }
+
+    return res.status(200).json(destContinent);
   } catch (e) {
     return res.status(500).json({ erreur: "Erreur de serveur." });
   }

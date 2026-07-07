@@ -6,7 +6,9 @@ import * as destinationsCtrls from "../controlleurs/destinations/destinationsCon
 
 const destinationsRouter = Router();
 
-// destinationsRouter.get('/destinations',authentificationJWT, destinationsCtrlsCtrls.getVoyagesUtlisateur)
+destinationsRouter.get("/liste", destinationsCtrls.getDestinations);
+
+destinationsRouter.get("/continent", destinationsCtrls.getByContinent);
 
 destinationsRouter.post(
   "/",
