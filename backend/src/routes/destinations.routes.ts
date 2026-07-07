@@ -6,12 +6,13 @@ import * as destinationsCtrls from "../controlleurs/destinations/destinationsCon
 
 const destinationsRouter = Router();
 
-destinationsRouter.get("/liste", destinationsCtrls.getDestinations);
+destinationsRouter.get("/liste", destinationsCtrls.getDestinations); // La route pour avoir toutes les destinations
 
-destinationsRouter.get("/continent", destinationsCtrls.getByContinent);
+destinationsRouter.get("/continent", destinationsCtrls.getByContinent); // La route pour filtrer les destinations par continent
 
-destinationsRouter.get("/:id", destinationsCtrls.afficherDestination);
+destinationsRouter.get("/:id", destinationsCtrls.afficherDestination); // La route pour obtenir une destination, la liste de ses avis et sa note moyenne
 
+// La route pour pouvoir créer une nouvelle destination.  Il faut être admin pour pouvoir le faire.
 destinationsRouter.post(
   "/",
   authentificationJWT,
@@ -19,8 +20,20 @@ destinationsRouter.post(
   destinationsCtrls.ajouterDestination,
 );
 
-// voyagesRouter.patch('/:voyageid',authentificationJWT,niveauRequis('Voyageur'),voyagesCtrls.modifierVoyage)
+// La route ppur modifier une destination.  Il faut être admin pour pouvoir le faire.
+destinationsRouter.patch(
+  "/:id",
+  authentificationJWT,
+  niveauRequis("Admin"),
+  destinationsCtrls.modifierDestination,
+);
 
-// voyagesRouter.delete('/:voyageid',authentificationJWT,niveauRequis('Voyageur'),voyagesCtrls.supprimerVoyage)
+// La route pour supprimer une destination.  Il faut aussi être admin pour pouvoir le faire.
+destinationsRouter.delete(
+  "/:id",
+  authentificationJWT,
+  niveauRequis("Admin"),
+  destinationsCtrls.supprimerDestination,
+);
 
 export default destinationsRouter;

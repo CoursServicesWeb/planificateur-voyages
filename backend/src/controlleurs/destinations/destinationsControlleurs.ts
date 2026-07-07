@@ -23,7 +23,7 @@ async function getInfosVille(nomVille: string) {
     return {
       infoSuppPaysId: data.results[0].country_code,
       lat: data.results[0].latitude,
-      lon: data.results[0].longitude,
+      long: data.results[0].longitude,
       nomPays: data.results[0].country,
     };
   } catch (e) {
@@ -45,6 +45,20 @@ export async function ajouterDestination(req: Request, res: Response) {
       return res.status(400).json({ erreur: "Aucune ville déclarée." });
     }
 
+    const continentsValides = [
+      "Amerique",
+      "Europe",
+      "Asie",
+      "Afrique",
+      "Oceanie",
+    ];
+
+    if (!continentsValides.includes(continent)) {
+      return res
+        .status(400)
+        .json({ erreur: "Veuillez entrer un continent valide." });
+    }
+
     const infos = await getInfosVille(ville); // On récupère les infos sur la ville avec la fonction précédente
     if (!infos) {
       return res.status(404).json({
@@ -52,7 +66,7 @@ export async function ajouterDestination(req: Request, res: Response) {
       });
     }
 
-    const { infoSuppPaysId, lat, lon, nomPays } = infos;
+    const { infoSuppPaysId, lat, long, nomPays } = infos;
 
     let infossuppPresentes = await prisma.infosSuppPays.findUnique({
       // On essaie de trouver les infos sur le pays dans notre Base de données
@@ -95,9 +109,9 @@ export async function ajouterDestination(req: Request, res: Response) {
     const destination = await prisma.destination.create({
       data: {
         ville: ville,
-        continent: continent ?? "Amerique",
+        continent: continent,
         lat: lat,
-        long: lon,
+        long: long,
         infoSuppPaysId: infoSuppPaysId,
       },
     });
@@ -183,5 +197,46 @@ export async function afficherDestination(req: Request, res: Response) {
     return res.status(200).json({ destination, listeAvis, noteMoyenne });
   } catch (e) {
     return res.status(500).json({ erreur: "Erreur de serveur." });
+  }
+}
+
+// La fonction pour modifer une destination
+export async function modifierDestination(req: Request, res: Response) {
+  const id = Number(req.params.id) || null;
+
+  if (!id) {
+    return res.status(400).json({ erreur: "Vous devez entrer un ID valide." });
+  }
+
+  try {
+    const destination = await prisma.destination.update({
+      where: { id },
+      data: req.body,
+    });
+    return res.status(200).json(destination);
+  } catch (e) {
+    res.status(404).json({ erreur: "Destination n'existe pas" });
+  }
+}
+
+// La fonction pour supprimer une destination dans la table
+export async function supprimerDestination(req: Request, res: Response) {
+  const id = Number(req.params.id) || null;
+
+  if (!id) {
+    return res.status(400).json({ erreur: "Veuillez entrer un ID valide." });
+  }
+
+  try {
+    const destination = await prisma.destination.delete({
+      where: { id },
+    });
+    return res
+      .status(200)
+      .json({
+        message: `Destination ${destination.ville} supprimée avec succès`,
+      });
+  } catch (e) {
+    return res.status(404).json({ erreur: "La destination n'existe pas" });
   }
 }
