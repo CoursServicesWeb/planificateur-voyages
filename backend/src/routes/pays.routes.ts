@@ -49,6 +49,7 @@ paysRouter.get(
 paysRouter.post(
   "/importer/:pays",
   authentificationJWT,
+  niveauRequis("Admin"),
   async (req: Request, res: Response) => {
     try {
       const nomPays = req.params.pays as string;
@@ -82,7 +83,7 @@ paysRouter.post(
 
 // La fonction pour modifier les pays dans la Base de données
 paysRouter.patch(
-  "/pays/:code",
+  "/:code",
   authentificationJWT,
   niveauRequis("Admin"),
   async (req: Request, res: Response) => {
@@ -102,7 +103,7 @@ paysRouter.patch(
 
 // La fonction qui permet de supprimer un pays dans la Base de données
 paysRouter.delete(
-  "/pays/:code",
+  "/:code",
   authentificationJWT,
   niveauRequis("Admin"),
   async (req: Request, res: Response) => {
