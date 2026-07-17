@@ -323,6 +323,13 @@ Authorization: Bearer {{tokenVoyageur}}
 
 ###
 
+### -------- Vérifier les avis et la note moyenne sur Tokyo (id: 1) ------- ###
+# Doit retourner la destination, la liste des avis et la note moyenne (4.5).
+
+GET {{baseUrl}}/destinations/1
+
+###
+
 ### -------------- Ajouter un avis sur Montréal ------------------ ###
 
 POST {{baseUrl}}/avis
