@@ -2,6 +2,8 @@ import { type Request, type Response } from "express";
 import prisma from '../../utils/prisma.js'
 import { Prisma } from '../../../generated/prisma/client.js'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
+import axios from 'axios'
+import { meteoApi, codesWMO, type Meteo } from "../../api/meteoApi.js";
 
 /**
  * @function ajouterEtape(req:Request,res:Response)
@@ -161,13 +163,82 @@ async function getEtapes(req:Request,res:Response) {
                 voyageId:req.params.voyageid as string
             }
         })
+        
+        const meteoParDestination: Map<number,Array<Array<Meteo>>> = new Map();
 
-        return res.status(200).json(etapes)
+        const promises = etapes.map(async etape =>{
+            try {
+                const destination = await prisma.destination.findUnique({
+                    where: {
+                        id:etape.destinationId
+                    },
+                    select: {
+                        id:true,
+                        ville:true,
+                        lat:true,
+                        long:true
+                    }
+                })
+
+                if (destination?.id && !(meteoParDestination.has(destination.id))) {
+                    meteoParDestination.set(destination?.id,[]);
+                }
+                
+                const diff = (etape.dateFin.getTime()-etape.dateDeb.getTime())/(24*60*60*1000);
+                
+                const { data } = await meteoApi.get('/forecast?',{
+                    params:{
+                        latitude:`${destination?.lat}`,
+                        longitude:`${destination?.long}`,
+                        daily:"weather_code,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max",
+                        timezone:"auto",
+                        start_date:`${etape.dateDeb.toISOString().split('T')[0]}`,
+                        end_date:  `${etape.dateFin.toISOString().split('T')[0]}`
+                    }
+                })
+
+                const datesPrevisionCopie: string[] = [...data.daily.time]
+
+                const previsionDestination: Meteo[] = new Array();
+
+                datesPrevisionCopie.forEach( () => {
+                    previsionDestination.push(
+                        {
+                            date: data.daily.time.shift(),
+                            temp_max: data.daily.apparent_temperature_max.shift(),
+                            temp_min: data.daily.apparent_temperature_min.shift(),
+                            sunrise: data.daily.sunrise.shift(),
+                            sunset: data.daily.sunset.shift(),
+                            uv_index: data.daily.uv_index_max.shift(),
+                            description: codesWMO[data.daily.weather_code.shift()] as any
+                        }
+                    )
+
+                })
+
+                meteoParDestination.get(destination!.id)?.push(previsionDestination)
+                return
+                
+            } catch(err){
+                throw err
+            }
+            
+        })
+
+        await Promise.all(promises)
+
+        const meteoParDestinationJSON = Object.fromEntries(meteoParDestination)
+        return res.status(200).json({ etapes, meteoParDestinationJSON })
+
     } catch(error){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return res.status(500).json({message:"Erreur lors de la recherche des étapes."})
         } else if(error instanceof Prisma.PrismaClientValidationError) {
             return res.status(400).json({message:"Une erreure est survenue lors de la recherche des étapes.  Veuillez vérifier la requête."})
+        } else if (axios.isAxiosError(error) && error.response) {
+            console.error("Erreur axios lors de la récupération des données météo: ", error.response.status);
+        } else {
+            console.error("Une erreur inconnue est survenue.")
         }
     }
 }
