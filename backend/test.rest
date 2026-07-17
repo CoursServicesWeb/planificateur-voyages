@@ -1,0 +1,658 @@
+#################################################
+# VARIABLES
+#################################################
+
+@baseUrl = http://localhost:3000
+
+@tokenAdmin =
+@tokenVoyageur =
+
+@voyageid =
+@etapeid =
+
+#################################################
+# AUTHENTIFICATION
+#################################################
+
+# ---------------------- Inscription (Admin) -------------------------- #
+# Après cette requête : modifier le rôle en "Admin" (Prisma Studio, ou
+# directement dans Neon via l'éditeur de table / SQL editor),
+# puis relancer la connexion ci-dessous pour capturer un token Admin.
+
+# @name inscriptionAdmin
+POST {{baseUrl}}/auth/inscription
+Content-Type: application/json
+
+{
+    "courriel": "sarah.meziane01@test.com",
+    "motDePasse": "123456",
+    "nom": "Meziane",
+    "prenom": "Sarah"
+}
+
+###
+
+# --------------- Inscription (Admin) - courriel déjà utilisé - 409 --------- #
+
+POST {{baseUrl}}/auth/inscription
+Content-Type: application/json
+
+{
+    "courriel": "sarah.meziane01@test.com",
+    "motDePasse": "123456",
+    "nom": "Meziane",
+    "prenom": "Sarah"
+}
+
+###
+
+# ------------------- Inscription - champs manquants - erreur -------------- #
+
+POST {{baseUrl}}/auth/inscription
+Content-Type: application/json
+
+{
+    "courriel": "incomplet@test.com",
+    "motDePasse": "123456"
+}
+
+###
+
+# ------------------------- Connexion (Admin) ------------------------- #
+# Le token est capturé automatiquement dans @tokenAdmin ci-dessous.
+# Ne fonctionne qu'après avoir modifié le rôle en base (Prisma Studio / Neon).
+
+# @name connexionAdmin
+POST {{baseUrl}}/auth/connexion
+Content-Type: application/json
+
+{
+    "courriel":"sarah.meziane01@test.com",
+    "motDePasse":"123456"
+}
+
+###
+
+@tokenAdmin = {{connexionAdmin.response.body.token}}
+
+# --------------------- Connexion (Admin) - mauvais mot de passe - 401 ------ #
+
+POST {{baseUrl}}/auth/connexion
+Content-Type: application/json
+
+{
+    "courriel":"sarah.meziane01@test.com",
+    "motDePasse":"mauvaisMotDePasse"
+}
+
+###
+
+# --------------------- Connexion - courriel inexistant - 401 -------------- #
+
+POST {{baseUrl}}/auth/connexion
+Content-Type: application/json
+
+{
+    "courriel":"inconnu@test.com",
+    "motDePasse":"123456"
+}
+
+###
+
+# ----------------------- Inscription (Voyageur) ---------------------- #
+
+# @name inscriptionVoyageur
+POST {{baseUrl}}/auth/inscription
+Content-Type: application/json
+
+{
+    "courriel": "karim.benali01@test.com",
+    "motDePasse": "123456",
+    "nom": "Benali",
+    "prenom": "Karim"
+}
+
+###
+
+# ------------------------ Connexion (Voyageur) --------------------------- #
+
+# @name connexionVoyageur
+POST {{baseUrl}}/auth/connexion
+Content-Type: application/json
+
+{
+    "courriel":"karim.benali01@test.com",
+    "motDePasse":"123456"
+}
+
+###
+
+@tokenVoyageur = {{connexionVoyageur.response.body.token}}
+
+
+#################################################
+# DESTINATIONS
+#################################################
+
+# ------------------ Ajouter une destination (Admin) ------------------ #
+
+### Tokyo
+POST {{baseUrl}}/destinations
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{
+    "ville": "Tokyo",
+    "continent": "Asie"
+}
+
+###
+
+### Paris
+POST {{baseUrl}}/destinations
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+    "ville":"Paris",
+    "continent":"Europe"
+}
+
+###
+
+### Montréal
+POST {{baseUrl}}/destinations
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+    "ville":"Montréal",
+    "continent":"Amerique"
+}
+
+###
+
+# ----------- Ajouter une destination (Voyageur) - accès refusé - 403 ------ #
+
+POST {{baseUrl}}/destinations
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "ville": "Berlin",
+    "continent": "Europe"
+}
+
+###
+
+# ------------------ Ajouter une destination - ville manquante - 400 ------- #
+
+POST {{baseUrl}}/destinations
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{
+    "continent": "Europe"
+}
+
+###
+
+# ---------------- Ajouter une destination - continent invalide - 400 ------ #
+
+POST {{baseUrl}}/destinations
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{
+    "ville": "Berlin",
+    "continent": "Allemagne"
+}
+
+###
+
+# --------------- Récupérer toutes les destinations -------------------- ###
+
+GET {{baseUrl}}/destinations
+
+###
+
+# --------------  Filtrer les destinations par continent --------------- ###
+
+GET {{baseUrl}}/destinations/continent?continent=Asie
+
+###
+
+# ------------- Filtrer les destinations - continent manquant - 400 -------- #
+
+GET {{baseUrl}}/destinations/continent
+
+###
+
+# -------------- Récupérer une destination par son identifiant ---------- ###
+
+GET {{baseUrl}}/destinations/1
+
+###
+
+# ---------- Récupérer une destination - id invalide - 400/404 ------------- #
+
+GET {{baseUrl}}/destinations/abc
+
+###
+
+# ------------- Modifier une destination (Admin) ------------------------###
+
+PATCH {{baseUrl}}/destinations/1
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{
+    "ville": "Kyoto"
+}
+
+###
+
+# ------- Modifier une destination (Voyageur) - accès refusé - 403 --------- #
+
+PATCH {{baseUrl}}/destinations/1
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "ville": "Osaka"
+}
+
+###
+
+# --------------- Modifier une destination inexistante - 404 --------------- #
+
+PATCH {{baseUrl}}/destinations/9999
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{
+    "ville": "Nulle part"
+}
+
+###
+
+# ------------ Supprimer une destination (Admin) ------------------------ ###
+
+DELETE {{baseUrl}}/destinations/2
+Authorization: Bearer {{tokenAdmin}}
+
+###
+
+# ---------------- Supprimer une destination inexistante - 404 ------------- #
+
+DELETE {{baseUrl}}/destinations/9999
+Authorization: Bearer {{tokenAdmin}}
+
+
+#################################################
+# AVIS
+#################################################
+
+### ------------ Ajouter un avis sur Tokyo (Voyageur) ----------------- ###
+
+POST {{baseUrl}}/avis
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "nom": "Karim",
+    "nbEtoiles": 5,
+    "commentaire": "Très belle destination !",
+    "destinationId": 1
+}
+
+###
+
+### -------------- Ajouter un deuxième avis sur Tokyo ------------------ ###
+
+POST {{baseUrl}}/avis
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "nom": "Sarah",
+    "nbEtoiles": 4,
+    "commentaire": "J'ai adoré mon séjour.",
+    "destinationId": 1
+}
+
+###
+
+### -------- Vérifier les avis et la note moyenne sur Tokyo (id: 1) ------- ###
+# Doit retourner la destination, la liste des avis et la note moyenne (4.5).
+
+GET {{baseUrl}}/destinations/1
+
+###
+
+### -------------- Ajouter un avis sur Montréal ------------------ ###
+
+POST {{baseUrl}}/avis
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "nom": "Amine",
+    "nbEtoiles": 5,
+    "commentaire": "Magnifique ville.",
+    "destinationId": 3
+}
+
+###
+
+### -------------- Ajouter un avis - champs manquants - 400 -------------- ###
+
+POST {{baseUrl}}/avis
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "nom": "Amine",
+    "commentaire": "Magnifique ville."
+}
+
+###
+
+### -------------- Ajouter un avis - note hors intervalle - 400 ---------- ###
+
+POST {{baseUrl}}/avis
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "nom": "Amine",
+    "nbEtoiles": 8,
+    "commentaire": "Magnifique ville.",
+    "destinationId": 3
+}
+
+###
+
+### -------------- Ajouter un avis - destination introuvable - 404 ------- ###
+
+POST {{baseUrl}}/avis
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "nom": "Amine",
+    "nbEtoiles": 5,
+    "commentaire": "Magnifique ville.",
+    "destinationId": 9999
+}
+
+###
+
+### -------------- Récupérer tous les avis ------------------------- ###
+
+GET {{baseUrl}}/avis
+
+
+#################################################
+# VOYAGES
+#################################################
+
+### ---------------- Créer un voyage ------------------------------ ###
+# Le voyageid est capturé automatiquement dans @voyageid ci-dessous.
+
+# @name creerVoyage
+POST {{baseUrl}}/voyages
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "voyage": {
+        "titre": "Vacances au Japon",
+        "dateDeb": "2026-08-01T00:00:00.000Z",
+        "dateFin": "2026-08-15T00:00:00.000Z"
+    },
+    "etape": {
+        "dateDeb": "2026-08-01T00:00:00.000Z",
+        "dateFin": "2026-08-05T00:00:00.000Z",
+        "hebergement": "Hotel",
+        "destinationId": 1,
+        "notes": "Première étape"
+    }
+}
+
+###
+
+@voyageid = {{creerVoyage.response.body.result.voyage.id}}
+@premiereEtapeId = {{creerVoyage.response.body.result.etape.id}}
+
+### -------------- Créer un voyage - champs manquants - 400 ------------- ###
+
+POST {{baseUrl}}/voyages
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "voyage": {
+        "titre": "Voyage incomplet",
+        "dateDeb": "2026-09-01T00:00:00.000Z",
+        "dateFin": "2026-09-10T00:00:00.000Z"
+    },
+    "etape": {
+        "dateDeb": "2026-09-01T00:00:00.000Z",
+        "dateFin": "2026-09-03T00:00:00.000Z"
+    }
+}
+
+###
+
+### ------- Créer un voyage - dates étape hors bornes du voyage - 400 ---- ###
+
+POST {{baseUrl}}/voyages
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "voyage": {
+        "titre": "Voyage dates invalides",
+        "dateDeb": "2026-09-01T00:00:00.000Z",
+        "dateFin": "2026-09-10T00:00:00.000Z"
+    },
+    "etape": {
+        "dateDeb": "2026-08-25T00:00:00.000Z",
+        "dateFin": "2026-09-03T00:00:00.000Z",
+        "hebergement": "Hotel",
+        "destinationId": 1
+    }
+}
+
+###
+
+### ---------- Récupérer tous les voyages de l'utilisateur connecté ------------ ###
+
+GET {{baseUrl}}/voyages/moi
+Authorization: Bearer {{tokenVoyageur}}
+
+###
+
+### ------------------- Modifier un voyage ----------------------------- ###
+
+PATCH {{baseUrl}}/voyages/{{voyageid}}
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "titre": "Voyage Japon Été 2026",
+    "dateFin": "2026-08-20T00:00:00.000Z"
+}
+
+###
+
+### -------- Modifier un voyage - nouvelle date de fin invalide - 400 --- ###
+
+PATCH {{baseUrl}}/voyages/{{voyageid}}
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "dateFin": "2026-01-01T00:00:00.000Z"
+}
+
+###
+
+### -------------- Modifier un voyage - id inexistant - 404 -------------- ###
+
+PATCH {{baseUrl}}/voyages/id-inexistant
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "titre": "Voyage fantôme"
+}
+
+
+#################################################
+# ETAPES
+#################################################
+
+### ---------------- Récupérer toutes les étapes d'un voyage --------------- ###
+
+GET {{baseUrl}}/etapes/moi/{{voyageid}}
+Authorization: Bearer {{tokenVoyageur}}
+
+###
+
+### ----------------- Ajouter une étape au voyage ---------------------------###
+# L'etapeid est capturé automatiquement dans @etapeid ci-dessous.
+
+# @name ajouterEtape
+POST {{baseUrl}}/etapes/{{voyageid}}
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "dateDeb": "2026-08-06T00:00:00.000Z",
+    "dateFin": "2026-08-10T00:00:00.000Z",
+    "hebergement": "AirBnB",
+    "destinationId": 3,
+    "notes": "Visite de Montréal"
+}
+
+###
+
+@etapeid = {{ajouterEtape.response.body.id}}
+
+### ------- Ajouter une étape - dates non contiguës à la précédente - 400 --- ###
+
+POST {{baseUrl}}/etapes/{{voyageid}}
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "dateDeb": "2026-08-13T00:00:00.000Z",
+    "dateFin": "2026-08-14T00:00:00.000Z",
+    "hebergement": "Hotel",
+    "destinationId": 1,
+    "notes": "Étape non contiguë"
+}
+
+###
+
+### -------------- Ajouter une étape - voyage introuvable - 404 ---------- ###
+
+POST {{baseUrl}}/etapes/id-inexistant
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "dateDeb": "2026-08-10T00:00:00.000Z",
+    "dateFin": "2026-08-12T00:00:00.000Z",
+    "hebergement": "Hotel",
+    "destinationId": 1
+}
+
+###
+
+### -------------------- Modifier une étape ------------------------------ ###
+
+PATCH {{baseUrl}}/etapes/{{voyageid}}/{{etapeid}}
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "hebergement": "Hotel",
+    "notes": "Réservation modifiée"
+}
+
+###
+
+### -------------- Modifier une étape - étape introuvable - 404 ---------- ###
+
+PATCH {{baseUrl}}/etapes/{{voyageid}}/9999
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "hebergement": "Hotel"
+}
+
+###
+
+### ------- Supprimer une étape qui n'est pas la dernière - 400 ---------- ###
+# Testé AVANT la vraie suppression ci-dessous : à ce stade il reste 2 étapes,
+# donc @premiereEtapeId (la toute première) n'est pas la dernière -> doit échouer.
+
+DELETE {{baseUrl}}/etapes/{{voyageid}}/{{premiereEtapeId}}
+Authorization: Bearer {{tokenVoyageur}}
+
+###
+
+### -------------------- Supprimer une étape ----------------------------- ###
+# Supprime bien la dernière étape ({{etapeid}}) -> doit réussir.
+
+DELETE {{baseUrl}}/etapes/{{voyageid}}/{{etapeid}}
+Authorization: Bearer {{tokenVoyageur}}
+
+
+### -------------------- Supprimer un voyage --------------------------- ###
+# À exécuter en dernier : supprime le voyage utilisé par les tests d'étapes ci-dessus.
+
+DELETE {{baseUrl}}/voyages/{{voyageid}}
+Authorization: Bearer {{tokenVoyageur}}
+
+
+#################################################
+# PAYS
+#################################################
+
+### ----------- Récupérer tous les pays enregistrés dans la base ---------- ###
+
+GET {{baseUrl}}/api/pays/liste-pays
+Authorization: Bearer {{tokenVoyageur}}
+
+###
+
+### ----------- Importer un pays dans la base (Admin) -------------------- ###
+
+POST {{baseUrl}}/api/pays/importer/Japan
+Authorization: Bearer {{tokenAdmin}}
+
+###
+
+### -------------- Modifier un pays (Admin) ------------------------- ###
+
+PATCH {{baseUrl}}/api/pays/JP
+Content-Type: application/json
+Authorization: Bearer {{tokenAdmin}}
+
+{
+    "capitale": "Tokyo",
+    "devise": "Yen",
+    "langages": "Japonais"
+}
+
+###
+
+### ---------------- Supprimer un pays (Admin) --------------------- ###
+
+DELETE {{baseUrl}}/api/pays/JP
+Authorization: Bearer {{tokenAdmin}}
