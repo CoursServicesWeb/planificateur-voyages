@@ -192,6 +192,7 @@ async function getEtapes(req:Request,res:Response) {
                         longitude:`${destination?.long}`,
                         daily:"weather_code,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max",
                         timezone:"auto",
+                        //forecast_days:`${diff}`
                         start_date:`${etape.dateDeb.toISOString().split('T')[0]}`,
                         end_date:  `${etape.dateFin.toISOString().split('T')[0]}`
                     }
@@ -205,8 +206,8 @@ async function getEtapes(req:Request,res:Response) {
                     previsionDestination.push(
                         {
                             date: data.daily.time.shift(),
-                            temp_max: data.daily.apparent_temperature_max.shift(),
-                            temp_min: data.daily.apparent_temperature_min.shift(),
+                            temp_max: Math.round(data.daily.apparent_temperature_max.shift()),
+                            temp_min: Math.round(data.daily.apparent_temperature_min.shift()),
                             sunrise: data.daily.sunrise.shift(),
                             sunset: data.daily.sunset.shift(),
                             uv_index: data.daily.uv_index_max.shift(),
