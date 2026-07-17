@@ -8,6 +8,8 @@
 
 Dans ce projet de création d'une application de voyages, nous avons créé toute la structure en backend pour créer des routes qui permettent de faire le CRUD des utilsateurs de la platerformes, des destinations de voyages, des voyages contenant plusieurs étapes dans diverses villes, des avis sur les destinations, ainsi que la gestion des authentifications et des autorisations de l'application.
 
+![Image](images/Capture_d’écran_2026-07-17_112032.png)
+
 ## Comment activer l'application
 
 #### Ouvrez un éditeur de code et entrez la commande suivante dans le terminal :
@@ -54,6 +56,8 @@ git clone https://github.com/CoursServicesWeb/planificateur-voyages.git
 - CRUD des avis des voyageurs sur les destinations qu'ils ont visité.
 - Affichage des destinations filtrées par continent.
 - Calcul de la note moyenne des avis laissés par les utilsateurs.
+
+![Image](images/Capture_d’écran_2026-07-17_112112.png)
 
 ## Liste des routes implémentées :
 
