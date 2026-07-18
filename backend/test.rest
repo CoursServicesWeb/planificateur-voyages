@@ -656,3 +656,52 @@ Authorization: Bearer {{tokenAdmin}}
 
 DELETE {{baseUrl}}/api/pays/JP
 Authorization: Bearer {{tokenAdmin}}
+
+### ---------------- Voyage pour météo --------------------- ###
+
+# @name creerVoyageMeteo
+POST {{baseUrl}}/voyages
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "voyage": {
+        "titre": "Vacances au Japon",
+        "dateDeb": "2026-07-17T00:00:00.000Z",
+        "dateFin": "2026-07-24T00:00:00.000Z"
+    },
+    "etape": {
+        "dateDeb": "2026-07-17T00:00:00.000Z",
+        "dateFin": "2026-07-20T00:00:00.000Z",
+        "hebergement": "Hotel",
+        "destinationId": 1,
+        "notes": "Première étape"
+    }
+}
+
+@voyageidMeteo = {{creerVoyageMeteo.response.body.result.voyage.id}}
+
+### ----------------- Ajouter une étape au voyage ---------------------------###
+# L'etapeid est capturé automatiquement dans @etapeid ci-dessous.
+
+# @name ajouterEtapeMeteo
+POST {{baseUrl}}/etapes/{{voyageidMeteo}}
+Content-Type: application/json
+Authorization: Bearer {{tokenVoyageur}}
+
+{
+    "dateDeb": "2026-07-21T00:00:00.000Z",
+    "dateFin": "2026-07-24T00:00:00.000Z",
+    "hebergement": "AirBnB",
+    "destinationId": 5,
+    "notes": "Visite de Paris"
+}
+
+###
+
+### ---------------- Récupérer toutes les étapes avec météo d'un voyage --------------- ###
+
+GET {{baseUrl}}/etapes/moi/{{voyageidMeteo}}
+Authorization: Bearer {{tokenVoyageur}}
+
+###
