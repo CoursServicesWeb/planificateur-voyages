@@ -2,6 +2,8 @@ import { type Request, type Response } from "express";
 import prisma from '../../utils/prisma.js'
 import { Prisma } from '../../../generated/prisma/client.js'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client'
+import axios from 'axios'
+import { recupererMeteo } from "../../api/meteoApi.js";
 
 /**
  * @function ajouterEtape(req:Request,res:Response)
@@ -141,10 +143,10 @@ async function ajouterEtape(req:Request,res:Response) {
  * Récupère les étapes d'un voyage via le id fourni pour un utilisateur authentifié
  * @param req 
  * @param res 
- * @returns status(200) et liste des étapes
+ * @returns status(200) et liste des étapes + météo lorsque le voyage ne dépasse pas 17 jours (limite open-meteo)
  */
 async function getEtapes(req:Request,res:Response) {
-
+    let etapes;
     try {
 
         const voyage = await prisma.voyage.findUnique({
@@ -156,18 +158,26 @@ async function getEtapes(req:Request,res:Response) {
 
         if(!voyage) {return res.status(404).json({message:"Ce voyage est introuvable.  Veuillez vérifier la requête."})}
 
-        const etapes = await prisma.etape.findMany({
+        etapes = await prisma.etape.findMany({
             where:{
                 voyageId:req.params.voyageid as string
             }
         })
 
-        return res.status(200).json(etapes)
+        const meteoParDestinationJSON = Object.fromEntries(await recupererMeteo(etapes))
+        return res.status(200).json({ etapes, meteoParDestinationJSON })
+
     } catch(error){
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
             return res.status(500).json({message:"Erreur lors de la recherche des étapes."})
         } else if(error instanceof Prisma.PrismaClientValidationError) {
             return res.status(400).json({message:"Une erreure est survenue lors de la recherche des étapes.  Veuillez vérifier la requête."})
+        } else if (axios.isAxiosError(error) && error.response) {
+            console.error("Erreur axios lors de la récupération des données météo: ", error.response.status);
+            // Retourne les étapes uniquement lorsque la météo ne peut être récupérée
+            return res.status(200).json({etapes})
+        } else {
+            console.error("Une erreur inconnue est survenue.")
         }
     }
 }
