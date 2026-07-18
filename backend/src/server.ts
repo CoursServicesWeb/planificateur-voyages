@@ -7,12 +7,15 @@ import etapesRouter from "./routes/etapes.routes.js";
 import paysRouter from "./routes/pays.routes.js";
 import destinationsRouter from "./routes/destinations.routes.js";
 import avisRouteur from "./routes/avis.routes.js";
+import cors from 'cors'
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+app.use(cors())
 
 app.use(express.json());
 
