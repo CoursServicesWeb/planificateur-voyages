@@ -6,10 +6,18 @@ export const meteoApi = axios.create({
     baseURL: "https://api.open-meteo.com/v1",
     timeout: 10000,
 });
-
+/**
+ * @function recupereMeteo
+ * La fonction recoit une liste d'étapes de voyage et pour chaque étape insère dans un
+ * Map des listes de prévisions météorologiques quotidiennes accesibles par le destinationId
+ * de l'étape comme la clé du Map.  Chaque clé peut contenir une liste de listes si la même
+ * destination est visitée plus qu'une fois dans un même voyage
+ * @param etapes 
+ * @returns Map
+ */
 export async function recupererMeteo(etapes: Array<object>) {
     
-    // Les données météo dans des listes inbriquées, avec les listes extérieures
+    // Les données météo dans des listes inbriquées, avec la liste extérieure
     // ayant une clé correspondante au DestinationId.
     // Les listes inbriquées traitent les cas où une même destination est répétée plusieurs
     // fois dans un voyage
