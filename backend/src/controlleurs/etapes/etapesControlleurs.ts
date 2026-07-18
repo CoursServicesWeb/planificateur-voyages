@@ -175,7 +175,7 @@ async function getEtapes(req:Request,res:Response) {
         } else if (axios.isAxiosError(error) && error.response) {
             console.error("Erreur axios lors de la récupération des données météo: ", error.response.status);
             // Retourne les étapes uniquement lorsque la météo ne peut être récupérée
-            return res.status(200).json({etapes})
+            return res.status(200).json({etapes, message:"Échec de récupération de la météo: max 17 jrs de la date courante permis."})
         } else {
             console.error("Une erreur inconnue est survenue.")
         }

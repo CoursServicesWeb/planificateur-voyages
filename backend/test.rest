@@ -693,7 +693,7 @@ Authorization: Bearer {{tokenVoyageur}}
     "dateDeb": "2026-07-21T00:00:00.000Z",
     "dateFin": "2026-07-24T00:00:00.000Z",
     "hebergement": "AirBnB",
-    "destinationId": 5,
+    "destinationId": 2,
     "notes": "Visite de Paris"
 }
 
