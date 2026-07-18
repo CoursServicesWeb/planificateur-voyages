@@ -10,6 +10,17 @@
 @voyageid =
 @etapeid =
 
+# ---- Dates dynamiques (relatives à aujourd'hui) ----
+# open-meteo ne fournit des prévisions que jusqu'à 17 jours dans le futur.
+# On utilise la variable dynamique native de REST Client {{$datetime "YYYY-MM-DD" N d}}
+# (fonctionne directement avec "Send Request") pour que
+# les dates du voyage/étapes principal restent toujours dans cette fenêtre,
+# peu importe le jour où on lance test.rest.
+# Le format date-seule (sans heure) + "T00:00:00.000Z" en dur garantit que
+# deux requêtes séparées qui utilisent le même décalage en jours (ex: +5 j)
+# donnent exactement la même valeur, même si elles sont envoyées à quelques
+# minutes d'intervalle (important pour les règles de contiguïté des étapes).
+
 #################################################
 # AUTHENTIFICATION
 #################################################
@@ -408,12 +419,12 @@ Authorization: Bearer {{tokenVoyageur}}
 {
     "voyage": {
         "titre": "Vacances au Japon",
-        "dateDeb": "2026-08-01T00:00:00.000Z",
-        "dateFin": "2026-08-15T00:00:00.000Z"
+        "dateDeb": "{{$datetime 'YYYY-MM-DD' 1 d}}T00:00:00.000Z",
+        "dateFin": "{{$datetime 'YYYY-MM-DD' 12 d}}T00:00:00.000Z"
     },
     "etape": {
-        "dateDeb": "2026-08-01T00:00:00.000Z",
-        "dateFin": "2026-08-05T00:00:00.000Z",
+        "dateDeb": "{{$datetime 'YYYY-MM-DD' 1 d}}T00:00:00.000Z",
+        "dateFin": "{{$datetime 'YYYY-MM-DD' 5 d}}T00:00:00.000Z",
         "hebergement": "Hotel",
         "destinationId": 1,
         "notes": "Première étape"
@@ -482,7 +493,7 @@ Authorization: Bearer {{tokenVoyageur}}
 
 {
     "titre": "Voyage Japon Été 2026",
-    "dateFin": "2026-08-20T00:00:00.000Z"
+    "dateFin": "{{$datetime 'YYYY-MM-DD' 15 d}}T00:00:00.000Z"
 }
 
 ###
@@ -494,7 +505,7 @@ Content-Type: application/json
 Authorization: Bearer {{tokenVoyageur}}
 
 {
-    "dateFin": "2026-01-01T00:00:00.000Z"
+    "dateFin": "{{$datetime 'YYYY-MM-DD' -30 d}}T00:00:00.000Z"
 }
 
 ###
@@ -530,8 +541,8 @@ Content-Type: application/json
 Authorization: Bearer {{tokenVoyageur}}
 
 {
-    "dateDeb": "2026-08-06T00:00:00.000Z",
-    "dateFin": "2026-08-10T00:00:00.000Z",
+    "dateDeb": "{{$datetime 'YYYY-MM-DD' 6 d}}T00:00:00.000Z",
+    "dateFin": "{{$datetime 'YYYY-MM-DD' 10 d}}T00:00:00.000Z",
     "hebergement": "AirBnB",
     "destinationId": 3,
     "notes": "Visite de Montréal"
@@ -548,8 +559,8 @@ Content-Type: application/json
 Authorization: Bearer {{tokenVoyageur}}
 
 {
-    "dateDeb": "2026-08-13T00:00:00.000Z",
-    "dateFin": "2026-08-14T00:00:00.000Z",
+    "dateDeb": "{{$datetime 'YYYY-MM-DD' 13 d}}T00:00:00.000Z",
+    "dateFin": "{{$datetime 'YYYY-MM-DD' 14 d}}T00:00:00.000Z",
     "hebergement": "Hotel",
     "destinationId": 1,
     "notes": "Étape non contiguë"
@@ -656,52 +667,3 @@ Authorization: Bearer {{tokenAdmin}}
 
 DELETE {{baseUrl}}/api/pays/JP
 Authorization: Bearer {{tokenAdmin}}
-
-### ---------------- Voyage pour météo --------------------- ###
-
-# @name creerVoyageMeteo
-POST {{baseUrl}}/voyages
-Content-Type: application/json
-Authorization: Bearer {{tokenVoyageur}}
-
-{
-    "voyage": {
-        "titre": "Vacances au Japon",
-        "dateDeb": "2026-07-17T00:00:00.000Z",
-        "dateFin": "2026-07-24T00:00:00.000Z"
-    },
-    "etape": {
-        "dateDeb": "2026-07-17T00:00:00.000Z",
-        "dateFin": "2026-07-20T00:00:00.000Z",
-        "hebergement": "Hotel",
-        "destinationId": 1,
-        "notes": "Première étape"
-    }
-}
-
-@voyageidMeteo = {{creerVoyageMeteo.response.body.result.voyage.id}}
-
-### ----------------- Ajouter une étape au voyage ---------------------------###
-# L'etapeid est capturé automatiquement dans @etapeid ci-dessous.
-
-# @name ajouterEtapeMeteo
-POST {{baseUrl}}/etapes/{{voyageidMeteo}}
-Content-Type: application/json
-Authorization: Bearer {{tokenVoyageur}}
-
-{
-    "dateDeb": "2026-07-21T00:00:00.000Z",
-    "dateFin": "2026-07-24T00:00:00.000Z",
-    "hebergement": "AirBnB",
-    "destinationId": 2,
-    "notes": "Visite de Paris"
-}
-
-###
-
-### ---------------- Récupérer toutes les étapes avec météo d'un voyage --------------- ###
-
-GET {{baseUrl}}/etapes/moi/{{voyageidMeteo}}
-Authorization: Bearer {{tokenVoyageur}}
-
-###
