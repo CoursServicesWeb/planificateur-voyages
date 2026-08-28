@@ -3,6 +3,7 @@ import prisma from "../utils/prisma.js";
 import { authentificationJWT, niveauRequis } from "../middleware/auth.js";
 import axios from "axios";
 import { infosPays } from "../api/infosPays.js";
+import { buildMeta, parsePagination } from "../utils/paginate.js";
 
 const paysRouter = Router();
 
@@ -27,16 +28,26 @@ paysRouter.get(
   authentificationJWT,
   async (req: Request, res: Response) => {
     try {
-      const listePays = await prisma.infosSuppPays.findMany({
-        orderBy: { countryCode: "asc" },
-      });
+      const { page, limit, skip, take } = parsePagination(req.query);
 
-      if (!listePays) {
+      const [total, listePays] = await Promise.all([
+        prisma.infosSuppPays.count(),
+        prisma.infosSuppPays.findMany({
+          orderBy: { countryCode: "asc" },
+          skip,
+          take,
+        }),
+      ]);
+
+      if (total === 0) {
         return res
           .status(404)
           .json({ erreur: "Aucun pays dans la base de données" });
       }
-      return res.status(200).json(listePays);
+
+      const meta = buildMeta(page, limit, total);
+
+      return res.status(200).json({ data: listePays, meta });
     } catch (e) {
       return res
         .status(400)
@@ -88,15 +99,26 @@ paysRouter.patch(
   niveauRequis("Admin"),
   async (req: Request, res: Response) => {
     const code = req.params.code;
+    const { drapeau_emoji, capitale, devise, langages } = req.body;
 
     try {
       const pays = await prisma.infosSuppPays.update({
         where: { countryCode: String(code) },
-        data: req.body,
+        data: {
+          drapeau_emoji,
+          capitale,
+          devise,
+          langages,
+        },
       });
-      res.json(pays);
-    } catch (e) {
-      res.status(404).json({ erreur: `Pays ${code} n'existe pas` });
+
+      return res.json(pays);
+    } catch (e: any) {
+      if (e?.code === "P2025") {
+        // Si l'erreur provient de Prisma
+        return res.status(404).json({ erreur: `Pays ${code} n'existe pas` });
+      }
+      return res.status(500).json({ erreur: "Erreur lors de la mise à jour." });
     }
   },
 );
@@ -113,9 +135,9 @@ paysRouter.delete(
       const pays = await prisma.infosSuppPays.delete({
         where: { countryCode: String(code) },
       });
-      res.json({ message: `Pays ${code} a été supprimé avec succès !` });
+      return res.json({ message: `Pays ${code} a été supprimé avec succès !` });
     } catch (e) {
-      res.status(404).json({ erreur: `Pays ${code} n'existe pas` });
+      return res.status(404).json({ erreur: `Pays ${code} n'existe pas` });
     }
   },
 );
