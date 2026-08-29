@@ -2,12 +2,13 @@
 import { useEffect, useState } from "react";
 import CoreLayout from "../../components/layout/core/CoreLayout";
 import {type Voyage } from '../../../../shared/types/voyage'
-import { type userData } from "../../../src/types/user";
+import {type Etape } from '../../../../shared/types/etape'
+import { type userData } from "../../types/user";
 import { jwtDecode } from "jwt-decode";
 import { api } from "../../api/axios";
 import { VoyageCard } from "./components/VoyageCard";
 import { AjouterVoyage } from "./components/AjouterVoyage";
-
+import { EtapeCard } from "./components/EtapeCard";
 
 export default function MesVoyages () {
 
@@ -51,6 +52,14 @@ export default function MesVoyages () {
         }
     }
 
+    const [etapes, setEtapes] = useState<Etape[]>([]);
+    const [isLoadingE, setIsLoadingE] = useState<Boolean>(true);
+
+    const getEtapes = async (id : string) => {
+        const resp = await api.get(`/etapes/moi/${id}`)
+        setEtapes(resp.data.etapes)
+    }
+
     return (
         <CoreLayout navUserName={userData!.given_name}>
             <div className="container">
@@ -64,12 +73,23 @@ export default function MesVoyages () {
                                     key={v.id} 
                                     id={v.id} 
                                     titre= {v.titre} 
-                                    handleCardClick = {()=>{}} 
+                                    handleCardClick = {getEtapes} 
                                     deleteHandler={handleDelete}/>)}
                                 <AjouterVoyage/>
                         </div>
                         <div className="col-6 bg-light">
-                            Etapes
+                            {etapes.map(etape => 
+                                <EtapeCard 
+                                    key={etape.id} 
+                                    id={etape.id}
+                                    voyageId={etape.voyageId} 
+                                    destinationId={etape.destinationId}
+                                    dateDeb={etape.dateDeb}
+                                    dateFin={etape.dateFin}
+                                    hebergement={etape.hebergement} 
+                                    notes = {etape.notes}
+                                />)
+                            }
                         </div>
                     </div>
                     )
