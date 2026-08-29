@@ -19,15 +19,15 @@ destinationsRouter.post(
   "/",
   authentificationJWT,
   niveauRequis("Admin"),
-  destinationsControlleurs.creerDestination
+  destinationsControlleurs.creerDestination,
 );
 
 // ------ Modifier une destination (Admin) ------ //
 destinationsRouter.patch(
   "/:id",
-  authentificationJWT,
-  niveauRequis("Admin"),
-  destinationsControlleurs.modifierDestination
+  // authentificationJWT,
+  // niveauRequis("Admin"),
+  destinationsControlleurs.modifierDestination,
 );
 
 // ------ Supprimer une destination (Admin) ------ //
@@ -35,7 +35,7 @@ destinationsRouter.delete(
   "/:id",
   authentificationJWT,
   niveauRequis("Admin"),
-  destinationsControlleurs.supprimerDestination
+  destinationsControlleurs.supprimerDestination,
 );
 
 export default destinationsRouter;

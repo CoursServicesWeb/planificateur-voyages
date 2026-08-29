@@ -132,7 +132,7 @@ export async function getDestinations(req: Request, res: Response) {
     const [total, destinations] = await Promise.all([
       prisma.destination.count(),
       prisma.destination.findMany({
-        orderBy: { continent: "asc" },
+        orderBy: { id: "asc" },
         skip,
         take,
       }),
@@ -226,7 +226,7 @@ export async function getDestinationById(req: Request, res: Response) {
 export async function modifierDestination(req: Request, res: Response) {
   const id = Number(req.params.id) || null;
 
-  const { ville, continent, infosSuppPaysId } = req.body;
+  const { ville, continent, infoSuppPaysId } = req.body;
 
   if (!id) {
     return res.status(400).json({ erreur: "Vous devez entrer un ID valide." });
@@ -238,7 +238,7 @@ export async function modifierDestination(req: Request, res: Response) {
       data: {
         ville,
         continent,
-        infosSuppPaysId,
+        infoSuppPaysId,
       },
     });
     return res.status(200).json(destination);

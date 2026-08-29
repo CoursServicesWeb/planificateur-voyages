@@ -26,5 +26,5 @@ export type CreateDestination = {
 // Partial rend les propriétés de CreateDestination optionnelles(ville devient ville?:string;)
 
 export type UpdateDestination = Partial<CreateDestination> & {
-  infosSuppPaysId: string;
+  infoSuppPaysId: string;
 };
