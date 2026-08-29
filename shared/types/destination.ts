@@ -1,12 +1,6 @@
 // -------------- Type Continent ---------------- //
 
-export type Continent =
-  | "Asie"
-  | "Afrique"
-  | "Amerique"
-  | "Europe"
-  | "Oceanie";
-
+export type Continent = "Asie" | "Afrique" | "Amerique" | "Europe" | "Oceanie";
 
 // ---------------- Type Destination ---------------- //
 
@@ -21,19 +15,16 @@ export type Destination = {
   updatedAt: string;
 };
 
-
 // ------------ Type utilisé pour créer une destination ------------ //
 
 export type CreateDestination = {
   ville: string;
   continent: Continent;
-  lat: number;
-  long: number;
-  infoSuppPaysId: string;
 };
-
 
 // ------------ Type utilisé pour modifier une destination ------------ //
 // Partial rend les propriétés de CreateDestination optionnelles(ville devient ville?:string;)
 
-export type UpdateDestination = Partial<CreateDestination>;
+export type UpdateDestination = Partial<CreateDestination> & {
+  infosSuppPaysId: string;
+};

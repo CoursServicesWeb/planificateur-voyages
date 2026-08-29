@@ -118,9 +118,7 @@ export async function creerDestination(req: Request, res: Response) {
       },
     });
 
-    return res
-      .status(201)
-      .json({ message: `Destination ${ville} ajoutée avec succès !` });
+    return res.status(201).json(destination);
   } catch (e) {
     return res.status(500).json({ erreur: "Erreur de serveur." });
   }
@@ -139,10 +137,6 @@ export async function getDestinations(req: Request, res: Response) {
         take,
       }),
     ]);
-
-    if (total === 0) {
-      return res.status(404).json({ message: "Aucune destination trouvée." });
-    }
 
     const meta = buildMeta(page, limit, total);
     return res.status(200).json({ data: destinations, meta });
@@ -182,12 +176,6 @@ export async function getByContinent(req: Request, res: Response) {
         take,
       }),
     ]);
-
-    if (total === 0) {
-      return res
-        .status(404)
-        .json({ erreur: "Aucune destination trouvée avec ce continent" });
-    }
 
     const meta = buildMeta(page, limit, total);
 
@@ -238,6 +226,8 @@ export async function getDestinationById(req: Request, res: Response) {
 export async function modifierDestination(req: Request, res: Response) {
   const id = Number(req.params.id) || null;
 
+  const { ville, continent, infosSuppPaysId } = req.body;
+
   if (!id) {
     return res.status(400).json({ erreur: "Vous devez entrer un ID valide." });
   }
@@ -245,7 +235,11 @@ export async function modifierDestination(req: Request, res: Response) {
   try {
     const destination = await prisma.destination.update({
       where: { id },
-      data: req.body,
+      data: {
+        ville,
+        continent,
+        infosSuppPaysId,
+      },
     });
     return res.status(200).json(destination);
   } catch (e) {

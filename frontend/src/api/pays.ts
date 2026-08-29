@@ -5,7 +5,7 @@ import { type InfosSuppPays } from "../../../shared/types/infosSuppPays";
 
 export async function getInfosPays(): Promise<InfosSuppPays[]> {
   try {
-    const response = await api.get("/liste-pays");
+    const response = await api.get("/api/pays/liste-pays");
     return response.data;
   } catch (e) {
     console.log(e);
@@ -17,7 +17,7 @@ export async function getInfosPays(): Promise<InfosSuppPays[]> {
 export async function postNewPays(nomPays: string): Promise<InfosSuppPays> {
   try {
     const response = await api.post<InfosSuppPays>(
-      `/importer/${encodeURIComponent(nomPays)}`,
+      `/api/pays/importer/${encodeURIComponent(nomPays)}`,
     );
     return response.data; // Pour que les caractères spéciaux soient bien encodés
   } catch (e) {
@@ -32,7 +32,7 @@ export async function modifierPays(
   data: Partial<InfosSuppPays>,
 ): Promise<InfosSuppPays> {
   try {
-    const response = await api.patch(`/${countryCode}`, data);
+    const response = await api.patch(`/api/pays/${countryCode}`, data);
     return response.data;
   } catch (e) {
     console.log(e);
@@ -42,7 +42,7 @@ export async function modifierPays(
 
 export async function supprimerPays(countryCode: string) {
   try {
-    const response = await api.delete(`/${countryCode}`);
+    const response = await api.delete(`/api/pays/${countryCode}`);
     return response.data;
   } catch (e) {
     console.log(e);
