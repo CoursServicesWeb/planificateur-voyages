@@ -4,15 +4,20 @@ import "../App.css";
 import { type Destination } from "../../../shared/types/destination";
 import { type Meta } from "../../../shared/types/pagination";
 import { Link } from "react-router-dom";
+import { Pagination } from "./layout/core/Pagination";
 
 export default function TableauAdminDestinations() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [meta, setMeta] = useState<Meta | null>(null);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState("");
+  const [page, setPage] = useState(1);
+
+  const LIMITE_PAR_PAGE = 15;
 
   useEffect(() => {
-    getDestinations(1, 20)
+    setChargement(true);
+    getDestinations(page, LIMITE_PAR_PAGE)
       .then((res) => {
         setDestinations(res.data);
         setMeta(res.meta);
@@ -24,7 +29,9 @@ export default function TableauAdminDestinations() {
         );
       })
       .finally(() => setChargement(false));
-  }, []);
+  }, [page]);
+
+  const totalPages = meta ? Math.ceil(meta.total / LIMITE_PAR_PAGE) : 1;
 
   if (chargement) return <div>Chargement des destinations...</div>;
 
@@ -87,6 +94,14 @@ export default function TableauAdminDestinations() {
           </tr>
         </tfoot>
       </table>
+
+      <div style={{ marginTop: "15px" }}>
+        <Pagination
+          pageActuelle={page}
+          totalPages={totalPages}
+          onPageChange={(nouvellePage: number) => setPage(nouvellePage)}
+        />
+      </div>
     </div>
   );
 }

@@ -36,7 +36,7 @@ export default function FormModifierDestination() {
     if (!id) return;
     try {
       await modifierDestination(id, { ville, continent, infoSuppPaysId });
-      navigate("/admin/destinations"); // Retour au tableau de base admin
+      navigate("/admin"); // Retour au tableau de base admin
     } catch (e) {
       setErreur("Erreur lors de la modification.");
       alert("Erreur lors de la modification.");
@@ -80,7 +80,7 @@ export default function FormModifierDestination() {
         </div>
         <div>
           <button type="submit">Soumettre les changements</button>
-          <button type="button" onClick={() => navigate("/admin/destinations")}>
+          <button type="button" onClick={() => navigate("/admin")}>
             Annuler
           </button>
         </div>
