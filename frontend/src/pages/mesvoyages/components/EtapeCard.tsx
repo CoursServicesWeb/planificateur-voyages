@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { api } from "../../../api/axios"
 
-export function EtapeCard({id, voyageId, destinationId, dateDeb, dateFin, hebergement, notes} : EtapeCardProps) {
+export function EtapeCard({id, voyageId, destinationId, dateDeb, dateFin, hebergement, notes, deleteHandler} : EtapeCardProps) {
 
     const[ville, setVille] = useState<string>();
 
@@ -20,7 +20,7 @@ export function EtapeCard({id, voyageId, destinationId, dateDeb, dateFin, heberg
             <button 
               type="button" 
               className="btn-close position-absolute top-0 end-0 m-2" 
-              onClick={()=>{}}
+              onClick={()=>{deleteHandler(voyageId,id)}}
             ></button>
             <img src="..." className="card-img-top" alt="..."/>
             <div className="card-body">
@@ -48,4 +48,5 @@ interface EtapeCardProps {
     dateFin : string 
     hebergement : string 
     notes : string | null
+    deleteHandler : (vid : string, eid : number) => void
 }
