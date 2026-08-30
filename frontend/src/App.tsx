@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/admin/destinations" element={<DashAdminDestinations />} />
+        <Route path="/admin" element={<DashAdminDestinations />} />
         <Route
           path="/admin/modifier-destination/:id"
           element={<FormModifierDestination />}

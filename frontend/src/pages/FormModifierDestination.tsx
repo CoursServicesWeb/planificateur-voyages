@@ -38,6 +38,7 @@ export default function FormModifierDestination() {
       await modifierDestination(id, { ville, continent, infoSuppPaysId });
       navigate("/admin/destinations"); // Retour au tableau de base admin
     } catch (e) {
+      setErreur("Erreur lors de la modification.");
       alert("Erreur lors de la modification.");
     }
   };

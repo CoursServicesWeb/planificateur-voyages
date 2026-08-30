@@ -22,8 +22,14 @@ async function getInfosVille(nomVille: string) {
       },
     });
 
+    if (!data?.results || data.results.length === 0) {
+      return null;
+    }
+
     return {
-      infoSuppPaysId: data.results[0].country_code,
+      infoSuppPaysId: data.results[0].country_code
+        ? data.results[0].country_code.toUpperCase()
+        : "N/A",
       lat: data.results[0].latitude,
       long: data.results[0].longitude,
       nomPays: data.results[0].country,

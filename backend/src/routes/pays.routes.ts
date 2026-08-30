@@ -10,7 +10,9 @@ const paysRouter = Router();
 // La fontion pour récupérer les données d'un pays avec l'API des pays
 export async function recupererInfosPays(nomPays: string) {
   try {
-    const infos = await infosPays.get(`/names.common/${nomPays}`);
+    const infos = await infosPays.get(
+      `/names.common/${encodeURIComponent(nomPays)}`,
+    );
     return infos.data;
   } catch (e) {
     if (axios.isAxiosError(e) && e.response) {

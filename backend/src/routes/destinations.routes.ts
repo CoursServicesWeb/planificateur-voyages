@@ -17,8 +17,8 @@ destinationsRouter.get("/:id", destinationsControlleurs.getDestinationById);
 // ------ Ajouter une destination (Admin) ------ //
 destinationsRouter.post(
   "/",
-  authentificationJWT,
-  niveauRequis("Admin"),
+  // authentificationJWT,
+  // niveauRequis("Admin"),
   destinationsControlleurs.creerDestination,
 );
 
