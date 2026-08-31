@@ -9,8 +9,10 @@ export const api = axios.create({
 // Pour gérer les tokens avec Axios quand on envoie une requête
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
