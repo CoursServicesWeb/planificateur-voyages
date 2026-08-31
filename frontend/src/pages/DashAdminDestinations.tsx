@@ -3,6 +3,7 @@ import TableauAdminDestinations from "../components/TableauAdminDestinations";
 import FormAjouterDestination from "../components/FormAjouterDestination";
 import Header from "../components/layout/core/Header";
 import { useState } from "react";
+import TableauAdminPays from "../components/TableauAdminPays";
 
 export default function DashAdminDestinations() {
   const [rafraichir, setRafraichir] = useState(0);
@@ -18,6 +19,11 @@ export default function DashAdminDestinations() {
         </div>
         <div>
           <FormAjouterDestination onSuccess={handleDestinationAjoutee} />
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: "20px" }}>
+        <div>
+          <TableauAdminPays />
         </div>
       </div>
     </div>

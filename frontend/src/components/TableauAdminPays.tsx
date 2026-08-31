@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import { getDestinations, supprimerDestination } from "../api/destinations";
+import { getInfosPays, supprimerPays } from "../api/pays";
 import "../App.css";
-import { type Destination } from "../../../shared/types/destination";
+import { type InfosSuppPays } from "../../../shared/types/infosSuppPays";
 import { type Meta } from "../../../shared/types/pagination";
-import { Link } from "react-router-dom";
 import { Pagination } from "./layout/core/Pagination";
 
-export default function TableauAdminDestinations() {
-  const [destinations, setDestinations] = useState<Destination[]>([]);
+export default function TableauAdminPays() {
+  const [pays, setPays] = useState<InfosSuppPays[]>([]);
   const [meta, setMeta] = useState<Meta | null>(null);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState("");
@@ -17,15 +16,15 @@ export default function TableauAdminDestinations() {
 
   useEffect(() => {
     setChargement(true);
-    getDestinations(page, LIMITE_PAR_PAGE)
+    getInfosPays(page, LIMITE_PAR_PAGE)
       .then((res) => {
-        setDestinations(res.data);
+        setPays(res.data);
         setMeta(res.meta);
       })
       .catch((e) => {
-        console.log("Erreur API destinations :", e);
+        console.log("Erreur API infos Pays :", e);
         setErreur(
-          "Erreur inattendue.  Impossible d'obtenir les destinations !",
+          "Erreur inattendue.  Impossible d'obtenir les infos des pays !",
         );
       })
       .finally(() => setChargement(false));
@@ -33,14 +32,16 @@ export default function TableauAdminDestinations() {
 
   const totalPages = meta ? Math.ceil(meta.total / LIMITE_PAR_PAGE) : 1;
 
-  if (chargement) return <div>Chargement des destinations...</div>;
+  if (chargement) return <div>Chargement des infos des pays...</div>;
 
   if (erreur) return <div style={{ color: "red" }}>{erreur}</div>;
 
-  const handleSuppression = async (id: number) => {
+  const handleSuppression = async (countryCode: string) => {
     try {
-      await supprimerDestination(String(id));
-      setDestinations((prev) => prev.filter((item) => item.id !== id));
+      await supprimerPays(countryCode);
+      setPays((prev) =>
+        prev.filter((item) => item.countryCode !== countryCode),
+      );
 
       if (meta) {
         setMeta({ ...meta, total: meta.total - 1 });
@@ -54,35 +55,39 @@ export default function TableauAdminDestinations() {
   return (
     <div>
       <table>
-        <caption>Destinations disponibles</caption>
+        <caption>Pays avec infos disponibles</caption>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Ville</th>
-            <th>Continent</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>ID du pays</th>
+            <th>Country Code</th>
+            <th>Drapeau</th>
+            <th>Capitale</th>
+            <th>Devise</th>
+            <th>Langues</th>
           </tr>
         </thead>
         <tbody>
-          {destinations.map((d) => (
-            <tr key={d.id}>
-              <td>{d.id}</td>
-              <td>{d.ville}</td>
-              <td>{d.continent}</td>
-              <td>{String(d.lat)}</td>
-              {/*Pour éviter les erreurs, puisque la latitude et la longtide sont des floats*/}
-              <td>{String(d.long)}</td>
-              <td>{d.infoSuppPaysId}</td>
+          {pays.map((p) => (
+            <tr key={p.countryCode}>
+              <td>{p.countryCode}</td>
+              <td>
+                {p.drapeau_emoji ? (
+                  <img
+                    src={p.drapeau_emoji}
+                    alt={`Drapeau ${p.countryCode}`}
+                    style={{ width: "30px", height: "auto", display: "block" }}
+                  />
+                ) : (
+                  "-"
+                )}
+              </td>
+              <td>{p.capitale}</td>
+              <td>{p.devise}</td>
+              <td>{p.langages}</td>
               <td>
                 <span>
-                  <button onClick={() => handleSuppression(d.id)}>
+                  <button onClick={() => handleSuppression(p.countryCode)}>
                     Supprimer
                   </button>
-                  <Link to={`/admin/modifier-destination/${d.id}`}>
-                    Modifier
-                  </Link>
                 </span>
               </td>
             </tr>
@@ -90,7 +95,7 @@ export default function TableauAdminDestinations() {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={7}>Total Destinations : {meta?.total ?? 0}</td>
+            <td colSpan={5}>Total Pays : {meta?.total ?? 0}</td>
           </tr>
         </tfoot>
       </table>

@@ -1,11 +1,20 @@
 import { api } from "./axios";
 import { type InfosSuppPays } from "../../../shared/types/infosSuppPays";
+import type { Paginated } from "../../../shared/types/pagination";
 
 // L'appel axios pour obtenir tous les pays en tant qu'admin
 
-export async function getInfosPays(): Promise<InfosSuppPays[]> {
+export async function getInfosPays(
+  page = 1,
+  limit = 20,
+): Promise<Paginated<InfosSuppPays>> {
   try {
-    const response = await api.get("/api/pays/liste-pays");
+    const response = await api.get("/pays/liste-pays", {
+      params: {
+        page,
+        limit,
+      },
+    });
     return response.data;
   } catch (e) {
     console.log(e);
