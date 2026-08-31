@@ -17,25 +17,25 @@ destinationsRouter.get("/:id", destinationsControlleurs.getDestinationById);
 // ------ Ajouter une destination (Admin) ------ //
 destinationsRouter.post(
   "/",
-  authentificationJWT,
-  niveauRequis("Admin"),
-  destinationsControlleurs.creerDestination
+  // authentificationJWT,
+  // niveauRequis("Admin"),
+  destinationsControlleurs.creerDestination,
 );
 
 // ------ Modifier une destination (Admin) ------ //
 destinationsRouter.patch(
   "/:id",
-  authentificationJWT,
-  niveauRequis("Admin"),
-  destinationsControlleurs.modifierDestination
+  // authentificationJWT,
+  // niveauRequis("Admin"),
+  destinationsControlleurs.modifierDestination,
 );
 
 // ------ Supprimer une destination (Admin) ------ //
 destinationsRouter.delete(
   "/:id",
-  authentificationJWT,
-  niveauRequis("Admin"),
-  destinationsControlleurs.supprimerDestination
+  // authentificationJWT,
+  // niveauRequis("Admin"),
+  destinationsControlleurs.supprimerDestination,
 );
 
 export default destinationsRouter;
