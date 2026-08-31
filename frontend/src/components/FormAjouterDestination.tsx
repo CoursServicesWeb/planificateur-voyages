@@ -49,6 +49,7 @@ export default function FormAjouterDestination({ onSuccess }: FormProps) {
             id="ville"
             value={ville}
             onChange={(e) => setVille(e.target.value)}
+            placeholder="Ville à ajouter..."
             required
           />
         </div>
