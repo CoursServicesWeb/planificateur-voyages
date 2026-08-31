@@ -52,11 +52,25 @@ export default function MesVoyages () {
         }
     }
 
+    const handleUpdateVoyage = async (id : string, formValues : Object) => {
+        try {
+            const result = await api.patch(`/voyages/${id}`, formValues)
+            const update : Voyage = result.data
+            const subsVoyage = (update : Voyage) => {
+                setVoyages(prev => prev.map( v => v.id === update.id ? update : v))
+            }
+            subsVoyage(update)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const [etapes, setEtapes] = useState<Etape[]>([]);
     const [isLoadingE, setIsLoadingE] = useState<Boolean>(false);
 
     const getEtapes = async (id : string) => {
         try {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
             setIsLoadingE(true);
             const resp = await api.get(`/etapes/moi/${id}`);
             setEtapes(resp.data.etapes);
@@ -90,7 +104,8 @@ export default function MesVoyages () {
                                         <VoyageCard 
                                             key={v.id} 
                                             id={v.id} 
-                                            titre= {v.titre} 
+                                            titre= {v.titre}
+                                            updateHandler={handleUpdateVoyage} 
                                             handleCardClick = {getEtapes} 
                                             deleteHandler={handleDeleteVoyage}/>)}
                                         <AjouterVoyage/>

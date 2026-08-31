@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ModalModVoyageForm } from './ModalModVoyageForm';
 import imageCarte from '../../../assets/images/international-travel-0_1684823087.webp'
 
-export function VoyageCard({id, titre, deleteHandler, handleCardClick} : VoyageCardProps) {
+export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardClick} : VoyageCardProps) {
 
     const [estOuvert,setEstOuvert] = useState<Boolean>(false);
 
@@ -29,7 +29,7 @@ export function VoyageCard({id, titre, deleteHandler, handleCardClick} : VoyageC
           </button>
         </div>
       </div>
-      {estOuvert && <ModalModVoyageForm onClose={() => setEstOuvert(false)}/>}
+      {estOuvert && <ModalModVoyageForm voyageId = {id} modifyHandler = {updateHandler} onClose={() => setEstOuvert(false)}/>}
     </div> 
   )
 }
@@ -37,6 +37,7 @@ export function VoyageCard({id, titre, deleteHandler, handleCardClick} : VoyageC
 interface VoyageCardProps {
   id : string
   titre : string
+  updateHandler : (id : string, formValues : Object) => void
   deleteHandler : (id : string) => void
   handleCardClick : (id : string) => void
 }
