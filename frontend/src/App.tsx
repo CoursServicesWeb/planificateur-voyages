@@ -4,6 +4,7 @@ import FormModifierDestination from "./pages/FormModifierDestination";
 import AccueilDestination from "./pages/AccueilDestination";
 import Login from "./pages/login";
 import AvisPage from "./pages/avis";
+import Register from "./pages/register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
 
         {/* Page des avis */}
         <Route path="/avis" element={<AvisPage />} />
+
+        {/* Page d'inscription */}
+        <Route path="/register" element={<Register />} />
 
         {/* Pages administrateur */}
         <Route path="/admin" element={<DashAdminDestinations />} />
