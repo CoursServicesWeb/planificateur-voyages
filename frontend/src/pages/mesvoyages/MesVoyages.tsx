@@ -81,6 +81,19 @@ export default function MesVoyages () {
         }
     }
 
+    const handleUpdateEtape = async (voyageId : string, etapeId : number, formValues : Object) => {
+        try {
+            const result = await api.patch(`/etapes/${voyageId}/${etapeId}`, formValues)
+            const update : Etape = result.data
+            const subsEtape = (update : Etape) => {
+                setEtapes(prev => prev.map( e => e.id === update.id ? update : e))
+            }
+            subsEtape(update)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const handleDeleteEtapes = async (vid : string, eid : number) => {
         try {
             alert('Une etape sera supprime')
@@ -127,6 +140,7 @@ export default function MesVoyages () {
                                             dateFin={etape.dateFin}
                                             hebergement={etape.hebergement} 
                                             notes = {etape.notes}
+                                            updateHandler={handleUpdateEtape}
                                             deleteHandler={handleDeleteEtapes}
                                         />)
                                     }   

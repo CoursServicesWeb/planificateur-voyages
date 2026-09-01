@@ -1,8 +1,10 @@
-
 import { useEffect, useState } from "react"
 import { api } from "../../../api/axios"
+import { ModalModEtape } from "./ModalModEtape";
 
-export function EtapeCard({id, voyageId, destinationId, dateDeb, dateFin, hebergement, notes, deleteHandler} : EtapeCardProps) {
+export function EtapeCard(
+  {id, voyageId, destinationId, dateDeb, dateFin, hebergement,
+    notes, updateHandler,deleteHandler} : EtapeCardProps) {
 
     const[ville, setVille] = useState<string>();
 
@@ -13,6 +15,13 @@ export function EtapeCard({id, voyageId, destinationId, dateDeb, dateFin, heberg
         }
         getDestination(destinationId)
     },[])
+
+    const [estOuvert,setEstOuvert] = useState<Boolean>(false);
+
+    const ouvrirModal = (event : React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        setEstOuvert(true);
+    }
 
     return (
         <div className="col mt-4">
@@ -31,11 +40,13 @@ export function EtapeCard({id, voyageId, destinationId, dateDeb, dateFin, heberg
               <p>{notes}</p>
           </div>
           <div className="card-footer bg-transparent border-0 pt-0">
-            <button type="button" className="btn btn-primary w-100">
+            <button type="button" onClick={ouvrirModal} className="btn btn-primary w-100">
               Modifier
             </button>
           </div>
         </div>
+        {estOuvert && 
+          <ModalModEtape voyageId = {voyageId} etapeId={id} modifyHandler = {updateHandler} onClose={() => setEstOuvert(false)}/>}
     </div>
     )
 }
@@ -48,5 +59,6 @@ interface EtapeCardProps {
     dateFin : string 
     hebergement : string 
     notes : string | null
+    updateHandler : (voyageId : string, etapeId : number, formValues : Object) => void
     deleteHandler : (vid : string, eid : number) => void
 }

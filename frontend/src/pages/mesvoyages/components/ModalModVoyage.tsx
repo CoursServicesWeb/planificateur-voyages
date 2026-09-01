@@ -1,6 +1,6 @@
 import { convertToISO8601 } from "./utils/utils";
 
-export function ModalModVoyageForm({ voyageId, modifyHandler, onClose } : ModalModVoyProps) {
+export function ModalModVoyage({ voyageId, modifyHandler, onClose } : ModalModVoyProps) {
   const submitHandler = async (event : React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -9,8 +9,6 @@ export function ModalModVoyageForm({ voyageId, modifyHandler, onClose } : ModalM
     formValues.dateFin = convertToISO8601(formValues.dateFin as string)
     
     modifyHandler(voyageId,formValues)
-    console.log(formValues)
-    console.log(voyageId)
     onClose()
   }
   return (
@@ -39,10 +37,10 @@ export function ModalModVoyageForm({ voyageId, modifyHandler, onClose } : ModalM
                 ></button>
               </div>
               <div className="modal-body">
-                <label htmlFor="titre">Nouveau titre</label><br/>
-                <input type="text" id="titre" name="titre"/><br/>
-                <label htmlFor="date-fin">Nouvelle date de fin</label><br/>
-                <input type="date" id="date-fin" name="dateFin"/>
+                <label htmlFor="titre" className="form-label">Nouveau titre</label><br/>
+                <input type="text" className="form-control" id="titre" name="titre"/><br/>
+                <label htmlFor="date-fin" className="form-label">Nouvelle date de fin</label><br/>
+                <input type="date" className="form-control" id="date-fin" name="dateFin"/>
               </div>
               <div className="modal-footer">
                 <button 

@@ -1,10 +1,15 @@
 import { useState } from 'react'
-import { ModalModVoyageForm } from './ModalModVoyageForm';
+import { ModalModVoyage } from './ModalModVoyage';
 import imageCarte from '../../../assets/images/international-travel-0_1684823087.webp'
 
 export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardClick} : VoyageCardProps) {
 
     const [estOuvert,setEstOuvert] = useState<Boolean>(false);
+
+    const ouvrirModal = (event : React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        setEstOuvert(true);
+    }
 
     return (
       <div className="col mt-4">
@@ -24,12 +29,12 @@ export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardC
             <p>Statut</p>
         </div>
         <div className="card-footer bg-transparent border-0 pt-0">
-          <button type="button" onClick={()=> setEstOuvert(true)} className="btn btn-primary w-100">
+          <button type="button" onClick={ouvrirModal} className="btn btn-primary w-100">
             Modifier
           </button>
         </div>
       </div>
-      {estOuvert && <ModalModVoyageForm voyageId = {id} modifyHandler = {updateHandler} onClose={() => setEstOuvert(false)}/>}
+      {estOuvert && <ModalModVoyage voyageId = {id} modifyHandler = {updateHandler} onClose={() => setEstOuvert(false)}/>}
     </div> 
   )
 }
