@@ -89,6 +89,7 @@ export default function MesVoyages () {
                 setEtapes(prev => prev.map( e => e.id === update.id ? update : e))
             }
             subsEtape(update)
+            getEtapes(voyageId)
         } catch (error) {
             console.error(error)
         }
@@ -113,6 +114,7 @@ export default function MesVoyages () {
                                 <p>Chargement des voyages...</p>
                             ):(
                                 <>
+                                    <AjouterVoyage/>
                                     {voyages.map(v => 
                                         <VoyageCard 
                                             key={v.id} 
@@ -121,7 +123,7 @@ export default function MesVoyages () {
                                             updateHandler={handleUpdateVoyage} 
                                             handleCardClick = {getEtapes} 
                                             deleteHandler={handleDeleteVoyage}/>)}
-                                        <AjouterVoyage/>
+                                    <AjouterVoyage/>
                                 </>
                             )}  
                         </div>

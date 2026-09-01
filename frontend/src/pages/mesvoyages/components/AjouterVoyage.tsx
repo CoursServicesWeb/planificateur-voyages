@@ -1,11 +1,16 @@
+import { useState } from "react"
+import { ModalAjouterVoyage } from "./ModalAjouterVoyage"
 
 
 export function AjouterVoyage() {
+
+    const [ouvrirModal, setOuvrirModal] = useState<Boolean>(false)
+
     return (
         <div className="col mt-4">
             <div 
-                className="card h-100 text-center border-secondary border-dashed cursor-pointer shadow-sm-hover"
-                onClick={()=>{}}
+                className="card h-100 w-75 mx-auto text-center border-secondary border-dashed cursor-pointer shadow-sm-hover"
+                onClick={()=>{setOuvrirModal(true)}}
                 style={{ borderStyle: 'dashed', cursor: 'pointer' }}
             >
                 <div className="card-body d-flex flex-column align-items-center justify-content-center py-5">
@@ -18,6 +23,7 @@ export function AjouterVoyage() {
                 <p className="card-text text-muted small">Cliquez pour de l'aventure!</p>
                 </div>
             </div>
+            {ouvrirModal && <ModalAjouterVoyage onClose={() => setOuvrirModal(false)}/>}
         </div>
     )
 }

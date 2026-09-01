@@ -13,7 +13,7 @@ export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardC
 
     return (
       <div className="col mt-4">
-        <div className={`card h-100 position-relative$ {isSelected ? 'border-primary border-2' : ''}`}
+        <div className={`card w-75 mx-auto h-100 position-relative$ {isSelected ? 'border-primary border-2' : ''}`}
         style={{ cursor: 'pointer' }}
         onClick={() => handleCardClick(id)}>
           <button 
