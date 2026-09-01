@@ -3,6 +3,7 @@ import { type Continent } from "../../../shared/types/destination";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, type ReactNode } from "react";
 import { getNoteMoyenne } from "../api/destinations";
+import { useAuth } from "../context/AuthContext";
 
 interface CardAccueilDestinationProps {
   id: number;
@@ -30,6 +31,8 @@ export function CardAccueilDestination({
   const [erreur, setErreur] = useState("");
   const [chargement, setChargement] = useState(false);
   const navigate = useNavigate();
+
+  const { connecte } = useAuth();
 
   useEffect(() => {
     if (!id) return;
@@ -99,7 +102,9 @@ export function CardAccueilDestination({
         <button
           type="button"
           className="destination-card-button"
-          onClick={() => navigate("/login")}
+          onClick={() => {
+            connecte ? navigate("/mesvoyages") : navigate("/login");
+          }}
         >
           <span>Réserver ce voyage</span>
           <span>☀️</span>
