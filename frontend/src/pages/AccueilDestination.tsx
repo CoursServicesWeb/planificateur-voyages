@@ -23,7 +23,6 @@ export default function AccueilDestination() {
       .then((res) => {
         setDestinations(res.data);
         setMeta(res.meta);
-        console.log(res.data);
       })
       .catch((e) => {
         console.log("Erreur API destinations :", e);
