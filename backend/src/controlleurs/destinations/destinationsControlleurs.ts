@@ -138,6 +138,9 @@ export async function getDestinations(req: Request, res: Response) {
     const [total, destinations] = await Promise.all([
       prisma.destination.count(),
       prisma.destination.findMany({
+        include: {
+          infosupppays: true,
+        },
         orderBy: { id: "asc" },
         skip,
         take,
@@ -203,6 +206,9 @@ export async function getDestinationById(req: Request, res: Response) {
   try {
     const destination = await prisma.destination.findUnique({
       where: { id },
+      include: {
+        infosupppays: true,
+      },
     });
 
     if (!destination) {
@@ -215,12 +221,14 @@ export async function getDestinationById(req: Request, res: Response) {
       where: { destinationId: id },
     });
 
-    const noteMoyenne = await prisma.avis.aggregate({
+    const noteMoyenneAggregation = await prisma.avis.aggregate({
       where: { destinationId: id },
       _avg: {
         nbEtoiles: true,
       },
     });
+
+    const noteMoyenne = noteMoyenneAggregation._avg.nbEtoiles ?? 0; // je change la fonction pour obtenir la note moyenne plus facilement en frontend
 
     return res.status(200).json({ destination, listeAvis, noteMoyenne });
   } catch (e) {

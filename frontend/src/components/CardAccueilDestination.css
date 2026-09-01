@@ -1,0 +1,119 @@
+.destination-card {
+  background-color: #f3dfdf;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #234b33;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 325px;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.destination-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.13);
+}
+
+.destination-card-image-container {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.destination-card-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.destination-card-header {
+  padding: 16px 16px 5px 16px;
+}
+
+.destination-card-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333333;
+}
+
+.destination-card-content {
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  color: #444444;
+  gap: 0.4rem;
+}
+
+.destination-card-continent,
+.destination-card-moyenne,
+.destination-card-devise,
+.destination-card-capitale,
+.destination-card-langage,
+.destination-card-temperature {
+  padding: 0 12px 0 12px;
+  flex: 1;
+  color: #444444;
+}
+
+.drapeau-emoji {
+  width: 30px;
+  height: auto;
+  display: inline-block;
+  object-fit: contain;
+}
+
+.destination-title {
+  margin-top: 0;
+
+  color: #243b53;
+
+  font-size: 28px;
+}
+
+.destination-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  column-gap: 1.5rem;
+  row-gap: 3rem;
+}
+
+.destination-card-button {
+  width: 100%;
+  background-color: rgb(55, 183, 233);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.destination-card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.destination-card-footer {
+  padding: 1rem;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.destination-card-button:hover {
+  background-color: blue;
+  transform: translate(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
