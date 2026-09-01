@@ -3,6 +3,7 @@ import type {
   Destination,
   CreateDestination,
   UpdateDestination,
+  Continent,
 } from "../../../shared/types/destination";
 import type { Paginated } from "../../../shared/types/pagination";
 
@@ -84,6 +85,26 @@ export async function getNoteMoyenne(idDestination: string | number) {
     return {
       noteMoyenne: response.data.noteMoyenne,
     };
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
+
+// La fonction pour obtenir toutes les destinations en provenance du backend
+export async function getDestinationsByContinent(
+  continentChoisi: Continent,
+  page = 1,
+  limit = 20,
+): Promise<Paginated<Destination>> {
+  try {
+    const response = await api.get<Paginated<Destination>>(
+      `/destinations?continent=${continentChoisi}`,
+      {
+        params: { page, limit },
+      },
+    );
+    return response.data;
   } catch (e) {
     console.log(e);
     throw e;

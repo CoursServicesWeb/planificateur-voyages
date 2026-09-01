@@ -228,7 +228,7 @@ export async function getDestinationById(req: Request, res: Response) {
       },
     });
 
-    const noteMoyenne = noteMoyenneAggregation._avg.nbEtoiles ?? 0; // je change la fonction pour obtenir la note moyenne plus facilement en frontend
+    const noteMoyenne = noteMoyenneAggregation._avg.nbEtoiles ?? null; // je change la fonction pour obtenir la note moyenne plus facilement en frontend
 
     return res.status(200).json({ destination, listeAvis, noteMoyenne });
   } catch (e) {

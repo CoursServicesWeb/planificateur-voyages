@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { getDestinations } from "../api/destinations";
+import {
+  getDestinations,
+  getDestinationsByContinent,
+} from "../api/destinations";
 import "../App.css";
 import "../components/CardAccueilDestination.css";
 import { CardAccueilDestination } from "../components/CardAccueilDestination";
