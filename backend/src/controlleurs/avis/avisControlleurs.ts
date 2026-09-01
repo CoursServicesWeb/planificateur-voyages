@@ -41,7 +41,7 @@ export async function creerAvis(req: Request, res: Response) {
 
     if (commentaire.trim() === "") {
 
-        return res.status(400).json({message: "Le commentaire ne peut pas être vide."});
+        return res.status(400).json({ message: "Le commentaire ne peut pas être vide." });
     }
 
     try {
@@ -102,6 +102,9 @@ export async function getAvis(req: Request, res: Response) {
         // ---------- Récupération des avis ---------- //
 
         const avis = await prisma.avis.findMany({
+            include: {
+                sujet: true
+            },
             orderBy: {
                 createdAt: "desc"
             }

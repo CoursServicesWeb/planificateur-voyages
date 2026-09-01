@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import "../styles/login.css";
 
 function Login() {
 
-     const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // On stocke le courriel
     const [courriel, setCourriel] = useState("");
@@ -16,7 +17,7 @@ function Login() {
     const [erreur, setErreur] = useState("");
 
     // On récupere notre fct de connexion
-    const { seConnecter} = useAuth();
+    const { seConnecter } = useAuth();
 
     // Fonction appelée quand l'utilisateur clique sur Connexion
     const handleConnexion = async () => {
@@ -58,33 +59,80 @@ function Login() {
             setErreur("Courriel ou mot de passe incorrect.");
         }
     };
-
     return (
-        <div>
-            <h1>Connexion</h1>
+        <div className="login-page">
 
-            {/* Affichage Erreur */}
-            {erreur && (
-                <p>{erreur}</p>
-            )}
+            <div className="login-card">
 
-            <input
-                type="email"
-                placeholder="Courriel"
-                value={courriel}
-                onChange={(e) => setCourriel(e.target.value)}
-            />
+                <h1>Prêt à voyager ? ✈️</h1>
 
-            <input
-                type="password"
-                placeholder="Mot de passe"
-                value={motDePasse}
-                onChange={(e) => setMotDePasse(e.target.value)}
-            />
+                <p className="login-subtitle">
+                    Connectez-vous et préparez votre prochaine aventure.
+                </p>
 
-            <button type="button" onClick={handleConnexion}>
-                Se connecter
-            </button>
+                {/* Affichage Erreur */}
+                {erreur && (
+                    <p className="login-error">
+                        {erreur}
+                    </p>
+                )}
+
+                {/* Champ courriel */}
+                <div className="login-field">
+                    <label htmlFor="courriel">
+                        Courriel
+                    </label>
+
+                    <input
+                        id="courriel"
+                        type="email"
+                        placeholder="exemple@email.com"
+                        value={courriel}
+                        onChange={(e) => setCourriel(e.target.value)}
+                    />
+                </div>
+
+                {/* Champ mot de passe */}
+                <div className="login-field">
+                    <label htmlFor="motDePasse">
+                        Mot de passe
+                    </label>
+
+                    <input
+                        id="motDePasse"
+                        type="password"
+                        placeholder="Votre mot de passe"
+                        value={motDePasse}
+                        onChange={(e) => setMotDePasse(e.target.value)}
+                    />
+                </div>
+
+                {/* Bouton de connexion */}
+                <button
+                    type="button"
+                    className="login-button"
+                    onClick={handleConnexion}
+                >
+                    Se connecter ✈️
+                </button>
+
+                {/* Lien vers la page d'inscription */}
+                <p className="login-footer">
+                    Pas encore inscrit ?{" "}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/register")}
+                    >
+                        Créer un compte
+                    </button>
+                </p>
+
+                <p className="login-footer">
+                    Prêt pour votre prochaine aventure ?
+                </p>
+
+            </div>
+
         </div>
     );
 }
