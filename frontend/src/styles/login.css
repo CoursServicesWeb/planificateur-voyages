@@ -1,0 +1,251 @@
+/* =====================================================
+   STYLE DE LA PAGE DE CONNEXION
+   ===================================================== */
+
+
+/* Conteneur principal de la page */
+.login-page {
+    min-height: 100vh;
+
+    /* On centre la carte horizontalement et verticalement */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Image de voyage en arrière-plan */
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(0, 180, 216, 0.25),
+            rgba(255, 183, 77, 0.20)
+        ),
+        url("../assets/login-voyage.jpg");
+
+    /* L'image prend toute la surface */
+    background-size: cover;
+
+    /* On centre l'image */
+    background-position: center;
+
+    /* L'image ne se répète pas */
+    background-repeat: no-repeat;
+
+    /* Espace autour de la carte */
+    padding: 20px;
+
+    /* On évite que le padding augmente la largeur */
+    box-sizing: border-box;
+}
+
+
+/* Carte contenant le formulaire de connexion */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+
+    /* Espace intérieur de la carte */
+    padding: 40px;
+
+    /* Fond blanc légèrement transparent */
+    background: rgba(255, 255, 255, 0.95);
+
+    /* Coins arrondis */
+    border-radius: 22px;
+
+    /* Ombre autour de la carte */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
+
+    /* On évite que le padding dépasse la largeur */
+    box-sizing: border-box;
+}
+
+
+/* Titre de la page */
+.login-card h1 {
+    margin-bottom: 10px;
+
+    /* On centre le titre */
+    text-align: center;
+
+    font-size: 32px;
+
+    /* Couleur inspirée de la mer */
+    color: #155e75;
+}
+
+
+/* Petit texte sous le titre */
+.login-subtitle {
+    margin-bottom: 30px;
+
+    /* On centre le texte */
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 15px;
+
+    line-height: 1.5;
+}
+
+
+/* Conteneur d'un champ du formulaire */
+.login-field {
+    margin-bottom: 20px;
+}
+
+
+/* Texte au-dessus des champs */
+.login-field label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+    color: #334155;
+}
+
+
+/* Champs courriel et mot de passe */
+.login-field input {
+    width: 100%;
+
+    /* On évite que le padding dépasse la largeur */
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    font-size: 15px;
+
+    color: #1e293b;
+
+    /* On enlève le contour par défaut du navigateur */
+    outline: none;
+
+    /* Animation lors de la sélection */
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+
+/* Style du champ lorsqu'il est sélectionné */
+.login-field input:focus {
+    border-color: #20a39e;
+
+    background: white;
+
+    box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.15);
+}
+
+
+/* Style du texte indicatif dans les champs */
+.login-field input::placeholder {
+    color: #94a3b8;
+}
+
+
+/* Message d'erreur */
+.login-error {
+    margin-bottom: 20px;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    background: #fee2e2;
+
+    color: #b91c1c;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+
+/* Bouton de connexion */
+.login-button {
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    /* Couleur principale inspirée de la mer */
+    background: #20a39e;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    /* Le curseur devient une main */
+    cursor: pointer;
+
+    /* Animation du bouton */
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+
+/* Effet lorsque la souris passe sur le bouton */
+.login-button:hover {
+    background: #178f8a;
+
+    /* Le bouton monte légèrement */
+    transform: translateY(-2px);
+
+    /* On ajoute une petite ombre */
+    box-shadow: 0 5px 15px rgba(32, 163, 158, 0.25);
+}
+
+
+/* Effet lorsque le bouton est cliqué */
+.login-button:active {
+    transform: translateY(0);
+}
+
+
+/* Texte en bas de la carte */
+.login-footer {
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   ADAPTATION POUR LES PETITS ÉCRANS
+   ===================================================== */
+
+
+/* Sur téléphone, on réduit légèrement la carte */
+@media (max-width: 480px) {
+
+    .login-page {
+        padding: 15px;
+    }
+
+    .login-card {
+        padding: 30px 20px;
+    }
+
+    .login-card h1 {
+        font-size: 28px;
+    }
+
+    .login-subtitle {
+        font-size: 14px;
+    }
+}
