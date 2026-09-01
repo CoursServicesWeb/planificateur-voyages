@@ -60,70 +60,81 @@ function Login() {
         }
     };
     return (
-    <div className="login-page">
+        <div className="login-page">
 
-        <div className="login-card">
+            <div className="login-card">
 
-            <h1>Prêt à voyager ? ✈️</h1>
+                <h1>Prêt à voyager ? ✈️</h1>
 
-            <p className="login-subtitle">
-                Connectez-vous et préparez votre prochaine aventure.
-            </p>
-
-            {/* Affichage Erreur */}
-            {erreur && (
-                <p className="login-error">
-                    {erreur}
+                <p className="login-subtitle">
+                    Connectez-vous et préparez votre prochaine aventure.
                 </p>
-            )}
 
-            {/* Champ courriel */}
-            <div className="login-field">
-                <label htmlFor="courriel">
-                    Courriel
-                </label>
+                {/* Affichage Erreur */}
+                {erreur && (
+                    <p className="login-error">
+                        {erreur}
+                    </p>
+                )}
 
-                <input
-                    id="courriel"
-                    type="email"
-                    placeholder="exemple@email.com"
-                    value={courriel}
-                    onChange={(e) => setCourriel(e.target.value)}
-                />
+                {/* Champ courriel */}
+                <div className="login-field">
+                    <label htmlFor="courriel">
+                        Courriel
+                    </label>
+
+                    <input
+                        id="courriel"
+                        type="email"
+                        placeholder="exemple@email.com"
+                        value={courriel}
+                        onChange={(e) => setCourriel(e.target.value)}
+                    />
+                </div>
+
+                {/* Champ mot de passe */}
+                <div className="login-field">
+                    <label htmlFor="motDePasse">
+                        Mot de passe
+                    </label>
+
+                    <input
+                        id="motDePasse"
+                        type="password"
+                        placeholder="Votre mot de passe"
+                        value={motDePasse}
+                        onChange={(e) => setMotDePasse(e.target.value)}
+                    />
+                </div>
+
+                {/* Bouton de connexion */}
+                <button
+                    type="button"
+                    className="login-button"
+                    onClick={handleConnexion}
+                >
+                    Se connecter ✈️
+                </button>
+
+                {/* Lien vers la page d'inscription */}
+                <p className="login-footer">
+                    Pas encore inscrit ?{" "}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/register")}
+                    >
+                        Créer un compte
+                    </button>
+                </p>
+
+                <p className="login-footer">
+                    Prêt pour votre prochaine aventure ?
+                </p>
+
             </div>
-
-            {/* Champ mot de passe */}
-            <div className="login-field">
-                <label htmlFor="motDePasse">
-                    Mot de passe
-                </label>
-
-                <input
-                    id="motDePasse"
-                    type="password"
-                    placeholder="Votre mot de passe"
-                    value={motDePasse}
-                    onChange={(e) => setMotDePasse(e.target.value)}
-                />
-            </div>
-
-            {/* Bouton de connexion */}
-            <button
-                type="button"
-                className="login-button"
-                onClick={handleConnexion}
-            >
-                Se connecter ✈️
-            </button>
-
-            <p className="login-footer">
-                Prêt pour votre prochaine aventure ?
-            </p>
 
         </div>
-
-    </div>
-);
+    );
 }
 
 export default Login;
