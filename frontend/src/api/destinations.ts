@@ -12,7 +12,7 @@ export async function getDestinations(
   limit = 20,
 ): Promise<Paginated<Destination>> {
   try {
-    const response = await api.get("/destinations", {
+    const response = await api.get<Paginated<Destination>>("/destinations", {
       params: { page, limit },
     });
     return response.data;
@@ -71,6 +71,19 @@ export async function supprimerDestination(
   try {
     const response = await api.delete(`/destinations/${id}`);
     return response.data;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
+
+// La fonction pour obtenir la moyenne des notes des avis pour une destinationpour les cards
+export async function getNoteMoyenne(idDestination: string | number) {
+  try {
+    const response = await api.get(`/destinations/${idDestination}`);
+    return {
+      noteMoyenne: response.data.noteMoyenne,
+    };
   } catch (e) {
     console.log(e);
     throw e;

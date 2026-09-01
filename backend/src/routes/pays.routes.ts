@@ -27,7 +27,7 @@ export async function recupererInfosPays(nomPays: string) {
 // La fonction qui permet de récupérer les pays qui sont dans la Base de données
 paysRouter.get(
   "/liste-pays",
-  // authentificationJWT,
+  authentificationJWT,
   async (req: Request, res: Response) => {
     try {
       const page = Math.max(
@@ -142,8 +142,8 @@ paysRouter.patch(
 // La fonction qui permet de supprimer un pays dans la Base de données
 paysRouter.delete(
   "/:code",
-  // authentificationJWT,
-  // niveauRequis("Admin"),
+  authentificationJWT,
+  niveauRequis("Admin"),
   async (req: Request, res: Response) => {
     const code = req.params.code;
 
@@ -157,7 +157,5 @@ paysRouter.delete(
     }
   },
 );
-
-//  SECTION : DESTINATIONS
 
 export default paysRouter;

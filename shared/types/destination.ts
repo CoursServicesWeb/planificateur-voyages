@@ -1,3 +1,5 @@
+import { type InfosSuppPays } from "./infosSuppPays";
+
 // -------------- Type Continent ---------------- //
 
 export type Continent = "Asie" | "Afrique" | "Amerique" | "Europe" | "Oceanie";
@@ -11,6 +13,7 @@ export type Destination = {
   lat: number;
   long: number;
   infoSuppPaysId: string;
+  infosupppays?: InfosSuppPays;
   createdAt: string;
   updatedAt: string;
 };
