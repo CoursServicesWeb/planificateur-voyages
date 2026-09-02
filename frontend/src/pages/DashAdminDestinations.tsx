@@ -4,12 +4,21 @@ import FormAjouterDestination from "../components/FormAjouterDestination";
 import Header from "../components/layout/core/Header";
 import { useState } from "react";
 import TableauAdminPays from "../components/TableauAdminPays";
+import { useAuth } from "../context/AuthContext";
 
 export default function DashAdminDestinations() {
   const [rafraichir, setRafraichir] = useState(0);
   const handleDestinationAjoutee = () => {
     setRafraichir((prev) => prev + 1); // Pour force le rechargement après un ajout de destination
   };
+
+  const { role } = useAuth();
+
+  // Pour éviter que n'import qui accède à la page Admin
+  if (role !== "Admin") {
+    return <h3 style={{ color: "red" }}>Accès refusé !</h3>;
+  }
+
   return (
     <div>
       <Header title="Page Administrateur" />
