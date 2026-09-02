@@ -10,6 +10,7 @@ import { Pagination } from "../components/layout/core/Pagination";
 import type { Destination } from "../../../shared/types/destination";
 import Header from "../components/layout/core/Header";
 import { type Meta } from "../../../shared/types/pagination";
+import { type Continent } from "../../../shared/types/destination";
 
 export default function AccueilDestination() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -17,15 +18,34 @@ export default function AccueilDestination() {
   const [erreur, setErreur] = useState("");
   const [meta, setMeta] = useState<Meta | null>(null);
   const [page, setPage] = useState(1);
+  const [continentFiltre, setContinentFiltre] = useState<Continent | "tous">(
+    "tous",
+  );
 
   const LIMITE_PAR_PAGE = 18;
 
+  // Pour avoir la liste des continents uniques
+  const continentsUniques: Continent[] = [
+    "Afrique",
+    "Amerique",
+    "Asie",
+    "Europe",
+    "Oceanie",
+  ];
+
   useEffect(() => {
     setChargement(true);
-    getDestinations(page, LIMITE_PAR_PAGE)
+    /* On gère si le filtrage par continent est activé ou non*/
+    const obtenirDestinations =
+      continentFiltre === "tous"
+        ? getDestinations(page, LIMITE_PAR_PAGE)
+        : getDestinationsByContinent(continentFiltre, page, LIMITE_PAR_PAGE);
+
+    obtenirDestinations
       .then((res) => {
         setDestinations(res.data);
         setMeta(res.meta);
+        console.log(destinations);
       })
       .catch((e) => {
         console.log("Erreur API destinations :", e);
@@ -34,7 +54,12 @@ export default function AccueilDestination() {
         );
       })
       .finally(() => setChargement(false));
-  }, [page]);
+  }, [page, continentFiltre]);
+
+  /* Pour revenir à la page 1 si on filtre les résultats*/
+  useEffect(() => {
+    setPage(1);
+  }, [continentFiltre]);
 
   const totalPages = meta ? Math.ceil(meta.total / LIMITE_PAR_PAGE) : 1;
 
@@ -59,6 +84,22 @@ export default function AccueilDestination() {
     <div>
       <Header title="Votre prochain voyage de rêve" />
       <h2 className="destination-title"> Destinations en vedette </h2>
+      <div>
+        <form>
+          <label>Filtrer par continent : </label>
+          <select
+            value={continentFiltre}
+            onChange={(e) => setContinentFiltre(e.target.value as Continent)}
+          >
+            <option value="tous">Tous</option>
+            {continentsUniques.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </form>
+      </div>
       <div className="destination-card-container">
         {destinations.map((d) => {
           const imageAfficher =

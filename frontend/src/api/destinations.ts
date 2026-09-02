@@ -99,7 +99,7 @@ export async function getDestinationsByContinent(
 ): Promise<Paginated<Destination>> {
   try {
     const response = await api.get<Paginated<Destination>>(
-      `/destinations?continent=${continentChoisi}`,
+      `/destinations/continent?continent=${continentChoisi}`,
       {
         params: { page, limit },
       },

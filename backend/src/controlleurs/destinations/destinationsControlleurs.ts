@@ -181,6 +181,9 @@ export async function getByContinent(req: Request, res: Response) {
       prisma.destination.count({ where: { continent } }),
       prisma.destination.findMany({
         where: { continent },
+        include: {
+          infosupppays: true,
+        },
         skip,
         take,
       }),
