@@ -1,21 +1,17 @@
-/* ==================================
+/* =====================================================
    PAGE DES AVIS
-================================== */
+   ===================================================== */
 
 .avis-page {
     min-height: 100vh;
-    padding: 40px 60px;
-    background: linear-gradient(
-        135deg,
-        #fff8e7,
-        #eaf8ff
-    );
+    padding: 35px 40px 50px;
+    background: #f8fafc;
 }
 
 
-/* ==================================
+/* =====================================================
    EN-TÊTE
-================================== */
+   ===================================================== */
 
 .avis-header {
     text-align: center;
@@ -23,31 +19,28 @@
 }
 
 .avis-header h1 {
-    margin-bottom: 10px;
-    color: #174a5b;
-    font-size: 36px;
+    margin: 0 0 10px;
+    color: #155e75;
+    font-size: 32px;
 }
 
 .avis-header p {
-    color: #5f6f75;
-    font-size: 17px;
+    margin: 0;
+    color: #64748b;
+    font-size: 16px;
 }
 
 
-/* ==================================
+/* =====================================================
    CONTENEUR PRINCIPAL
-   Deux colonnes :
-   gauche = création
-   droite = avis
-================================== */
+   ===================================================== */
 
 .avis-conteneur {
     display: grid;
 
-    /* Deux colonnes */
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: 380px minmax(0, 1fr);
 
-    gap: 35px;
+    gap: 30px;
 
     max-width: 1250px;
 
@@ -57,59 +50,65 @@
 }
 
 
-/* ==================================
+/* =====================================================
    FORMULAIRE
-================================== */
+   ===================================================== */
 
 .avis-form {
-    background-color: white;
+    background: #ffffff;
 
-    padding: 30px;
+    padding: 26px;
+
+    border: 1px solid #e2e8f0;
 
     border-radius: 18px;
 
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
 
     position: sticky;
     top: 25px;
 }
 
 .avis-form h2 {
-    margin-top: 0;
+    margin: 0 0 12px;
 
-    color: #174a5b;
+    color: #155e75;
 
-    font-size: 24px;
+    font-size: 23px;
+
+    text-align: center;
 }
 
 .avis-form-description {
-    color: #718087;
+    color: #64748b;
 
     line-height: 1.5;
 
-    margin-bottom: 25px;
+    margin-bottom: 20px;
+
+    text-align: center;
 }
 
 
-/* ==================================
+/* =====================================================
    LABELS
-================================== */
+   ===================================================== */
 
 .avis-form label {
     display: block;
 
-    margin-top: 18px;
+    margin-top: 16px;
     margin-bottom: 7px;
 
     font-weight: 600;
 
-    color: #344b53;
+    color: #475569;
 }
 
 
-/* ==================================
+/* =====================================================
    INPUTS
-================================== */
+   ===================================================== */
 
 .avis-form input,
 .avis-form select,
@@ -118,39 +117,46 @@
 
     box-sizing: border-box;
 
-    padding: 12px 14px;
+    padding: 11px 13px;
 
-    border: 1px solid #d8e1e5;
+    border: 1px solid #cbd5e1;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    font-size: 15px;
+    font-size: 14px;
 
-    background-color: #fafcfd;
+    background-color: #f8fafc;
+
+    color: #334155;
 
     outline: none;
 
-    transition: 0.2s;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
 }
 
 .avis-form input:focus,
 .avis-form select:focus,
 .avis-form textarea:focus {
-    border-color: #38a3a5;
+    border-color: #20a39e;
 
-    background-color: white;
+    background-color: #ffffff;
 
-    box-shadow: 0 0 0 3px rgba(56, 163, 165, 0.1);
+    box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.12);
 }
 
 .avis-form textarea {
     resize: vertical;
+
+    min-height: 100px;
 }
 
 
-/* ==================================
+/* =====================================================
    SÉLECTION DES ÉTOILES
-================================== */
+   ===================================================== */
 
 .etoiles-selection {
     display: flex;
@@ -165,7 +171,7 @@
 
     background: transparent;
 
-    font-size: 30px;
+    font-size: 28px;
 
     color: #d5d5d5;
 
@@ -173,7 +179,7 @@
 
     padding: 0;
 
-    transition: transform 0.15s;
+    transition: transform 0.15s ease;
 }
 
 .etoile:hover {
@@ -185,9 +191,9 @@
 }
 
 
-/* ==================================
+/* =====================================================
    COMPTEUR
-================================== */
+   ===================================================== */
 
 .compteur {
     text-align: right;
@@ -200,48 +206,49 @@
 }
 
 
-/* ==================================
+/* =====================================================
    BOUTON
-================================== */
+   ===================================================== */
 
 .bouton-avis {
     width: 100%;
 
     margin-top: 20px;
 
-    padding: 13px;
+    padding: 12px;
 
     border: none;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    background: linear-gradient(
-        135deg,
-        #38a3a5,
-        #277d8a
-    );
+    background: #20a39e;
 
     color: white;
 
-    font-size: 16px;
+    font-size: 14px;
 
     font-weight: 600;
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .bouton-avis:hover {
-    transform: translateY(-2px);
+    background: #178f8a;
 
-    box-shadow: 0 6px 15px rgba(39, 125, 138, 0.25);
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 12px rgba(32, 163, 158, 0.2);
 }
 
 
-/* ==================================
+/* =====================================================
    MESSAGES
-================================== */
+   ===================================================== */
 
 .avis-erreur {
     padding: 10px 12px;
@@ -250,7 +257,7 @@
 
     background-color: #fff0f0;
 
-    color: #c0392b;
+    color: #b91c1c;
 
     font-size: 14px;
 }
@@ -268,18 +275,18 @@
 }
 
 
-/* ==================================
+/* =====================================================
    COLONNE DES AVIS
-================================== */
+   ===================================================== */
 
 .avis-resultats {
     min-width: 0;
 }
 
 
-/* ==================================
+/* =====================================================
    HEADER DES AVIS
-================================== */
+   ===================================================== */
 
 .avis-resultats-header {
     display: flex;
@@ -296,44 +303,54 @@
 .avis-resultats-header h2 {
     margin: 0;
 
-    color: #174a5b;
+    color: #155e75;
 
     font-size: 24px;
 }
 
 .avis-resultats-header p {
-    margin-top: 5px;
+    margin: 5px 0 0;
 
-    color: #7a898f;
+    color: #64748b;
+
+    font-size: 14px;
 }
 
 
-/* ==================================
+/* =====================================================
    FILTRE PAR VILLE
-================================== */
+   ===================================================== */
 
 .filtre-ville {
-    padding: 11px 14px;
+    padding: 10px 13px;
 
     min-width: 220px;
 
-    border: 1px solid #d8e1e5;
+    border: 1px solid #cbd5e1;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    background-color: white;
+    background-color: #ffffff;
 
-    color: #344b53;
+    color: #334155;
 
     cursor: pointer;
 
     outline: none;
+
+    font-size: 14px;
+}
+
+.filtre-ville:focus {
+    border-color: #20a39e;
+
+    box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.12);
 }
 
 
-/* ==================================
+/* =====================================================
    LISTE DES AVIS
-================================== */
+   ===================================================== */
 
 .avis-liste {
     display: flex;
@@ -344,32 +361,36 @@
 }
 
 
-/* ==================================
+/* =====================================================
    CARTE D'UN AVIS
-================================== */
+   ===================================================== */
 
 .avis-card {
-    background-color: white;
+    background: #ffffff;
 
-    padding: 25px;
+    padding: 22px 25px;
+
+    border: 1px solid #e2e8f0;
 
     border-radius: 16px;
 
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
 
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .avis-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.09);
 }
 
 
-/* ==================================
+/* =====================================================
    ÉTOILES DES AVIS
-================================== */
+   ===================================================== */
 
 .avis-etoiles {
     font-size: 20px;
@@ -384,29 +405,29 @@
 }
 
 
-/* ==================================
+/* =====================================================
    DESTINATION
-================================== */
+   ===================================================== */
 
 .avis-destination {
     margin-top: 10px;
 
-    color: #277d8a;
+    color: #0e7490;
 
     font-weight: 600;
 }
 
 
-/* ==================================
+/* =====================================================
    COMMENTAIRE
-================================== */
+   ===================================================== */
 
 .avis-commentaire {
     margin: 15px 0;
 
-    color: #46585f;
+    color: #475569;
 
-    font-size: 16px;
+    font-size: 15px;
 
     line-height: 1.6;
 
@@ -414,9 +435,9 @@
 }
 
 
-/* ==================================
+/* =====================================================
    AUTEUR
-================================== */
+   ===================================================== */
 
 .avis-auteur {
     display: flex;
@@ -429,7 +450,7 @@
 
     padding-top: 15px;
 
-    border-top: 1px solid #edf1f2;
+    border-top: 1px solid #e2e8f0;
 }
 
 .avatar-avis {
@@ -443,7 +464,7 @@
 
     border-radius: 50%;
 
-    background: #38a3a5;
+    background: #20a39e;
 
     color: white;
 
@@ -451,7 +472,7 @@
 }
 
 .avis-auteur strong {
-    color: #344b53;
+    color: #334155;
 }
 
 .avis-auteur p {
@@ -463,28 +484,30 @@
 }
 
 
-/* ==================================
+/* =====================================================
    AUCUN AVIS
-================================== */
+   ===================================================== */
 
 .aucun-avis {
-    padding: 50px;
+    padding: 45px;
 
     text-align: center;
 
-    background-color: white;
+    background-color: #ffffff;
+
+    border: 1px solid #e2e8f0;
 
     border-radius: 16px;
 
     color: #718087;
+
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
 }
 
 
-/* ==================================
+/* =====================================================
    RESPONSIVE
-   Sur téléphone :
-   une seule colonne
-================================== */
+   ===================================================== */
 
 @media (max-width: 900px) {
 
@@ -508,5 +531,25 @@
 
     .filtre-ville {
         width: 100%;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .avis-page {
+        padding: 25px 12px;
+    }
+
+    .avis-header h1 {
+        font-size: 28px;
+    }
+
+    .avis-form {
+        padding: 20px;
+    }
+
+    .avis-card {
+        padding: 18px;
     }
 }

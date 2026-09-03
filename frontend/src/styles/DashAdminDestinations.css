@@ -1,0 +1,443 @@
+/* =====================================================
+   DASHBOARD ADMINISTRATEUR
+   ===================================================== */
+
+.admin-dashboard {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding-bottom: 50px;
+}
+
+.admin-content {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 35px 25px;
+}
+
+/* =====================================================
+   BLOCS PRINCIPAUX
+   ===================================================== */
+
+.admin-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(320px, 1fr);
+  gap: 30px;
+  align-items: start;
+}
+
+.admin-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+}
+
+/* =====================================================
+   TITRES
+   ===================================================== */
+
+.admin-card h2,
+.admin-card h3 {
+  margin: 0 0 22px;
+  color: #155e75;
+  text-align: center;
+}
+
+/* =====================================================
+   TABLEAUX
+   ===================================================== */
+
+.admin-card table {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 10px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  table-layout: fixed;
+  box-sizing: border-box;
+
+  /* Encadrement du tableau */
+  border: 1px solid #dbe5ec;
+  border-radius: 12px;
+  overflow: hidden;
+
+  /* Fond léger */
+  background: #f8fbfd;
+}
+
+/* =====================================================
+   EN-TÊTE DU TABLEAU
+   ===================================================== */
+
+.admin-card th {
+  padding: 10px 6px;
+
+  background: #e0f2fe;
+  color: #155e75;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-align: center;
+  vertical-align: middle;
+
+  line-height: 1.2;
+
+  /* Évite les titres coupés */
+  white-space: normal;
+  overflow-wrap: break-word;
+
+  box-sizing: border-box;
+}
+
+/* Coins de l'en-tête */
+
+.admin-card th:first-child {
+  border-radius: 10px 0 0 0;
+}
+
+.admin-card th:last-child {
+  border-radius: 0 10px 0 0;
+}
+
+/* =====================================================
+   LARGEUR DES COLONNES
+   ===================================================== */
+
+/* ID */
+
+.admin-card th:nth-child(1),
+.admin-card td:nth-child(1) {
+  width: 7%;
+}
+
+/* Ville */
+
+.admin-card th:nth-child(2),
+.admin-card td:nth-child(2) {
+  width: 14%;
+}
+
+/* Continent */
+
+.admin-card th:nth-child(3),
+.admin-card td:nth-child(3) {
+  width: 15%;
+}
+
+/* Latitude */
+
+.admin-card th:nth-child(4),
+.admin-card td:nth-child(4) {
+  width: 15%;
+}
+
+/* Longitude */
+
+.admin-card th:nth-child(5),
+.admin-card td:nth-child(5) {
+  width: 16%;
+}
+
+/* ID du pays */
+
+.admin-card th:nth-child(6),
+.admin-card td:nth-child(6) {
+  width: 10%;
+}
+
+/* Actions */
+
+.admin-card th:nth-child(7),
+.admin-card td:nth-child(7) {
+  width: 23%;
+}
+
+/* =====================================================
+   CELLULES
+   ===================================================== */
+
+.admin-card td {
+  padding: 12px 5px;
+
+  color: #475569;
+
+  font-size: 15px;
+
+  text-align: center;
+  vertical-align: middle;
+
+  border-bottom: 1px solid #dbe5ec;
+
+  box-sizing: border-box;
+
+  min-width: 0;
+  max-width: 100%;
+
+  /* Empêche le contenu de sortir */
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+/* Dernière ligne */
+
+.admin-card tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =====================================================
+   SURVOL DES LIGNES
+   ===================================================== */
+
+.admin-card tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.admin-card tbody tr:hover {
+  background-color: #eef7fb;
+}
+
+/* =====================================================
+   COLONNE ACTIONS
+   ===================================================== */
+
+.admin-card td:last-child {
+  text-align: center;
+  white-space: normal;
+  overflow: hidden;
+}
+
+/* =====================================================
+   BOUTON SUPPRIMER
+   ===================================================== */
+
+.admin-card td button {
+  display: block;
+
+  width: 90px;
+  max-width: 100%;
+
+  margin: 3px auto;
+  padding: 6px 4px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: #fee2e2;
+  color: #b91c1c;
+
+  cursor: pointer;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  box-sizing: border-box;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* Hover supprimer */
+
+.admin-card td button:first-child:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+/* =====================================================
+   LIEN MODIFIER
+   ===================================================== */
+
+.admin-card td a {
+  display: block;
+
+  width: 90px;
+  max-width: 100%;
+
+  margin: 3px auto;
+  padding: 5px 4px;
+
+  box-sizing: border-box;
+
+  color: #155e75;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  border-radius: 7px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.admin-card td a:hover {
+  background: #e0f2fe;
+  color: #0e7490;
+  text-decoration: none;
+}
+
+/* =====================================================
+   FORMULAIRE AJOUT DESTINATION
+   ===================================================== */
+
+.admin-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-card label {
+  color: #475569;
+  font-weight: 600;
+}
+
+.admin-card input,
+.admin-card select {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 11px 13px;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+
+  background: #f8fafc;
+  color: #334155;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.admin-card input:focus,
+.admin-card select:focus {
+  border-color: #20a39e;
+  background: #ffffff;
+
+  box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.12);
+}
+
+/* =====================================================
+   BOUTON DU FORMULAIRE
+   ===================================================== */
+
+.admin-card form button {
+  width: 100%;
+
+  margin-top: 5px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #20a39e;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.admin-card form button:hover {
+  background: #178f8a;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 12px rgba(32, 163, 158, 0.2);
+}
+
+/* =====================================================
+   TOTALS
+   ===================================================== */
+
+.admin-card p {
+  margin: 18px 0 0;
+
+  color: #64748b;
+
+  text-align: center;
+
+  font-weight: 600;
+}
+
+/* =====================================================
+   SECTION PAYS
+   ===================================================== */
+
+.admin-pays {
+  margin-top: 30px;
+}
+
+.admin-pays table {
+  max-width: 800px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =====================================================
+   ACCÈS REFUSÉ
+   ===================================================== */
+
+.admin-access-denied {
+  min-height: 60vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #b91c1c;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 950px) {
+  .admin-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .admin-content {
+    padding: 20px 12px;
+  }
+
+  .admin-card {
+    padding: 18px;
+    overflow-x: auto;
+  }
+
+  .admin-card table {
+    min-width: 700px;
+  }
+}

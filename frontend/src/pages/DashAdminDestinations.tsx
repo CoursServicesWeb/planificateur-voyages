@@ -1,4 +1,5 @@
 import "../App.css";
+import "../styles/DashAdminDestinations.css";
 import TableauAdminDestinations from "../components/TableauAdminDestinations";
 import FormAjouterDestination from "../components/FormAjouterDestination";
 import Header from "../components/layout/core/Header";
@@ -8,6 +9,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function DashAdminDestinations() {
   const [rafraichir, setRafraichir] = useState(0);
+
   const handleDestinationAjoutee = () => {
     setRafraichir((prev) => prev + 1); // Pour force le rechargement après un ajout de destination
   };
@@ -16,25 +18,34 @@ export default function DashAdminDestinations() {
 
   // Pour éviter que n'import qui accède à la page Admin
   if (role !== "Admin") {
-    return <h3 style={{ color: "red" }}>Accès refusé !</h3>;
+    return (
+      <div className="admin-access-denied">
+        <h3>Accès refusé !</h3>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="admin-dashboard">
       <Header title="Page Administrateur" />
-      <div style={{ display: "flex", gap: "20px" }}>
-        <div>
-          <TableauAdminDestinations key={rafraichir} />
+
+      <main className="admin-content">
+        <div className="admin-main">
+
+          <div className="admin-card">
+            <TableauAdminDestinations key={rafraichir} />
+          </div>
+
+          <div className="admin-card">
+            <FormAjouterDestination onSuccess={handleDestinationAjoutee} />
+          </div>
+
         </div>
-        <div>
-          <FormAjouterDestination onSuccess={handleDestinationAjoutee} />
-        </div>
-      </div>
-      <div style={{ display: "flex", gap: "20px", marginTop: "2rem" }}>
-        <div>
+
+        <div className="admin-card admin-pays">
           <TableauAdminPays />
         </div>
-      </div>
+      </main>
     </div>
   );
 }

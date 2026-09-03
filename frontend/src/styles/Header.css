@@ -21,6 +21,13 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
 }
 
+.header-title {
+  margin: 0;
+  font-size: 24px;
+  color: #243b53;
+  text-align: center;
+}
+
 
 /* =====================================================
    LOGO
