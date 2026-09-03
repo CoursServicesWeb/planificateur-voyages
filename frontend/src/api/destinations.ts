@@ -6,6 +6,7 @@ import type {
   Continent,
 } from "../../../shared/types/destination";
 import type { Paginated } from "../../../shared/types/pagination";
+import type { Avis } from "../../../shared/types/avis";
 
 // La fonction pour obtenir toutes les destinations en provenance du backend
 export async function getDestinations(
@@ -104,6 +105,17 @@ export async function getDestinationsByContinent(
         params: { page, limit },
       },
     );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
+
+// La fonction pour obtenir les derniers avis sur une destination
+export async function getFiveLastAvis(idDestination: string | number) {
+  try {
+    const response = await api.get(`/destinations/${idDestination}/avis`);
     return response.data;
   } catch (e) {
     console.log(e);

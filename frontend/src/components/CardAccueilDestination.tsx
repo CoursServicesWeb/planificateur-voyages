@@ -1,4 +1,4 @@
-import "./CardAccueilDestination.css";
+import "../styles/CardAccueilDestination.css";
 import { type Continent } from "../../../shared/types/destination";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, type ReactNode } from "react";

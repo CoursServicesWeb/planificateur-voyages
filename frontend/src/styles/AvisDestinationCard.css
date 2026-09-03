@@ -1,0 +1,39 @@
+.modal-avis-card {
+  background-color: rgb(233, 180, 180);
+
+  padding: 18px;
+
+  border-radius: 16px;
+
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+}
+
+.modal-avis-card-top {
+  margin-top: 7px;
+
+  color: #277d8a;
+
+  font-weight: 500;
+}
+
+.modal-avis-card-bottom {
+  margin: 12px 0;
+
+  color: #46585f;
+
+  font-size: 12px;
+
+  line-height: 1.2;
+
+  font-style: italic;
+}
+
+.avis-card-container {
+  .avis-liste {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+  }
+}

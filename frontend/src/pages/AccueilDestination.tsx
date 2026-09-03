@@ -4,7 +4,8 @@ import {
   getDestinationsByContinent,
 } from "../api/destinations";
 import "../App.css";
-import "../components/CardAccueilDestination.css";
+import "../styles/CardAccueilDestination.css";
+import "../styles/pagination.css";
 import { CardAccueilDestination } from "../components/CardAccueilDestination";
 import { Pagination } from "../components/layout/core/Pagination";
 import type { Destination } from "../../../shared/types/destination";
@@ -45,7 +46,6 @@ export default function AccueilDestination() {
       .then((res) => {
         setDestinations(res.data);
         setMeta(res.meta);
-        console.log(destinations);
       })
       .catch((e) => {
         console.log("Erreur API destinations :", e);
@@ -119,11 +119,13 @@ export default function AccueilDestination() {
           );
         })}
       </div>
-      <Pagination
-        pageActuelle={page}
-        totalPages={totalPages}
-        onPageChange={(nouvellePage: number) => setPage(nouvellePage)}
-      />
+      <div className="pagination-accueil">
+        <Pagination
+          pageActuelle={page}
+          totalPages={totalPages}
+          onPageChange={(nouvellePage: number) => setPage(nouvellePage)}
+        />
+      </div>
     </div>
   );
 }

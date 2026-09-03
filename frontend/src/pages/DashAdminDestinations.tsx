@@ -30,7 +30,7 @@ export default function DashAdminDestinations() {
           <FormAjouterDestination onSuccess={handleDestinationAjoutee} />
         </div>
       </div>
-      <div style={{ display: "flex", gap: "20px" }}>
+      <div style={{ display: "flex", gap: "20px", marginTop: "2rem" }}>
         <div>
           <TableauAdminPays />
         </div>
