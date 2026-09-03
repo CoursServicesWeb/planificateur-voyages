@@ -1,5 +1,5 @@
 .modal-avis-card {
-  background-color: rgb(233, 180, 180);
+  background-color: rgb(231, 218, 233);
 
   padding: 18px;
 
@@ -16,12 +16,18 @@
   font-weight: 500;
 }
 
+.modal-avis-card-titre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .modal-avis-card-bottom {
   margin: 12px 0;
 
   color: #46585f;
 
-  font-size: 12px;
+  font-size: 15px;
 
   line-height: 1.2;
 
@@ -29,11 +35,9 @@
 }
 
 .avis-card-container {
-  .avis-liste {
-    display: flex;
+  display: flex;
 
-    flex-direction: column;
+  flex-direction: column;
 
-    gap: 10px;
-  }
+  gap: 12px;
 }

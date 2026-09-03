@@ -297,6 +297,7 @@ export async function getFiveLastAvis(req: Request, res: Response) {
       where: { destinationId: id },
       orderBy: { createdAt: "desc" },
       take: 5,
+      include: { sujet: true },
     });
 
     return res.status(200).json({ data: cinqDerniersAvis });

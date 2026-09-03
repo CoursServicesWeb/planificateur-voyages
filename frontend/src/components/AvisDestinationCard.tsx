@@ -18,11 +18,13 @@ export function AvisDestinationCard({
 }: AvisDestinationCardProps) {
   return (
     <div className="modal-avis-card">
-      <div className="moodal-avis-card-top">
-        <span>📍</span>
-        <span>
-          <h3>{sujet.ville}</h3>
-        </span>
+      <div className="modal-avis-card-top">
+        <div className="modal-avis-card-titre">
+          <span>📍</span>
+          <span>
+            <h3>{sujet.ville}</h3>
+          </span>
+        </div>
         <h4>Note : {note} / 5</h4>
         <blockquote>{commentaire}</blockquote>
       </div>
