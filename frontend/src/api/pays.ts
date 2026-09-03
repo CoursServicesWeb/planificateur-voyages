@@ -26,7 +26,7 @@ export async function getInfosPays(
 export async function postNewPays(nomPays: string): Promise<InfosSuppPays> {
   try {
     const response = await api.post<InfosSuppPays>(
-      `/api/pays/importer/${encodeURIComponent(nomPays)}`,
+      `/pays/importer/${encodeURIComponent(nomPays)}`,
     );
     return response.data; // Pour que les caractères spéciaux soient bien encodés
   } catch (e) {
@@ -41,7 +41,7 @@ export async function modifierPays(
   data: Partial<InfosSuppPays>,
 ): Promise<InfosSuppPays> {
   try {
-    const response = await api.patch(`/api/pays/${countryCode}`, data);
+    const response = await api.patch(`/pays/${countryCode}`, data);
     return response.data;
   } catch (e) {
     console.log(e);
@@ -51,7 +51,7 @@ export async function modifierPays(
 
 export async function supprimerPays(countryCode: string) {
   try {
-    const response = await api.delete(`/api/pays/${countryCode}`);
+    const response = await api.delete(`/pays/${countryCode}`);
     return response.data;
   } catch (e) {
     console.log(e);

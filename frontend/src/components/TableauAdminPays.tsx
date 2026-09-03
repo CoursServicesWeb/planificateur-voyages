@@ -55,7 +55,9 @@ export default function TableauAdminPays() {
   return (
     <div>
       <table>
-        <caption>Pays avec infos disponibles</caption>
+        <caption style={{ fontSize: "1.4rem" }}>
+          Pays avec infos disponibles
+        </caption>
         <thead>
           <tr>
             <th>Country Code</th>

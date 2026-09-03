@@ -283,3 +283,25 @@ export async function supprimerDestination(req: Request, res: Response) {
     return res.status(404).json({ erreur: "La destination n'existe pas" });
   }
 }
+
+// Une fonction pour obtenir les 5 derniers avis sur une destination
+export async function getFiveLastAvis(req: Request, res: Response) {
+  const id = Number(req.params.id) || null;
+
+  if (!id) {
+    return res.status(400).json({ erreur: "Vous devez entrer un ID valide." });
+  }
+
+  try {
+    const cinqDerniersAvis = await prisma.avis.findMany({
+      where: { destinationId: id },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      include: { sujet: true },
+    });
+
+    return res.status(200).json({ data: cinqDerniersAvis });
+  } catch (e) {
+    return res.status(500).json({ erreur: "Erreur de serveur." });
+  }
+}

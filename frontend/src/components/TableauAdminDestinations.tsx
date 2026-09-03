@@ -54,7 +54,9 @@ export default function TableauAdminDestinations() {
   return (
     <div>
       <table>
-        <caption>Destinations disponibles</caption>
+        <caption style={{ fontSize: "1.5rem" }}>
+          Destinations disponibles
+        </caption>
         <thead>
           <tr>
             <th>ID</th>

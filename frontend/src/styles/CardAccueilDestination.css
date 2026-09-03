@@ -99,6 +99,7 @@
   row-gap: 3rem;
   justify-content: center;
   justify-items: center;
+  margin-top: 1.2rem;
 }
 
 .destination-card-button {
@@ -127,11 +128,34 @@
   padding: 1rem;
   margin-top: auto;
   display: flex;
-  justify-content: center;
+  gap: 0.8rem;
+  justify-content: space-between;
 }
 
 .destination-card-button:hover {
   background-color: blue;
+  transform: translate(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.avis-card-button {
+  width: 50%;
+  background-color: rgb(45, 104, 40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.avis-card-button:hover {
+  background-color: rgb(170, 69, 69);
   transform: translate(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

@@ -38,4 +38,7 @@ destinationsRouter.delete(
   destinationsControlleurs.supprimerDestination,
 );
 
+// Obtenir les cinq avis les plus récents pour une destination.  Pas besoin d'être authentifié, c'est pour la page d'accueil
+destinationsRouter.get("/:id/avis", destinationsControlleurs.getFiveLastAvis);
+
 export default destinationsRouter;

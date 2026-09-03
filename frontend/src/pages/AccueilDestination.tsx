@@ -4,13 +4,15 @@ import {
   getDestinationsByContinent,
 } from "../api/destinations";
 import "../App.css";
-import "../components/CardAccueilDestination.css";
+import "../styles/CardAccueilDestination.css";
+import "../styles/pagination.css";
 import { CardAccueilDestination } from "../components/CardAccueilDestination";
 import { Pagination } from "../components/layout/core/Pagination";
 import type { Destination } from "../../../shared/types/destination";
 import Header from "../components/layout/core/Header";
 import { type Meta } from "../../../shared/types/pagination";
 import { type Continent } from "../../../shared/types/destination";
+import ModalAvisDestination from "../components/ModalAvisDestination";
 
 export default function AccueilDestination() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -21,6 +23,9 @@ export default function AccueilDestination() {
   const [continentFiltre, setContinentFiltre] = useState<Continent | "tous">(
     "tous",
   );
+  const [selectedDestinationId, setSelectedDestinationId] = useState<
+    number | null
+  >(null);
 
   const LIMITE_PAR_PAGE = 18;
 
@@ -45,7 +50,6 @@ export default function AccueilDestination() {
       .then((res) => {
         setDestinations(res.data);
         setMeta(res.meta);
-        console.log(destinations);
       })
       .catch((e) => {
         console.log("Erreur API destinations :", e);
@@ -115,15 +119,24 @@ export default function AccueilDestination() {
               devise={d.infosupppays?.devise ?? "Inconnue"}
               capitale={d.infosupppays?.capitale ?? "Inconnue"}
               langage={d.infosupppays?.langages ?? "Inconnue"}
+              onVoirAvis={() => setSelectedDestinationId(d.id)}
             />
           );
         })}
       </div>
-      <Pagination
-        pageActuelle={page}
-        totalPages={totalPages}
-        onPageChange={(nouvellePage: number) => setPage(nouvellePage)}
-      />
+      {selectedDestinationId && (
+        <ModalAvisDestination
+          idDestination={selectedDestinationId}
+          onClose={() => setSelectedDestinationId(null)}
+        />
+      )}
+      <div className="pagination-accueil">
+        <Pagination
+          pageActuelle={page}
+          totalPages={totalPages}
+          onPageChange={(nouvellePage: number) => setPage(nouvellePage)}
+        />
+      </div>
     </div>
   );
 }

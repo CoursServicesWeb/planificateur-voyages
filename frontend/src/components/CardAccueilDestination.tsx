@@ -1,4 +1,4 @@
-import "./CardAccueilDestination.css";
+import "../styles/CardAccueilDestination.css";
 import { type Continent } from "../../../shared/types/destination";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, type ReactNode } from "react";
@@ -15,6 +15,7 @@ interface CardAccueilDestinationProps {
   devise: string;
   capitale: string;
   langage: string;
+  onVoirAvis: () => void;
 }
 
 export function CardAccueilDestination({
@@ -26,6 +27,7 @@ export function CardAccueilDestination({
   devise,
   capitale,
   langage,
+  onVoirAvis,
 }: CardAccueilDestinationProps) {
   const [note, setNote] = useState<number>(0);
   const [erreur, setErreur] = useState("");
@@ -105,6 +107,9 @@ export function CardAccueilDestination({
         </div>
       </div>
       <div className="destination-card-footer">
+        <button type="button" className="avis-card-button" onClick={onVoirAvis}>
+          Voir les avis
+        </button>
         <button
           type="button"
           className="destination-card-button"
