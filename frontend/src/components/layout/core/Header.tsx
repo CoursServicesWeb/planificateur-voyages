@@ -1,19 +1,21 @@
-interface CoreHeaderProps {
-  title: string;
-}
+import { Link } from "react-router-dom";
+import "../../../styles/Header.css";
 
-export default function Header({ title }: CoreHeaderProps) {
+export default function Header() {
   return (
-    <header>
-      <div style={headerStyle}>
-        <h1>{title}</h1>
-      </div>
+    <header className="header">
+
+      <Link to="/" className="header-logo">
+        ✈ Planificateur Voyages
+      </Link>
+
+      <nav className="header-nav">
+        <Link to="/">Accueil</Link>
+        <Link to="/avis">Avis</Link>
+        <Link to="/login">Se connecter</Link>
+        <Link to="/register">Créer un compte</Link>
+      </nav>
+
     </header>
   );
 }
-
-const headerStyle = {
-  display: "flex",
-  padding: "5px",
-  border: "1px solid black",
-};
