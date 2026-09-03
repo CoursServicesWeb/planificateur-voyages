@@ -1,6 +1,4 @@
 import { type Destination } from "../../../shared/types/destination";
-import { type Avis } from "../../../shared/types/avis";
-import { type Utilisateur } from "../../../shared/types/utilisateur";
 import "../styles/AvisDestinationCard.css";
 
 interface AvisDestinationCardProps {
