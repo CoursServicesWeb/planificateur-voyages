@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { ModalAjouterVoyage } from "./ModalAjouterVoyage"
+import type { CreateVoyage } from "../../../../../shared/types/voyage"
 
 
-export function AjouterVoyage() {
+export function AjouterVoyage({ handleCreateVoyage } : AjouterVoyageProps) {
 
     const [ouvrirModal, setOuvrirModal] = useState<Boolean>(false)
 
@@ -23,7 +24,11 @@ export function AjouterVoyage() {
                 <p className="card-text text-muted small">Cliquez pour de l'aventure!</p>
                 </div>
             </div>
-            {ouvrirModal && <ModalAjouterVoyage onClose={() => setOuvrirModal(false)}/>}
+            {ouvrirModal && <ModalAjouterVoyage onClose={() => setOuvrirModal(false)} handleCreateVoyage={handleCreateVoyage}/>}
         </div>
     )
+}
+
+interface AjouterVoyageProps {
+    handleCreateVoyage : (postBody : Partial<CreateVoyage>) => void
 }

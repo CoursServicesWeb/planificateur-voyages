@@ -1,10 +1,10 @@
+
 import { useEffect, useState } from "react";
 import type { Destination } from "../../../../../shared/types/destination";
 import { api } from "../../../api/axios";
-import { genererPOSTBodyCreerVoyage } from "./utils/utils";
-import type { CreateVoyage } from "../../../../../shared/types/voyage";
+import type { CreateEtape } from "../../../../../shared/types/etape";
 
-export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoyProps) {
+export function ModalAjouterEtape({ onClose, handleCreateEtape } : ModalCreateEtapeProps) {
 
   const [destinations, setDestinations] = useState<Destination[]>([])
   const [destId, setDestId] = useState('')
@@ -31,8 +31,8 @@ export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoy
     const formData = new FormData(event.currentTarget);
     const formValues = Object.fromEntries(formData.entries());
 
-    const postBody : Partial<CreateVoyage> = genererPOSTBodyCreerVoyage(formValues)
-    handleCreateVoyage(postBody)
+    
+    //handleCreateEtape(postBody)
     onClose()
   }
   return (
@@ -153,7 +153,7 @@ export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoy
   );
 }
 
-interface ModalModVoyProps {
-  handleCreateVoyage : (postBody : Partial<CreateVoyage>) => void
+interface ModalCreateEtapeProps {
+  handleCreateEtape : (postBody : CreateEtape) => void
   onClose : () => void
 }

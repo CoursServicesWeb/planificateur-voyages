@@ -6,3 +6,4 @@ export interface userData extends JwtPayload {
     given_name : string;
     role : string;
 }
+

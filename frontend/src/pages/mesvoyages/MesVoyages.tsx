@@ -1,14 +1,16 @@
 
 import { useEffect, useState } from "react";
 import CoreLayout from "../../components/layout/core/CoreLayout";
-import {type Voyage } from '../../../../shared/types/voyage'
-import {type Etape } from '../../../../shared/types/etape'
+import {type CreateVoyage, type Voyage } from '../../../../shared/types/voyage'
+import {type CreateEtape, type Etape } from '../../../../shared/types/etape'
 import { type userData } from "../../types/user";
 import { jwtDecode } from "jwt-decode";
 import { api } from "../../api/axios";
 import { VoyageCard } from "./components/VoyageCard";
-import { AjouterVoyage } from "./components/AjouterVoyage";
+import { AjouterVoyage } from "./components/AjouterVoyageCard";
 import { EtapeCard } from "./components/EtapeCard";
+import { AxiosError } from "axios";
+import { AjouterEtape } from "./components/AjouterEtapeCard";
 
 export default function MesVoyages () {
 
@@ -26,6 +28,7 @@ export default function MesVoyages () {
 
     const [voyages, setVoyages] = useState<Voyage[]>([]);
     const [isLoading, setIsLoading] = useState<Boolean>(true);
+    const [isVoyageSelected, setIsVoyageSelected] = useState<Boolean>(false);
 
     useEffect(() => {
         async function chargerVoyages(){
@@ -41,6 +44,21 @@ export default function MesVoyages () {
             setIsLoading(false);
         }
     },[voyages])
+
+    const handleCreateVoyage = async (postBody : Partial<CreateVoyage>) => {
+        try {
+            const result = await api.post('/voyages', postBody)
+            const {voyage, etape } = result.data.result
+            setVoyages(prev => [...voyages, voyage]);
+            setEtapes(prev => [...etapes, etape])
+            
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.error(error.response)
+            }   
+        }
+        
+    }
 
     const handleDeleteVoyage = async (id:string) => {
         try {
@@ -75,10 +93,15 @@ export default function MesVoyages () {
             const resp = await api.get(`/etapes/moi/${id}`);
             setEtapes(resp.data.etapes);
             setIsLoadingE(false);
+            setIsVoyageSelected(true);
         } catch(error) {
             console.error(error)
             setIsLoadingE(false);
         }
+    }
+
+    const handleCreateEtape = async () => {
+
     }
 
     const handleUpdateEtape = async (voyageId : string, etapeId : number, formValues : Object) => {
@@ -114,7 +137,7 @@ export default function MesVoyages () {
                                 <p>Chargement des voyages...</p>
                             ):(
                                 <>
-                                    <AjouterVoyage/>
+                                    <AjouterVoyage handleCreateVoyage={handleCreateVoyage}/>
                                     {voyages.map(v => 
                                         <VoyageCard 
                                             key={v.id} 
@@ -123,7 +146,7 @@ export default function MesVoyages () {
                                             updateHandler={handleUpdateVoyage} 
                                             handleCardClick = {getEtapes} 
                                             deleteHandler={handleDeleteVoyage}/>)}
-                                    <AjouterVoyage/>
+                                    <AjouterVoyage handleCreateVoyage={handleCreateVoyage}/>
                                 </>
                             )}  
                         </div>
@@ -131,7 +154,7 @@ export default function MesVoyages () {
                             {isLoadingE ? (
                                 <p>Chargement des étapes...</p>
                             ):(
-                                <>
+                                <>  
                                     {etapes.map(etape => 
                                         <EtapeCard 
                                             key={etape.id} 
@@ -145,7 +168,8 @@ export default function MesVoyages () {
                                             updateHandler={handleUpdateEtape}
                                             deleteHandler={handleDeleteEtapes}
                                         />)
-                                    }   
+                                    }
+                                    {isVoyageSelected && <AjouterEtape handleCreateEtape={handleCreateEtape}/>}
                                 </>
                             )}
                         </div>
