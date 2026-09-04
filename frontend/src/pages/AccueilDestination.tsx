@@ -6,12 +6,12 @@ import {
 import "../App.css";
 import "../styles/CardAccueilDestination.css";
 import "../styles/pagination.css";
-import { CardAccueilDestination } from "../components/CardAccueilDestination";
+import { CardAccueilDestination } from "../components/destination/CardAccueilDestination";
 import { Pagination } from "../components/layout/core/Pagination";
 import type { Destination, Continent } from "../../../shared/types/destination";
 import Header from "../components/layout/core/Header";
 import type { Meta } from "../../../shared/types/pagination";
-import ModalAvisDestination from "../components/ModalAvisDestination";
+import ModalAvisDestination from "../components/destination/ModalAvisDestination";
 
 export default function AccueilDestination() {
   const [destinations, setDestinations] = useState<Destination[]>([]);

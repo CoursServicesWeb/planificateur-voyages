@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { getInfosPays, supprimerPays } from "../api/pays";
+import { getInfosPays, supprimerPays } from "../../api/pays";
 import "../App.css";
-import { type InfosSuppPays } from "../../../shared/types/infosSuppPays";
-import { type Meta } from "../../../shared/types/pagination";
-import { Pagination } from "./layout/core/Pagination";
+import { type InfosSuppPays } from "../../../../shared/types/infosSuppPays";
+import { type Meta } from "../../../../shared/types/pagination";
+import { Pagination } from "./../layout/core/Pagination";
 
 export default function TableauAdminPays() {
   const [pays, setPays] = useState<InfosSuppPays[]>([]);

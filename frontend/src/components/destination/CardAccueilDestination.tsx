@@ -1,9 +1,9 @@
 import "../styles/CardAccueilDestination.css";
-import { type Continent } from "../../../shared/types/destination";
+import { type Continent } from "../../../../shared/types/destination";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, type ReactNode } from "react";
-import { getNoteMoyenne } from "../api/destinations";
-import { useAuth } from "../context/AuthContext";
+import { getNoteMoyenne } from "../../api/destinations";
+import { useAuth } from "../../context/AuthContext";
 
 interface CardAccueilDestinationProps {
   id: number;
