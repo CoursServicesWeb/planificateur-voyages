@@ -51,7 +51,7 @@ export default function FormModifierDestination() {
     <div>
       <h2>Modifier la destination #{id}</h2>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div style={{ margin: "12px" }}>
           <label>Nouveau nom de ville ? : </label>
           <input
             type="text"
@@ -60,7 +60,7 @@ export default function FormModifierDestination() {
             required
           />
         </div>
-        <div>
+        <div style={{ margin: "12px" }}>
           <label>Nouveau continent ? : </label>
           <input
             type="text"
@@ -69,7 +69,7 @@ export default function FormModifierDestination() {
             required
           />
         </div>
-        <div>
+        <div style={{ margin: "12px" }}>
           <label>Nouveau ID de pays ? : </label>
           <input
             type="text"
@@ -78,7 +78,14 @@ export default function FormModifierDestination() {
             required
           />
         </div>
-        <div>
+        <div
+          style={{
+            margin: "12px",
+            display: "flex",
+            gap: "10px",
+            justifyContent: "center",
+          }}
+        >
           <button type="submit">Soumettre les changements</button>
           <button type="button" onClick={() => navigate("/admin")}>
             Annuler
