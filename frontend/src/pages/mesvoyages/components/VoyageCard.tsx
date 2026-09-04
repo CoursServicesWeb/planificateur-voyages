@@ -1,14 +1,25 @@
 import { useState } from 'react'
 import { ModalModVoyage } from './ModalModVoyage';
 import imageCarte from '../../../assets/images/international-travel-0_1684823087.webp'
+import { ModalConfirmerSuppression } from './ModalConfirmerSuppresion';
 
 export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardClick} : VoyageCardProps) {
 
-    const [estOuvert,setEstOuvert] = useState<Boolean>(false);
+    const [ouvrirModalModifierVoy, setOuvrirModalModifierVoy] = useState<Boolean>(false);
+    const [ouvrirModalSuppression, setOuvrirModalSuppression] = useState<Boolean>(false);
 
-    const ouvrirModal = (event : React.MouseEvent<HTMLButtonElement>) => {
+    const ouvrirModalModifierVoyage = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
-        setEstOuvert(true);
+        setOuvrirModalModifierVoy(true);
+    }
+
+    const fermerModalSuppression = () => {
+      setOuvrirModalSuppression(false);
+    }
+
+    const deleteAction = (event : React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation()
+      setOuvrirModalSuppression(true)
     }
 
     return (
@@ -19,7 +30,7 @@ export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardC
           <button 
             type="button" 
             className="btn-close position-absolute top-0 end-0 m-2" 
-            onClick={() => deleteHandler(id)}
+            onClick={deleteAction}
           ></button>
           <img src={imageCarte} style={{height:'100px', objectFit: 'cover'}} alt="..."/>
           <div className="card-body">
@@ -29,12 +40,13 @@ export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardC
             <p>Statut</p>
         </div>
         <div className="card-footer bg-transparent border-0 pt-0">
-          <button type="button" onClick={ouvrirModal} className="btn btn-primary w-100">
+          <button type="button" onClick={ouvrirModalModifierVoyage} className="btn btn-primary w-100">
             Modifier
           </button>
         </div>
       </div>
-      {estOuvert && <ModalModVoyage voyageId = {id} modifyHandler = {updateHandler} onClose={() => setEstOuvert(false)}/>}
+      {ouvrirModalModifierVoy && <ModalModVoyage voyageId = {id} modifyHandler = {updateHandler} onClose={() => setOuvrirModalModifierVoy(false)}/>}
+      {ouvrirModalSuppression && <ModalConfirmerSuppression id={id} deleteTargetType={'voyage'} closeModal={fermerModalSuppression} confirmDelete={deleteHandler}/>}
     </div> 
   )
 }

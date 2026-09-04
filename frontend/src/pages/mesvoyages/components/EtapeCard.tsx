@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { api } from "../../../api/axios"
 import { ModalModEtape } from "./ModalModEtape";
+import { ModalConfirmerSuppression } from "./ModalConfirmerSuppresion";
 
 export function EtapeCard(
   {id, voyageId, destinationId, dateDeb, dateFin, hebergement,
@@ -16,11 +17,21 @@ export function EtapeCard(
         getDestination(destinationId)
     },[])
 
-    const [estOuvert,setEstOuvert] = useState<Boolean>(false);
+    const [estOuvertModalModifierEtape,setEstOuvertModalModifierEtape] = useState<Boolean>(false);
+    const [ouvrirModalSuppression, setOuvrirModalSuppression] = useState<Boolean>(false);
 
-    const ouvrirModal = (event : React.MouseEvent<HTMLButtonElement>) => {
+    const ouvrirModalModifierEtape = (event : React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
-        setEstOuvert(true);
+        setEstOuvertModalModifierEtape(true);
+    }
+
+    const fermerModalSuppression = () => {
+      setOuvrirModalSuppression(false);
+    }
+
+    const deleteAction = (event : React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation()
+      setOuvrirModalSuppression(true)
     }
 
     return (
@@ -29,7 +40,7 @@ export function EtapeCard(
             <button 
               type="button" 
               className="btn-close position-absolute top-0 end-0 m-2" 
-              onClick={()=>{deleteHandler(voyageId,id)}}
+              onClick={deleteAction}
             ></button>
             <img src="..." className="card-img-top" alt="..."/>
             <div className="card-body">
@@ -40,13 +51,14 @@ export function EtapeCard(
               <p>{notes}</p>
           </div>
           <div className="card-footer bg-transparent border-0 pt-0">
-            <button type="button" onClick={ouvrirModal} className="btn btn-primary w-100">
+            <button type="button" onClick={ouvrirModalModifierEtape} className="btn btn-primary w-100">
               Modifier
             </button>
           </div>
         </div>
-        {estOuvert && 
-          <ModalModEtape voyageId = {voyageId} etapeId={id} modifyHandler = {updateHandler} onClose={() => setEstOuvert(false)}/>}
+        {estOuvertModalModifierEtape && 
+          <ModalModEtape voyageId = {voyageId} etapeId={id} modifyHandler = {updateHandler} onClose={() => setEstOuvertModalModifierEtape(false)}/>}
+        {ouvrirModalSuppression && <ModalConfirmerSuppression id={voyageId} deleteTargetType={'étape'} closeModal={fermerModalSuppression} altConfirmDelete={deleteHandler}/>}
     </div>
     )
 }

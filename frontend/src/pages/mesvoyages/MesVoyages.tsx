@@ -9,8 +9,9 @@ import { api } from "../../api/axios";
 import { VoyageCard } from "./components/VoyageCard";
 import { AjouterVoyage } from "./components/AjouterVoyageCard";
 import { EtapeCard } from "./components/EtapeCard";
-import { Axios, AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { AjouterEtape } from "./components/AjouterEtapeCard";
+
 
 export default function MesVoyages () {
 
@@ -55,8 +56,8 @@ export default function MesVoyages () {
         try {
             const result = await api.post('/voyages', postBody)
             const {voyage, etape } = result.data.result
-            setVoyages(prev => [...voyages, voyage]);
-            setEtapes(prev => [...etapes, etape])
+            setVoyages(prev => [...prev, voyage]);
+            setEtapes(prev => [...prev, etape])
             
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -67,6 +68,7 @@ export default function MesVoyages () {
     }
 
     const handleDeleteVoyage = async (id:string) => {
+
         try {
             await api.delete(`/voyages/${id}`)
             setVoyages((prev) => prev.filter(v => v.id !== id))
@@ -164,7 +166,7 @@ export default function MesVoyages () {
                                 <>
                                     <AjouterVoyage handleCreateVoyage={handleCreateVoyage}/>
                                     {voyages.map(v => 
-                                        <VoyageCard 
+                                        <VoyageCard
                                             key={v.id} 
                                             id={v.id} 
                                             titre= {v.titre}
