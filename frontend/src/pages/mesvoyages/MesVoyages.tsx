@@ -9,7 +9,7 @@ import { api } from "../../api/axios";
 import { VoyageCard } from "./components/VoyageCard";
 import { AjouterVoyage } from "./components/AjouterVoyageCard";
 import { EtapeCard } from "./components/EtapeCard";
-import { AxiosError } from "axios";
+import { Axios, AxiosError } from "axios";
 import { AjouterEtape } from "./components/AjouterEtapeCard";
 
 export default function MesVoyages () {
@@ -28,6 +28,7 @@ export default function MesVoyages () {
 
     const [voyages, setVoyages] = useState<Voyage[]>([]);
     const [isLoading, setIsLoading] = useState<Boolean>(true);
+    const [selectedVoyageId, setSelectedVoyageId] = useState<string>('');
     const [isVoyageSelected, setIsVoyageSelected] = useState<Boolean>(false);
 
     useEffect(() => {
@@ -40,8 +41,13 @@ export default function MesVoyages () {
             chargerVoyages();
             setIsLoading(false);
         } catch(error) {
-            console.error(error)
-            setIsLoading(false);
+            if (error instanceof AxiosError) {
+                console.error(error.response)
+                setIsLoading(false);
+            } else {
+                console.error(error)
+                setIsLoading(false);
+            }    
         }
     },[voyages])
 
@@ -66,7 +72,9 @@ export default function MesVoyages () {
             setVoyages((prev) => prev.filter(v => v.id !== id))
         
         } catch(error) {
-            console.log(error)
+            if (error instanceof AxiosError) {
+                console.error(error.response)
+            }
         }
     }
 
@@ -79,7 +87,9 @@ export default function MesVoyages () {
             }
             subsVoyage(update)
         } catch (error) {
-            console.error(error)
+            if (error instanceof AxiosError) {
+                console.error(error.response)
+            }
         }
     }
 
@@ -94,14 +104,25 @@ export default function MesVoyages () {
             setEtapes(resp.data.etapes);
             setIsLoadingE(false);
             setIsVoyageSelected(true);
+            setSelectedVoyageId(id);
         } catch(error) {
-            console.error(error)
-            setIsLoadingE(false);
+            if (error instanceof AxiosError) {
+                console.error(error.response);
+                setIsLoading(false);
+            }
         }
     }
 
-    const handleCreateEtape = async () => {
+    const handleCreateEtape = async (voyageId : string, postBody : CreateEtape) => {
+        try {
+            const result = await api.post(`/etapes/${voyageId}`, postBody);
+            setEtapes(prev => [...prev, result.data])
 
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.error(error.response)
+            }
+        }
     }
 
     const handleUpdateEtape = async (voyageId : string, etapeId : number, formValues : Object) => {
@@ -114,7 +135,9 @@ export default function MesVoyages () {
             subsEtape(update)
             getEtapes(voyageId)
         } catch (error) {
-            console.error(error)
+            if (error instanceof AxiosError) {
+                console.error(error.response)
+            }
         }
     }
 
@@ -124,7 +147,9 @@ export default function MesVoyages () {
             await api.delete(`etapes/${vid}/${eid}`)
             setEtapes(prev => prev.filter(e => e.id !== eid))
         } catch (error) {
-            console.error(error)
+            if (error instanceof AxiosError) {
+                console.error(error.response)
+            }
         }
     }
 
@@ -150,7 +175,7 @@ export default function MesVoyages () {
                                 </>
                             )}  
                         </div>
-                        <div className="col-6 bg-light">
+                        <div id="cartes-etapes" className="col-6 bg-light">
                             {isLoadingE ? (
                                 <p>Chargement des étapes...</p>
                             ):(
@@ -168,8 +193,10 @@ export default function MesVoyages () {
                                             updateHandler={handleUpdateEtape}
                                             deleteHandler={handleDeleteEtapes}
                                         />)
+                                    
                                     }
-                                    {isVoyageSelected && <AjouterEtape handleCreateEtape={handleCreateEtape}/>}
+                                    {isVoyageSelected &&
+                                     <AjouterEtape voyageId={selectedVoyageId} handleCreateEtape={handleCreateEtape}/>}
                                 </>
                             )}
                         </div>

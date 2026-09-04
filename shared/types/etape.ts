@@ -33,8 +33,7 @@ export type CreateEtape = {
   dateFin: string;
   notes?: string;
   hebergement: TypeHebergement;
-  voyageId: string;
-  destinationId: number;
+  destinationId: string;
 };
 
 

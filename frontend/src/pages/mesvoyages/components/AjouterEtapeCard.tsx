@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { ModalAjouterEtape } from "./ModalAjouterEtape"
+import type { CreateEtape } from "../../../../../shared/types/etape"
 
-export function AjouterEtape({ handleCreateEtape } : AjouterEtapeProps) {
+export function AjouterEtape({ voyageId, handleCreateEtape } : AjouterEtapeProps) {
 
     const [ouvrirModal, setOuvrirModal] = useState<Boolean>(false)
 
@@ -22,11 +23,12 @@ export function AjouterEtape({ handleCreateEtape } : AjouterEtapeProps) {
                 <p className="card-text text-muted small">Cliquez pour démarrer ou ajouter à votre voyage!</p>
                 </div>
             </div>
-            {ouvrirModal && <ModalAjouterEtape onClose={() => setOuvrirModal(false)} handleCreateEtape={handleCreateEtape}/>}
+            {ouvrirModal && <ModalAjouterEtape voyageId = {voyageId} onClose={() => setOuvrirModal(false)} handleCreateEtape={handleCreateEtape}/>}
         </div>
     )
 }
 
 interface AjouterEtapeProps {
-    handleCreateEtape : () => void
+    voyageId : string
+    handleCreateEtape : (voyageId : string, postBody : CreateEtape) => void
 }

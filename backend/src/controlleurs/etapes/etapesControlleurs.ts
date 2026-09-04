@@ -73,7 +73,7 @@ async function ajouterEtape(req:Request,res:Response) {
                 hebergement:hebergement,
                 notes: notes ?? Prisma.skip,
                 voyageId:voyageid as any,
-                destinationId:destinationId
+                destinationId:Number(destinationId)
             }
             })
             return res.status(201).json(result)
@@ -117,7 +117,7 @@ async function ajouterEtape(req:Request,res:Response) {
                     hebergement:hebergement,
                     notes: notes ?? Prisma.skip,
                     voyageId:voyageid as any,
-                    destinationId:destinationId
+                    destinationId:Number(destinationId)
                 }
                 })
                 return res.status(201).json(result)

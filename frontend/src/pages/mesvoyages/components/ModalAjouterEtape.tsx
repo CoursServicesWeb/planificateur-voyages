@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import type { Destination } from "../../../../../shared/types/destination";
 import { api } from "../../../api/axios";
 import type { CreateEtape } from "../../../../../shared/types/etape";
+import { convertToISO8601 } from "./utils/utils";
 
-export function ModalAjouterEtape({ onClose, handleCreateEtape } : ModalCreateEtapeProps) {
+export function ModalAjouterEtape({ voyageId, onClose, handleCreateEtape } : ModalCreateEtapeProps) {
 
   const [destinations, setDestinations] = useState<Destination[]>([])
   const [destId, setDestId] = useState('')
@@ -31,8 +32,11 @@ export function ModalAjouterEtape({ onClose, handleCreateEtape } : ModalCreateEt
     const formData = new FormData(event.currentTarget);
     const formValues = Object.fromEntries(formData.entries());
 
-    
-    //handleCreateEtape(postBody)
+    const postBody = formValues as CreateEtape;
+    postBody.dateDeb = convertToISO8601(postBody.dateDeb);
+    postBody.dateFin = convertToISO8601(postBody.dateFin);
+
+    handleCreateEtape(voyageId, postBody)
     onClose()
   }
   return (
@@ -52,7 +56,7 @@ export function ModalAjouterEtape({ onClose, handleCreateEtape } : ModalCreateEt
           <form onSubmit={submitHandler}>
             <div className="modal-content">
               <div className="modal-header d-flex justify-content-between align-items-center">
-                <h5 className="modal-title">Ajoutez un Voyage!</h5>
+                <h5 className="modal-title">Ajoutez une étape!</h5>
                 <button 
                   type="button" 
                   className="btn-close" 
@@ -61,41 +65,17 @@ export function ModalAjouterEtape({ onClose, handleCreateEtape } : ModalCreateEt
                 ></button>
               </div>
               <div className="modal-body">
-                <div className="row g-3">
-                  <div className="col-md-6">
-                      <label className="form-label fw-bold text-primary">
-                          Choisissez pour votre voyage:
-                      </label>
-                      <input 
-                          type="text" 
-                          className="form-col-custom form-control" 
-                          id="titre" 
-                          name="titre"
-                          placeholder="Entrez le titre..."
-                      /><br/>
-                      <label htmlFor="dateDebV" className="form-label">
-                        Début:
-                      </label>
-                      <input type='date' className="form-control" id='datedebv' name='dateDebV'/><br/>
-                      <label htmlFor="dateFinV" className="form-label">
-                        Fin:
-                      </label>
-                      <input type='date' className="form-control" id='datefinv' name='dateFinV'/><br/>
-
-                  </div>
-                  
-                  <div className="col-md-6">
-                      <label className="form-label fw-bold text-primary">
-                          ...et pour la première étape:
-                      </label>
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-12">
                       <label htmlFor="dateDebE" className="form-label">
                         Début:
                       </label>
-                      <input type='date' className="form-control" id='datedebe' name='dateDebE'/><br/>
+                      <input type='date' className="form-control" id='datedebe' name='dateDeb'/><br/>
                       <label htmlFor="dateFinE" className="form-label">
                         Fin:
                       </label>
-                      <input type='date' className="form-control" id='datefine' name='dateFinE'/><br/>
+                      <input type='date' className="form-control" id='datefine' name='dateFin'/><br/>
                       <label htmlFor="hebergement-select" className="form-label">Type hébergement</label><br/>
                       <select 
                           id="hebergement-select"
@@ -126,14 +106,11 @@ export function ModalAjouterEtape({ onClose, handleCreateEtape } : ModalCreateEt
                           </option>
                           ))}
                       </select><br/>
-                      <input 
-                          type="text" 
-                          className="form-col-custom form-control" 
-                          id="notes" 
-                          name="notes"
-                          placeholder="Entrez une note..."
-                      />
-                  </div>
+                      <textarea className="form-control" rows={4} name="notes" placeholder="Saisir une note..."/>
+                        </div>
+
+                    </div>
+                  
                 </div>
               </div>
               <div className="modal-footer">
@@ -154,6 +131,7 @@ export function ModalAjouterEtape({ onClose, handleCreateEtape } : ModalCreateEt
 }
 
 interface ModalCreateEtapeProps {
-  handleCreateEtape : (postBody : CreateEtape) => void
+  voyageId : string
+  handleCreateEtape : (voyageId : string, postBody : CreateEtape) => void
   onClose : () => void
 }
