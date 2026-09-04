@@ -49,7 +49,7 @@ async function creerVoyage(req:Request,res:Response) {
                     hebergement:hebergement,
                     notes: (req as any).body.etape.notes ?? Prisma.skip,
                     voyageId:voyage.id,
-                    destinationId:destinationId
+                    destinationId: Number(destinationId)
                 }
             })
 
@@ -75,7 +75,8 @@ async function creerVoyage(req:Request,res:Response) {
 async function getVoyagesUtlisateur(req:Request, res:Response) {
     try {
         const result = await prisma.voyage.findMany({
-        where:{utilisateurId:(req as any).user.sub}
+        where:{utilisateurId:(req as any).user.sub},
+        orderBy: { dateDeb: 'desc'}
     })
 
         if(result.length === 0){res.status(404).json({message:"Aucun voyage pour cet utilisateur."})}

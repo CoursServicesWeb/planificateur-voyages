@@ -27,8 +27,10 @@ export type Voyage = {
 
 export type CreateVoyage = {
   titre?: string;
-  dateDeb: string; 
-  dateFin: string;
+  dateDebV: string; 
+  dateFinV: string;
+  dateDebE: string;
+  dateFinE: string;
   statut?: StatutVoyage;
   utilisateurId: string;
 };

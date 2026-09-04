@@ -65,7 +65,10 @@ async function authConnexion(req: Request, res: Response) {
     }
 
     const token = jwt.sign(
-      { sub: user.id, role: user.role },
+      { sub: user.id,
+        role: user.role,
+        given_name : user.prenom
+       },
       process.env.JWT_SECRET!,
       { expiresIn: "1h" },
     );
