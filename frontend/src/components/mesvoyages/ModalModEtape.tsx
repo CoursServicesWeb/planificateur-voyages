@@ -1,7 +1,7 @@
 
 import { useState,useEffect } from "react";
-import type { Destination } from "../../../../../shared/types/destination";
-import { api } from "../../../api/axios";
+import type { Destination } from "../../../../shared/types/destination";
+import { api } from "../../api/axios";
 
 export function ModalModEtape({voyageId, etapeId, modifyHandler, onClose} : ModalModEtapeProps) {
 

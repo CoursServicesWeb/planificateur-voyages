@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
-import type { Destination } from "../../../../../shared/types/destination";
-import { api } from "../../../api/axios";
-import type { CreateEtape } from "../../../../../shared/types/etape";
+import type { Destination } from "../../../../shared/types/destination";
+import { api } from "../../api/axios";
+import type { CreateEtape } from "../../../../shared/types/etape";
 import { convertToISO8601 } from "./utils/utils";
 
 export function ModalAjouterEtape({ voyageId, onClose, handleCreateEtape } : ModalCreateEtapeProps) {

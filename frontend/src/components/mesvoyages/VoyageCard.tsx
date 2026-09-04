@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ModalModVoyage } from './ModalModVoyage';
-import imageCarte from '../../../assets/images/international-travel-0_1684823087.webp'
+import imageCarte from '../../assets/images/international-travel-0_1684823087.webp'
 import { ModalConfirmerSuppression } from './ModalConfirmerSuppresion';
 
 export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardClick} : VoyageCardProps) {

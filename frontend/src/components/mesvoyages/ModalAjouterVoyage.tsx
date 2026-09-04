@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import type { Destination } from "../../../../../shared/types/destination";
-import { api } from "../../../api/axios";
+import type { Destination } from "../../../../shared/types/destination";
+import { api } from "../../api/axios";
 import { genererPOSTBodyCreerVoyage } from "./utils/utils";
-import type { CreateVoyage } from "../../../../../shared/types/voyage";
+import type { CreateVoyage } from "../../../../shared/types/voyage";
 
 export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoyProps) {
 

@@ -1,4 +1,4 @@
-import { type CreateVoyage } from "../../../../../../shared/types/voyage"
+import { type CreateVoyage } from "../../../../../shared/types/voyage"
 
 export function convertToISO8601(dateString : string): string {
     return (new Date(dateString)).toISOString()
