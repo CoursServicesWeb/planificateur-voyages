@@ -9,14 +9,14 @@ import { Authenticate } from './components/auth/Authenticate';
 function App() {
  
   return (
-    <AuthProvider>
+    
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Destinations />}/>
           <Route path="/mesvoyages" element={<Authenticate><MesVoyages /></Authenticate>  }/>
         </Routes>
       </BrowserRouter>
-    </AuthProvider>
+    
   )
 }
 

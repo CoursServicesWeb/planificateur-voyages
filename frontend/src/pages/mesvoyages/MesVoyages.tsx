@@ -11,6 +11,8 @@ import { AjouterVoyage } from "./components/AjouterVoyageCard";
 import { EtapeCard } from "./components/EtapeCard";
 import { AxiosError } from "axios";
 import { AjouterEtape } from "./components/AjouterEtapeCard";
+import { useError } from "../../context/ErrContext";
+import { ModalErreur } from "../../components/common/ModalErreur";
 
 
 export default function MesVoyages () {
@@ -26,6 +28,8 @@ export default function MesVoyages () {
                 console.error(error)
             }
         } 
+    
+    const {showErrModal, addError} = useError();
 
     const [voyages, setVoyages] = useState<Voyage[]>([]);
     const [isLoading, setIsLoading] = useState<Boolean>(true);
@@ -45,6 +49,11 @@ export default function MesVoyages () {
             if (error instanceof AxiosError) {
                 console.error(error.response)
                 setIsLoading(false);
+                if (error.code) {
+                    addError(error.message, error.code);
+                } else {
+                    addError(error.message, "");
+                }
             } else {
                 console.error(error)
                 setIsLoading(false);
@@ -75,6 +84,11 @@ export default function MesVoyages () {
         
         } catch(error) {
             if (error instanceof AxiosError) {
+                if (error.code) {
+                    addError(error.message, error.code);
+                } else {
+                    addError(error.message, "");
+                }
                 console.error(error.response)
             }
         }
@@ -204,6 +218,7 @@ export default function MesVoyages () {
                         </div>
                     </div>
             </div>
+            {showErrModal && <ModalErreur/>}
         </CoreLayout>
     )
 }
