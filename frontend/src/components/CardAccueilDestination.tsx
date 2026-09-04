@@ -97,9 +97,13 @@ export function CardAccueilDestination({
               <h4>Pas encore noté</h4>
             )}
           </div>
-          <div className="destination-card-devise">
-            <h5>Devise monétaire : {devise}</h5>
-            <h5 className="destination-card-capitale">Capitale : {capitale}</h5>
+          <div className="destination-card-sous-content">
+            <div className="destination-card-devise">
+              <h5>Devise monétaire : {devise}</h5>
+            </div>
+            <div className="destination-card-capitale">
+              <h5>Capitale : {capitale}</h5>
+            </div>
           </div>
           <div className="destination-card-langage">
             <h6>Langue principale : {langage}</h6>

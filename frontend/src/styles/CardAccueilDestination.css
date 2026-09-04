@@ -10,7 +10,6 @@
   font-weight: 700;
 }
 
-
 /* =====================================================
    FILTRE
    ===================================================== */
@@ -45,7 +44,6 @@
   box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.15);
 }
 
-
 /* =====================================================
    CONTENEUR DES CARTES
    ===================================================== */
@@ -60,7 +58,6 @@
   padding: 20px 40px 40px;
   box-sizing: border-box;
 }
-
 
 /* =====================================================
    CARTE DESTINATION
@@ -90,10 +87,8 @@
 .destination-card:hover {
   transform: translateY(-6px);
 
-  box-shadow:
-    0 12px 28px rgba(15, 23, 42, 0.14);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
 }
-
 
 /* =====================================================
    IMAGE
@@ -117,7 +112,6 @@
 .destination-card:hover .destination-card-image {
   transform: scale(1.05);
 }
-
 
 /* =====================================================
    EN-TÊTE DE LA CARTE
@@ -145,7 +139,6 @@
   font-weight: 700;
 }
 
-
 /* =====================================================
    CONTENU
    ===================================================== */
@@ -162,6 +155,21 @@
   color: #475569;
 }
 
+.destination-card-sous-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+
+  padding: 2px 4px 6px;
+
+  color: #475569;
+}
+
+.destination-card-sous-content h5,
+.destination-card-sous-content h6 {
+  margin: 0;
+}
 
 /* Informations de la destination */
 
@@ -185,7 +193,6 @@
   text-align: center;
 }
 
-
 /* =====================================================
    DRAPEAU
    ===================================================== */
@@ -199,7 +206,6 @@
   object-fit: contain;
 }
 
-
 /* =====================================================
    CORPS DE LA CARTE
    ===================================================== */
@@ -209,7 +215,6 @@
   flex-direction: column;
   flex-grow: 1;
 }
-
 
 /* =====================================================
    PIED DE LA CARTE
@@ -225,7 +230,6 @@
   padding: 15px;
   margin-top: auto;
 }
-
 
 /* =====================================================
    BOUTON DESTINATION
@@ -266,7 +270,6 @@
   box-shadow: 0 5px 12px rgba(32, 163, 158, 0.25);
 }
 
-
 /* =====================================================
    BOUTON AVIS
    ===================================================== */
@@ -306,7 +309,6 @@
   box-shadow: 0 5px 12px rgba(21, 94, 117, 0.25);
 }
 
-
 /* =====================================================
    PAGINATION
    ===================================================== */
@@ -318,13 +320,11 @@
   margin: 10px 0 35px;
 }
 
-
 /* =====================================================
    RESPONSIVE
    ===================================================== */
 
 @media (max-width: 768px) {
-
   .destination-title {
     margin-top: 25px;
     font-size: 24px;
@@ -343,9 +343,7 @@
   }
 }
 
-
 @media (max-width: 480px) {
-
   .destination-title {
     font-size: 22px;
   }
@@ -370,7 +368,6 @@
    ===================================================== */
 
 @media (max-width: 768px) {
-
   .destination-hero,
   .destination-hero-overlay {
     min-height: 360px;
@@ -390,9 +387,7 @@
   }
 }
 
-
 @media (max-width: 480px) {
-
   .destination-hero,
   .destination-hero-overlay {
     min-height: 320px;
