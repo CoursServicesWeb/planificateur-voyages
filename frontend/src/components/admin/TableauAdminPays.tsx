@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getInfosPays, supprimerPays } from "../../api/pays";
-import "../App.css";
+import "../../App.css";
 import { type InfosSuppPays } from "../../../../shared/types/infosSuppPays";
 import { type Meta } from "../../../../shared/types/pagination";
 import { Pagination } from "./../layout/core/Pagination";

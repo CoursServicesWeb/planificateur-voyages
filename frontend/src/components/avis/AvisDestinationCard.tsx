@@ -1,5 +1,5 @@
 import { type Destination } from "../../../../shared/types/destination";
-import "../styles/AvisDestinationCard.css";
+import "../../styles/AvisDestinationCard.css";
 
 interface AvisDestinationCardProps {
   note: number;

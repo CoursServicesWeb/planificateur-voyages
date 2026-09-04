@@ -2,8 +2,8 @@ import { type Avis } from "../../../../shared/types/avis";
 import { getFiveLastAvis } from "../../api/destinations";
 import { useState, useEffect } from "react";
 import { AvisDestinationCard } from "../avis/AvisDestinationCard";
-import "../styles/AvisDestinationCard.css";
-import "../styles/ModalAvis.css";
+import "../../styles/AvisDestinationCard.css";
+import "../../styles/ModalAvis.css";
 import { createPortal } from "react-dom"; // Pour activer les Modal
 
 interface ModalAvisDestinationProps {

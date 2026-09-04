@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getDestinations, supprimerDestination } from "../../api/destinations";
-import "../App.css";
+import "../../App.css";
 import { type Destination } from "../../../../shared/types/destination";
 import { type Meta } from "../../../../shared/types/pagination";
 import { Link } from "react-router-dom";
