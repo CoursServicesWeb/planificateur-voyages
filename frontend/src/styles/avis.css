@@ -3,108 +3,103 @@
    ===================================================== */
 
 .avis-page {
-    min-height: 100vh;
-    padding: 35px 40px 50px;
-    background: #f8fafc;
+  min-height: 100vh;
+  padding: 35px 40px 50px;
+  background: #f8fafc;
 }
-
 
 /* =====================================================
    EN-TÊTE
    ===================================================== */
 
 .avis-header {
-    text-align: center;
-    margin-bottom: 35px;
+  text-align: center;
+  margin-bottom: 35px;
 }
 
 .avis-header h1 {
-    margin: 0 0 10px;
-    color: #155e75;
-    font-size: 32px;
+  margin: 20px 0 10px;
+  color: #155e75;
+  font-size: 32px;
 }
 
 .avis-header p {
-    margin: 0;
-    color: #64748b;
-    font-size: 16px;
+  margin: 0;
+  color: #64748b;
+  font-size: 16px;
 }
-
 
 /* =====================================================
    CONTENEUR PRINCIPAL
    ===================================================== */
 
 .avis-conteneur {
-    display: grid;
+  display: grid;
 
-    grid-template-columns: 380px minmax(0, 1fr);
+  grid-template-columns: 380px minmax(0, 1fr);
 
-    gap: 30px;
+  gap: 30px;
 
-    max-width: 1250px;
+  max-width: 1250px;
 
-    margin: 0 auto;
+  margin: 0 auto;
 
-    align-items: start;
+  align-items: start;
 }
-
 
 /* =====================================================
    FORMULAIRE
    ===================================================== */
 
 .avis-form {
-    background: #ffffff;
+  background: #ffffff;
 
-    padding: 26px;
+  padding: 26px;
 
-    border: 1px solid #e2e8f0;
+  border: 1px solid #e2e8f0;
 
-    border-radius: 18px;
+  border-radius: 18px;
 
-    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
 
-    position: sticky;
-    top: 25px;
+  position: sticky;
+  top: 25px;
 }
 
 .avis-form h2 {
-    margin: 0 0 12px;
+  margin: 0 0 12px;
 
-    color: #155e75;
+  color: #155e75;
 
-    font-size: 23px;
+  font-size: 23px;
 
-    text-align: center;
+  text-align: center;
 }
 
 .avis-form-description {
-    color: #64748b;
+  color: #64748b;
 
-    line-height: 1.5;
+  line-height: 1.5;
 
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 
-    text-align: center;
+  text-align: center;
 }
-
 
 /* =====================================================
    LABELS
    ===================================================== */
 
 .avis-form label {
-    display: block;
+  display: block;
 
-    margin-top: 16px;
-    margin-bottom: 7px;
+  margin-top: 16px;
+  margin-bottom: 7px;
 
-    font-weight: 600;
+  font-weight: 600;
 
-    color: #475569;
+  color: #475569;
 }
-
 
 /* =====================================================
    INPUTS
@@ -113,443 +108,425 @@
 .avis-form input,
 .avis-form select,
 .avis-form textarea {
-    width: 100%;
+  width: 100%;
 
-    box-sizing: border-box;
+  box-sizing: border-box;
 
-    padding: 11px 13px;
+  padding: 11px 13px;
 
-    border: 1px solid #cbd5e1;
+  border: 1px solid #cbd5e1;
 
-    border-radius: 9px;
+  border-radius: 9px;
 
-    font-size: 14px;
+  font-size: 14px;
 
-    background-color: #f8fafc;
+  background-color: #f8fafc;
 
-    color: #334155;
+  color: #334155;
 
-    outline: none;
+  outline: none;
 
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .avis-form input:focus,
 .avis-form select:focus,
 .avis-form textarea:focus {
-    border-color: #20a39e;
+  border-color: #20a39e;
 
-    background-color: #ffffff;
+  background-color: #ffffff;
 
-    box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.12);
+  box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.12);
 }
 
 .avis-form textarea {
-    resize: vertical;
+  resize: vertical;
 
-    min-height: 100px;
+  min-height: 100px;
 }
-
 
 /* =====================================================
    SÉLECTION DES ÉTOILES
    ===================================================== */
 
 .etoiles-selection {
-    display: flex;
+  display: flex;
 
-    gap: 5px;
+  gap: 5px;
 
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .etoile {
-    border: none;
+  border: none;
 
-    background: transparent;
+  background: transparent;
 
-    font-size: 28px;
+  font-size: 28px;
 
-    color: #d5d5d5;
+  color: #d5d5d5;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    padding: 0;
+  padding: 0;
 
-    transition: transform 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 .etoile:hover {
-    transform: scale(1.15);
+  transform: scale(1.15);
 }
 
 .etoile.active {
-    color: #f5b942;
+  color: #f5b942;
 }
-
 
 /* =====================================================
    COMPTEUR
    ===================================================== */
 
 .compteur {
-    text-align: right;
+  text-align: right;
 
-    margin-top: 5px;
+  margin-top: 5px;
 
-    font-size: 12px;
+  font-size: 12px;
 
-    color: #8a999f;
+  color: #8a999f;
 }
-
 
 /* =====================================================
    BOUTON
    ===================================================== */
 
 .bouton-avis {
-    width: 100%;
+  width: 100%;
 
-    margin-top: 20px;
+  margin-top: 20px;
 
-    padding: 12px;
+  padding: 12px;
 
-    border: none;
+  border: none;
 
-    border-radius: 9px;
+  border-radius: 9px;
 
-    background: #20a39e;
+  background: #20a39e;
 
-    color: white;
+  color: white;
 
-    font-size: 14px;
+  font-size: 14px;
 
-    font-weight: 600;
+  font-weight: 600;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .bouton-avis:hover {
-    background: #178f8a;
+  background: #178f8a;
 
-    transform: translateY(-1px);
+  transform: translateY(-1px);
 
-    box-shadow: 0 5px 12px rgba(32, 163, 158, 0.2);
+  box-shadow: 0 5px 12px rgba(32, 163, 158, 0.2);
 }
-
 
 /* =====================================================
    MESSAGES
    ===================================================== */
 
 .avis-erreur {
-    padding: 10px 12px;
+  padding: 10px 12px;
 
-    border-radius: 8px;
+  border-radius: 8px;
 
-    background-color: #fff0f0;
+  background-color: #fff0f0;
 
-    color: #b91c1c;
+  color: #b91c1c;
 
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .avis-message {
-    padding: 10px 12px;
+  padding: 10px 12px;
 
-    border-radius: 8px;
+  border-radius: 8px;
 
-    background-color: #ecfff5;
+  background-color: #ecfff5;
 
-    color: #23804b;
+  color: #23804b;
 
-    font-size: 14px;
+  font-size: 14px;
 }
-
 
 /* =====================================================
    COLONNE DES AVIS
    ===================================================== */
 
 .avis-resultats {
-    min-width: 0;
+  min-width: 0;
 }
-
 
 /* =====================================================
    HEADER DES AVIS
    ===================================================== */
 
 .avis-resultats-header {
-    display: flex;
+  display: flex;
 
-    justify-content: space-between;
+  justify-content: space-between;
 
-    align-items: center;
+  align-items: center;
 
-    gap: 20px;
+  gap: 20px;
 
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .avis-resultats-header h2 {
-    margin: 0;
+  margin: 0;
 
-    color: #155e75;
+  color: #155e75;
 
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .avis-resultats-header p {
-    margin: 5px 0 0;
+  margin: 5px 0 0;
 
-    color: #64748b;
+  color: #64748b;
 
-    font-size: 14px;
+  font-size: 14px;
 }
-
 
 /* =====================================================
    FILTRE PAR VILLE
    ===================================================== */
 
 .filtre-ville {
-    padding: 10px 13px;
+  padding: 10px 13px;
 
-    min-width: 220px;
+  min-width: 220px;
 
-    border: 1px solid #cbd5e1;
+  border: 1px solid #cbd5e1;
 
-    border-radius: 9px;
+  border-radius: 9px;
 
-    background-color: #ffffff;
+  background-color: #ffffff;
 
-    color: #334155;
+  color: #334155;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    outline: none;
+  outline: none;
 
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .filtre-ville:focus {
-    border-color: #20a39e;
+  border-color: #20a39e;
 
-    box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.12);
+  box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.12);
 }
-
 
 /* =====================================================
    LISTE DES AVIS
    ===================================================== */
 
 .avis-liste {
-    display: flex;
+  display: flex;
 
-    flex-direction: column;
+  flex-direction: column;
 
-    gap: 18px;
+  gap: 18px;
 }
-
 
 /* =====================================================
    CARTE D'UN AVIS
    ===================================================== */
 
 .avis-card {
-    background: #ffffff;
+  background: #ffffff;
 
-    padding: 22px 25px;
+  padding: 22px 25px;
 
-    border: 1px solid #e2e8f0;
+  border: 1px solid #e2e8f0;
 
-    border-radius: 16px;
+  border-radius: 16px;
 
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
 
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .avis-card:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.09);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.09);
 }
-
 
 /* =====================================================
    ÉTOILES DES AVIS
    ===================================================== */
 
 .avis-etoiles {
-    font-size: 20px;
+  font-size: 20px;
 
-    color: #f5b942;
+  color: #f5b942;
 
-    letter-spacing: 2px;
+  letter-spacing: 2px;
 }
 
 .etoiles-vides {
-    color: #d8d8d8;
+  color: #d8d8d8;
 }
-
 
 /* =====================================================
    DESTINATION
    ===================================================== */
 
 .avis-destination {
-    margin-top: 10px;
+  margin-top: 10px;
 
-    color: #0e7490;
+  color: #0e7490;
 
-    font-weight: 600;
+  font-weight: 600;
 }
-
 
 /* =====================================================
    COMMENTAIRE
    ===================================================== */
 
 .avis-commentaire {
-    margin: 15px 0;
+  margin: 15px 0;
 
-    color: #475569;
+  color: #475569;
 
-    font-size: 15px;
+  font-size: 15px;
 
-    line-height: 1.6;
+  line-height: 1.6;
 
-    font-style: italic;
+  font-style: italic;
 }
-
 
 /* =====================================================
    AUTEUR
    ===================================================== */
 
 .avis-auteur {
-    display: flex;
+  display: flex;
 
-    align-items: center;
+  align-items: center;
 
-    gap: 10px;
+  gap: 10px;
 
-    margin-top: 15px;
+  margin-top: 15px;
 
-    padding-top: 15px;
+  padding-top: 15px;
 
-    border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #e2e8f0;
 }
 
 .avatar-avis {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 
-    display: flex;
+  display: flex;
 
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    background: #20a39e;
+  background: #20a39e;
 
-    color: white;
+  color: white;
 
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .avis-auteur strong {
-    color: #334155;
+  color: #334155;
 }
 
 .avis-auteur p {
-    margin: 2px 0 0;
+  margin: 2px 0 0;
 
-    color: #89969b;
+  color: #89969b;
 
-    font-size: 13px;
+  font-size: 13px;
 }
-
 
 /* =====================================================
    AUCUN AVIS
    ===================================================== */
 
 .aucun-avis {
-    padding: 45px;
+  padding: 45px;
 
-    text-align: center;
+  text-align: center;
 
-    background-color: #ffffff;
+  background-color: #ffffff;
 
-    border: 1px solid #e2e8f0;
+  border: 1px solid #e2e8f0;
 
-    border-radius: 16px;
+  border-radius: 16px;
 
-    color: #718087;
+  color: #718087;
 
-    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
 }
-
 
 /* =====================================================
    RESPONSIVE
    ===================================================== */
 
 @media (max-width: 900px) {
+  .avis-page {
+    padding: 30px 20px;
+  }
 
-    .avis-page {
-        padding: 30px 20px;
-    }
+  .avis-conteneur {
+    grid-template-columns: 1fr;
+  }
 
-    .avis-conteneur {
-        grid-template-columns: 1fr;
-    }
+  .avis-form {
+    position: static;
+  }
 
-    .avis-form {
-        position: static;
-    }
+  .avis-resultats-header {
+    flex-direction: column;
 
-    .avis-resultats-header {
-        flex-direction: column;
+    align-items: stretch;
+  }
 
-        align-items: stretch;
-    }
-
-    .filtre-ville {
-        width: 100%;
-    }
+  .filtre-ville {
+    width: 100%;
+  }
 }
 
-
 @media (max-width: 600px) {
+  .avis-page {
+    padding: 25px 12px;
+  }
 
-    .avis-page {
-        padding: 25px 12px;
-    }
+  .avis-header h1 {
+    font-size: 28px;
+  }
 
-    .avis-header h1 {
-        font-size: 28px;
-    }
+  .avis-form {
+    padding: 20px;
+  }
 
-    .avis-form {
-        padding: 20px;
-    }
-
-    .avis-card {
-        padding: 18px;
-    }
+  .avis-card {
+    padding: 18px;
+  }
 }
