@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { getDestinations, supprimerDestination } from "../api/destinations";
+import { getDestinations, supprimerDestination } from "../../api/destinations";
 import "../App.css";
-import { type Destination } from "../../../shared/types/destination";
-import { type Meta } from "../../../shared/types/pagination";
+import { type Destination } from "../../../../shared/types/destination";
+import { type Meta } from "../../../../shared/types/pagination";
 import { Link } from "react-router-dom";
-import { Pagination } from "./layout/core/Pagination";
+import { Pagination } from "./../layout/core/Pagination";
 
 export default function TableauAdminDestinations() {
   const [destinations, setDestinations] = useState<Destination[]>([]);

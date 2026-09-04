@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
-import { postDestination } from "../api/destinations";
+import { postDestination } from "../../api/destinations";
 import "../App.css";
-import { type Continent } from "../../../shared/types/destination";
+import { type Continent } from "../../../../shared/types/destination";
 
 interface FormProps {
   onSuccess?: () => void;

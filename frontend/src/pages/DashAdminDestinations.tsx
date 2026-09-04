@@ -1,10 +1,10 @@
 import "../App.css";
 import "../styles/DashAdminDestinations.css";
-import TableauAdminDestinations from "../components/TableauAdminDestinations";
-import FormAjouterDestination from "../components/FormAjouterDestination";
+import TableauAdminDestinations from "../components/admin/TableauAdminDestinations";
+import FormAjouterDestination from "../components/admin/FormAjouterDestination";
 import Header from "../components/layout/core/Header";
 import { useState } from "react";
-import TableauAdminPays from "../components/TableauAdminPays";
+import TableauAdminPays from "../components/admin/TableauAdminPays";
 import { useAuth } from "../context/AuthContext";
 
 export default function DashAdminDestinations() {
