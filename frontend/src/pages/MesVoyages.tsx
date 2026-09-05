@@ -12,7 +12,7 @@ import { AxiosError } from "axios";
 import { AjouterEtape } from "../components/mesvoyages/AjouterEtapeCard";
 import { useError } from "../context/ErrContext";
 import { ModalErreur } from "../components/common/ModalErreur";
-import '../components/mesvoyages/bootstrap/bootstrap-scoped.scss'
+import "../components/mesvoyages/bootstrap/bootstrap-scoped.scss";
 
 export default function MesVoyages() {
   const token = localStorage.getItem("token");
@@ -33,6 +33,8 @@ export default function MesVoyages() {
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [selectedVoyageId, setSelectedVoyageId] = useState<string>("");
   const [isVoyageSelected, setIsVoyageSelected] = useState<Boolean>(false);
+  const [etapes, setEtapes] = useState<Etape[]>([]);
+  const [isLoadingE, setIsLoadingE] = useState<Boolean>(false);
 
   useEffect(() => {
     async function chargerVoyages() {
@@ -105,9 +107,6 @@ export default function MesVoyages() {
     }
   };
 
-  const [etapes, setEtapes] = useState<Etape[]>([]);
-  const [isLoadingE, setIsLoadingE] = useState<Boolean>(false);
-
   const getEtapes = async (id: string) => {
     try {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -123,76 +122,6 @@ export default function MesVoyages() {
         setIsLoading(false);
       }
     }
-
-    const handleDeleteEtapes = async (vid : string, eid : number) => {
-        try {
-            console.log('here')
-            await api.delete(`etapes/${vid}/${eid}`)
-            setEtapes(prev => prev.filter(e => e.id !== eid))
-        } catch (error) {
-            if (error instanceof AxiosError) {
-                console.error(error.response)
-            }
-        }
-    }
-
-    return (
-    <div className="bootstrap-scope">
-        <CoreLayout navUserName={userData!.given_name}>
-            <div className="container">
-                    <div className="row">
-                        <div className="col-6 bg-light">
-                            {isLoading ? (
-                                <p>Chargement des voyages...</p>
-                            ):(
-                                <>
-                                    <AjouterVoyage handleCreateVoyage={handleCreateVoyage}/>
-                                    {voyages.map(v => 
-                                        <VoyageCard
-                                            key={v.id} 
-                                            id={v.id} 
-                                            titre= {v.titre}
-                                            dateDeb={v.dateDeb}
-                                            dateFin={v.dateFin}
-                                            statut={v.statut}
-                                            updateHandler={handleUpdateVoyage} 
-                                            handleCardClick = {getEtapes} 
-                                            deleteHandler={handleDeleteVoyage}/>)}
-                                </>
-                            )}  
-                        </div>
-                        <div id="cartes-etapes" className="col-6 bg-light">
-                            {isLoadingE ? (
-                                <p className="text-center my-3">Chargement des étapes...</p>
-                            ):(
-                                <>  
-                                    {etapes.map(etape => 
-                                        <EtapeCard 
-                                            key={etape.id} 
-                                            id={etape.id}
-                                            voyageId={etape.voyageId} 
-                                            destinationId={etape.destinationId}
-                                            dateDeb={etape.dateDeb}
-                                            dateFin={etape.dateFin}
-                                            hebergement={etape.hebergement} 
-                                            notes = {etape.notes}
-                                            updateHandler={handleUpdateEtape}
-                                            deleteHandler={handleDeleteEtapes}
-                                        />)
-                                    
-                                    }
-                                    {isVoyageSelected &&
-                                     <AjouterEtape voyageId={selectedVoyageId} handleCreateEtape={handleCreateEtape}/>}
-                                </>
-                            )}
-                        </div>
-                    </div>
-            </div>
-            {showErrModal && <ModalErreur/>}
-        </CoreLayout>
-    </div>
-    )
-}
   };
 
   const handleCreateEtape = async (voyageId: string, postBody: CreateEtape) => {
@@ -231,7 +160,6 @@ export default function MesVoyages() {
 
   const handleDeleteEtapes = async (vid: string, eid: number) => {
     try {
-      alert("Une etape sera supprime");
       await api.delete(`etapes/${vid}/${eid}`);
       setEtapes((prev) => prev.filter((e) => e.id !== eid));
     } catch (error) {
@@ -242,8 +170,8 @@ export default function MesVoyages() {
   };
 
   return (
-    <CoreLayout navUserName={userData!.given_name}>
-      <div className="bootstrap-scope">
+    <div className="bootstrap-scope">
+      <CoreLayout navUserName={userData!.given_name}>
         <div className="container">
           <div className="row">
             <div className="col-6 bg-light">
@@ -257,18 +185,20 @@ export default function MesVoyages() {
                       key={v.id}
                       id={v.id}
                       titre={v.titre}
+                      dateDeb={v.dateDeb}
+                      dateFin={v.dateFin}
+                      statut={v.statut}
                       updateHandler={handleUpdateVoyage}
                       handleCardClick={getEtapes}
                       deleteHandler={handleDeleteVoyage}
                     />
                   ))}
-                  <AjouterVoyage handleCreateVoyage={handleCreateVoyage} />
                 </>
               )}
             </div>
             <div id="cartes-etapes" className="col-6 bg-light">
               {isLoadingE ? (
-                <p>Chargement des étapes...</p>
+                <p className="text-center my-3">Chargement des étapes...</p>
               ) : (
                 <>
                   {etapes.map((etape) => (
@@ -297,7 +227,7 @@ export default function MesVoyages() {
           </div>
         </div>
         {showErrModal && <ModalErreur />}
-      </div>
-    </CoreLayout>
+      </CoreLayout>
+    </div>
   );
 }
