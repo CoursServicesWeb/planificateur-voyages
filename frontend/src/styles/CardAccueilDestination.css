@@ -401,3 +401,25 @@
     font-size: 15px;
   }
 }
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.destination-hero,
+.destination-hero-overlay {
+  min-height: 360px;
+}
+
+.destination-hero-content h1 {
+  font-size: 34px;
+}
+
+.destination-hero-content p {
+  font-size: 16px;
+}
+
+.destination-hero-button {
+  font-size: 15px;
+  padding: 11px 20px;
+}
