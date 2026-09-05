@@ -16,7 +16,7 @@ export function ModalModEtape({voyageId, etapeId, modifyHandler, onClose} : Moda
         async function getDestinations() {
             
             const result = await api.get('/destinations');
-            setDestinations(result.data)
+            setDestinations(result.data.data)
         }
         try {
             getDestinations()

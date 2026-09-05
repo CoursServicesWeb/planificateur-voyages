@@ -12,7 +12,7 @@ export function EtapeCard(
     useEffect(() => {
         const getDestination = async (id:number) => {
             const resp = await api.get(`/destinations/${id}`)
-            setVille(resp.data.destination[0].ville);
+            setVille(resp.data.destination.ville);
         }
         getDestination(destinationId)
     },[])
@@ -36,7 +36,7 @@ export function EtapeCard(
 
     return (
         <div className="col mt-4">
-          <div className= "card h-100 position-relative">
+          <div className= "card w-75 mx-auto h-100 position-relative">
             <button 
               type="button" 
               className="btn-close position-absolute top-0 end-0 m-2" 
@@ -45,10 +45,10 @@ export function EtapeCard(
             <img src="..." className="card-img-top" alt="..."/>
             <div className="card-body">
               <h5 className="card-title">{ville}</h5>
-              <h6 className="card-text">{dateDeb.split('T')[0]}</h6>
-              <h6 className="card-text">{dateFin.split('T')[0]}</h6>
-              <p>{hebergement}</p>
-              <p>{notes}</p>
+              <h6 className="card-text">Dep: {dateDeb.split('T')[0]}</h6>
+              <h6 className="card-text">FIn: {dateFin.split('T')[0]}</h6>
+              <p>Hébergement: {hebergement}</p>
+              <p>Notes: {notes}</p>
           </div>
           <div className="card-footer bg-transparent border-0 pt-0">
             <button type="button" onClick={ouvrirModalModifierEtape} className="btn btn-primary w-100">
@@ -58,7 +58,13 @@ export function EtapeCard(
         </div>
         {estOuvertModalModifierEtape && 
           <ModalModEtape voyageId = {voyageId} etapeId={id} modifyHandler = {updateHandler} onClose={() => setEstOuvertModalModifierEtape(false)}/>}
-        {ouvrirModalSuppression && <ModalConfirmerSuppression id={voyageId} deleteTargetType={'étape'} closeModal={fermerModalSuppression} altConfirmDelete={deleteHandler}/>}
+        {ouvrirModalSuppression &&
+        <ModalConfirmerSuppression 
+          id={voyageId} 
+          deleteTargetType={'étape'} 
+          closeModal={fermerModalSuppression} 
+          confirmDelete={()=>deleteHandler(voyageId,id)}
+          />}
     </div>
     )
 }

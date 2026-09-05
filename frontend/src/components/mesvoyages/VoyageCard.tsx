@@ -3,7 +3,8 @@ import { ModalModVoyage } from './ModalModVoyage';
 import imageCarte from '../../assets/images/international-travel-0_1684823087.webp'
 import { ModalConfirmerSuppression } from './ModalConfirmerSuppresion';
 
-export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardClick} : VoyageCardProps) {
+export function VoyageCard(
+  {id, titre, dateDeb, dateFin, statut, updateHandler, deleteHandler, handleCardClick} : VoyageCardProps) {
 
     const [ouvrirModalModifierVoy, setOuvrirModalModifierVoy] = useState<Boolean>(false);
     const [ouvrirModalSuppression, setOuvrirModalSuppression] = useState<Boolean>(false);
@@ -24,7 +25,7 @@ export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardC
 
     return (
       <div className="col mt-4">
-        <div className={`card w-75 mx-auto h-100 position-relative$ {isSelected ? 'border-primary border-2' : ''}`}
+        <div className={`card mx-auto h-100 position-relative$ {isSelected ? 'border-primary border-2' : ''}`}
         style={{ cursor: 'pointer' }}
         onClick={() => handleCardClick(id)}>
           <button 
@@ -35,9 +36,9 @@ export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardC
           <img src={imageCarte} style={{height:'100px', objectFit: 'cover'}} alt="..."/>
           <div className="card-body">
             <h5 className="card-title">{titre}</h5>
-            <h6 className="card-text">Date info</h6>
-            <h6 className="card-text">Date info</h6>
-            <p>Statut</p>
+            <h6 className="card-text">Dep: {dateDeb.split('T')[0]}</h6>
+            <h6 className="card-text">Retour: {dateFin.split('T')[0]}</h6>
+            <p>{statut}</p>
         </div>
         <div className="card-footer bg-transparent border-0 pt-0">
           <button type="button" onClick={ouvrirModalModifierVoyage} className="btn btn-primary w-100">
@@ -54,6 +55,9 @@ export function VoyageCard({id, titre, updateHandler, deleteHandler, handleCardC
 interface VoyageCardProps {
   id : string
   titre : string
+  dateDeb : string
+  dateFin : string
+  statut : string
   updateHandler : (id : string, formValues : Object) => void
   deleteHandler : (id : string) => void
   handleCardClick : (id : string) => void

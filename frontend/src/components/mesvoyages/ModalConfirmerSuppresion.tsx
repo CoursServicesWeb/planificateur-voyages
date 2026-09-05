@@ -1,5 +1,5 @@
 
-export function ModalConfirmerSuppression({ id, deleteTargetType, closeModal, confirmDelete }: ModalSuppressionProps) {
+export function ModalConfirmerSuppression({ id, deleteTargetType, closeModal, confirmDelete, altConfirmDelete }: ModalSuppressionProps) {
     return (
         <>
             <div className="modal fade show d-block" tabIndex={-1} role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
@@ -20,7 +20,10 @@ export function ModalConfirmerSuppression({ id, deleteTargetType, closeModal, co
                             <button type="button" className="btn btn-light px-4" onClick={closeModal}>
                                 Annuler
                             </button>
-                            <button type="button" className="btn btn-danger px-4" onClick={() => confirmDelete?.(id)}>
+                            <button type="button" className="btn btn-danger px-4" onClick={() => {
+                                confirmDelete?.(id)
+                                altConfirmDelete?.(id,id)   
+                                }}>
                                 Supprimer
                             </button>
                         </div>
@@ -37,5 +40,5 @@ interface ModalSuppressionProps {
     deleteTargetType : string
     closeModal : () => void
     confirmDelete?: (id: string) => void
-    altConfirmDelete?: (vid: string, eid: number) => void
+    altConfirmDelete?: (vid: string, eid : string) => void
 }
