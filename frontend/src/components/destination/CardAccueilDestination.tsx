@@ -122,7 +122,7 @@ export function CardAccueilDestination({
           type="button"
           className="destination-card-button"
           onClick={() => {
-            connecte ? navigate("/mesvoyages") : navigate("/login");
+            connecte ? navigate("/mes-voyages") : navigate("/login");
           }}
         >
           <span>Réserver ce voyage</span>
