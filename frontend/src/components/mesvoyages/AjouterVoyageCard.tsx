@@ -3,6 +3,7 @@ import { ModalAjouterVoyage } from "./ModalAjouterVoyage"
 import type { CreateVoyage } from "../../../../shared/types/voyage"
 
 
+
 export function AjouterVoyage({ handleCreateVoyage } : AjouterVoyageProps) {
 
     const [ouvrirModal, setOuvrirModal] = useState<Boolean>(false)

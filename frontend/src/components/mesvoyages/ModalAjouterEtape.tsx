@@ -18,7 +18,7 @@ export function ModalAjouterEtape({ voyageId, onClose, handleCreateEtape } : Mod
       async function getDestinations() {
           
           const result = await api.get('/destinations');
-          setDestinations(result.data)
+          setDestinations(result.data.data)
       }
       try {
           getDestinations()

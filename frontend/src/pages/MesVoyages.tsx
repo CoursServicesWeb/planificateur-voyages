@@ -13,6 +13,7 @@ import { AxiosError } from "axios";
 import { AjouterEtape } from "../components/mesvoyages/AjouterEtapeCard";
 import { useError } from "../context/ErrContext";
 import { ModalErreur } from "../components/common/ModalErreur";
+import '../components/mesvoyages/bootstrap/bootstrap-scoped.scss'
 
 
 export default function MesVoyages () {
@@ -159,7 +160,7 @@ export default function MesVoyages () {
 
     const handleDeleteEtapes = async (vid : string, eid : number) => {
         try {
-            alert('Une etape sera supprime')
+            console.log('here')
             await api.delete(`etapes/${vid}/${eid}`)
             setEtapes(prev => prev.filter(e => e.id !== eid))
         } catch (error) {
@@ -170,6 +171,7 @@ export default function MesVoyages () {
     }
 
     return (
+    <div className="bootstrap-scope">
         <CoreLayout navUserName={userData!.given_name}>
             <div className="container">
                     <div className="row">
@@ -184,16 +186,18 @@ export default function MesVoyages () {
                                             key={v.id} 
                                             id={v.id} 
                                             titre= {v.titre}
+                                            dateDeb={v.dateDeb}
+                                            dateFin={v.dateFin}
+                                            statut={v.statut}
                                             updateHandler={handleUpdateVoyage} 
                                             handleCardClick = {getEtapes} 
                                             deleteHandler={handleDeleteVoyage}/>)}
-                                    <AjouterVoyage handleCreateVoyage={handleCreateVoyage}/>
                                 </>
                             )}  
                         </div>
                         <div id="cartes-etapes" className="col-6 bg-light">
                             {isLoadingE ? (
-                                <p>Chargement des étapes...</p>
+                                <p className="text-center my-3">Chargement des étapes...</p>
                             ):(
                                 <>  
                                     {etapes.map(etape => 
@@ -220,5 +224,6 @@ export default function MesVoyages () {
             </div>
             {showErrModal && <ModalErreur/>}
         </CoreLayout>
+    </div>
     )
 }

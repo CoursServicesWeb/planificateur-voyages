@@ -17,7 +17,8 @@ export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoy
       async function getDestinations() {
           
           const result = await api.get('/destinations');
-          setDestinations(result.data)
+          setDestinations(result.data.data)
+          
       }
       try {
           getDestinations()
@@ -45,7 +46,7 @@ export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoy
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} 
       >
         <div 
-          className="modal-dialog modal-dialog-centered" 
+          className="modal-dialog modal-dialog-centered modal-lg" 
           role="document"
           onClick={(e) => e.stopPropagation()} 
         >
