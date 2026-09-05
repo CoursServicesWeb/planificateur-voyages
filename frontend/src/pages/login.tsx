@@ -47,8 +47,10 @@ function Login() {
             console.log("Connexion réussie");
             console.log("Rôle :", roleUtilisateur);
 
-            if (roleUtilisateur === "Admin") {
+             if (roleUtilisateur === "Admin") {
                 navigate("/admin");
+            } else if (roleUtilisateur === "Voyageur") {
+                navigate("/mes-voyages");
             }
 
         } catch (error) {
