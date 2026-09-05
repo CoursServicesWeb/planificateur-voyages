@@ -91,7 +91,11 @@ export function CardAccueilDestination({
             <h4>Continent : {continent}</h4>
           </div>
           <div className="destination-card-moyenne">
-            {note ? (
+            {chargement ? (
+              <h4>Chargement de la note...</h4>
+            ) : erreur ? (
+              <h4>Erreur inattendue</h4>
+            ) : note ? (
               <h4>Moyenne des avis : {note} / 5</h4>
             ) : (
               <h4>Pas encore noté</h4>
@@ -118,7 +122,7 @@ export function CardAccueilDestination({
           type="button"
           className="destination-card-button"
           onClick={() => {
-            connecte ? navigate("/mesvoyages") : navigate("/login");
+            connecte ? navigate("/mes-voyages") : navigate("/login");
           }}
         >
           <span>Réserver ce voyage</span>
