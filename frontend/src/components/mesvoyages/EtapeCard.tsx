@@ -63,6 +63,7 @@ export function EtapeCard(
           id={voyageId} 
           deleteTargetType={'étape'} 
           closeModal={fermerModalSuppression} 
+          confirmDelete={()=>deleteHandler(voyageId,id)}
           />}
     </div>
     )
