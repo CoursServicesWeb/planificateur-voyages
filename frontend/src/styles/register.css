@@ -1,0 +1,208 @@
+/* =====================================================
+   STYLE DE LA PAGE D'INSCRIPTION
+   ===================================================== */
+
+.register-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image:
+        linear-gradient(
+            135deg,
+            rgba(0, 180, 216, 0.25),
+            rgba(255, 183, 77, 0.20)
+        ),
+        url("../assets/login-voyage.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+.register-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 35px 40px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    border-radius: 22px;
+
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
+
+    box-sizing: border-box;
+}
+
+
+.register-card h1 {
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 30px;
+    color: #155e75;
+}
+
+
+.register-subtitle {
+    margin-bottom: 25px;
+    text-align: center;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+
+.register-field {
+    margin-bottom: 16px;
+}
+
+
+.register-field label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #334155;
+}
+
+
+.register-field input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 15px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    font-size: 15px;
+    color: #1e293b;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s,
+        background 0.2s;
+}
+
+
+.register-field input:focus {
+    border-color: #20a39e;
+    background: white;
+
+    box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.15);
+}
+
+
+.register-field input::placeholder {
+    color: #94a3b8;
+}
+
+
+.register-error {
+    margin-bottom: 20px;
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    background: #fee2e2;
+    color: #b91c1c;
+
+    text-align: center;
+    font-size: 14px;
+}
+
+
+.register-button {
+    width: 100%;
+
+    padding: 14px;
+    margin-top: 5px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #20a39e;
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.register-button:hover {
+    background: #178f8a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(32, 163, 158, 0.25);
+}
+
+
+.register-button:active {
+    transform: translateY(0);
+}
+
+
+.register-footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+.register-footer button {
+    padding: 0;
+
+    border: none;
+    background: none;
+
+    color: #20a39e;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+.register-footer button:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   ADAPTATION POUR LES PETITS ÉCRANS
+   ===================================================== */
+
+@media (max-width: 480px) {
+
+    .register-page {
+        padding: 15px;
+    }
+
+    .register-card {
+        padding: 30px 20px;
+    }
+
+    .register-card h1 {
+        font-size: 27px;
+    }
+
+    .register-subtitle {
+        font-size: 14px;
+    }
+}

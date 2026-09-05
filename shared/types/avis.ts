@@ -1,13 +1,15 @@
 // ---------------- Type Avis ---------------- //
+import type { Destination } from "../../shared/types/destination";
 
 export type Avis = {
-  id: number;
-  nom: string;
-  nbEtoiles: number; 
-  commentaire: string;
-  destinationId: number;
-  createdAt: string;
-  updatedAt: string;
+    id: number;
+    nom: string;
+    nbEtoiles: number;
+    commentaire: string;
+    destinationId: number;
+    createdAt: string;
+    updatedAt: string;
+    sujet: Destination;
 };
 
 

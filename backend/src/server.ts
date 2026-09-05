@@ -7,7 +7,7 @@ import etapesRouter from "./routes/etapes.routes.js";
 import paysRouter from "./routes/pays.routes.js";
 import destinationsRouter from "./routes/destinations.routes.js";
 import avisRouteur from "./routes/avis.routes.js";
-import cors from 'cors'
+import cors from "cors";
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
 
 app.use(express.json());
 
@@ -32,11 +32,11 @@ app.use("/etapes", etapesRouter);
 app.use("/destinations", destinationsRouter);
 
 // ---------- Pays --------------------------------- //
-app.use("/api/pays", paysRouter);
+app.use("/pays", paysRouter);
 
 // ---------- Avis --------------------------------- //
 app.use("/avis", avisRouteur);
 
 app.listen(PORT, () => {
-    console.log(`Serveur prêt sur port ${PORT}`);
+  console.log(`Serveur prêt sur port ${PORT}`);
 });

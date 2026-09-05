@@ -1,0 +1,449 @@
+/* =====================================================
+   PAGE ACCUEIL DESTINATIONS
+   ===================================================== */
+
+.destination-title {
+  margin: 2px 0 10px;
+  text-align: center;
+  color: #155e75;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* =====================================================
+   FILTRE
+   ===================================================== */
+
+.destination-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0 25px;
+}
+
+.destination-filter label {
+  color: #475569;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.destination-filter select {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: white;
+  color: #334155;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.destination-filter select:focus {
+  border-color: #20a39e;
+  box-shadow: 0 0 0 3px rgba(32, 163, 158, 0.15);
+}
+
+/* =====================================================
+   CONTENEUR DES CARTES
+   ===================================================== */
+
+.destination-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 325px));
+  justify-content: center;
+  gap: 30px;
+
+  width: 100%;
+  padding: 20px 40px 40px;
+  box-sizing: border-box;
+}
+
+/* =====================================================
+   CARTE DESTINATION
+   ===================================================== */
+
+.destination-card {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-height: 480px;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.08);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.destination-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+}
+
+/* =====================================================
+   IMAGE
+   ===================================================== */
+
+.destination-card-image-container {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+}
+
+.destination-card-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
+}
+
+.destination-card:hover .destination-card-image {
+  transform: scale(1.05);
+}
+
+/* =====================================================
+   EN-TÊTE DE LA CARTE
+   ===================================================== */
+
+.destination-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 18px 15px 8px;
+}
+
+.destination-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin: 0;
+
+  color: #155e75;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+/* =====================================================
+   CONTENU
+   ===================================================== */
+
+.destination-card-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  gap: 6px;
+
+  padding: 8px 18px 10px;
+
+  color: #475569;
+}
+
+.destination-card-sous-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+
+  padding: 2px 4px 6px;
+
+  color: #475569;
+}
+
+.destination-card-sous-content h5,
+.destination-card-sous-content h6 {
+  margin: 0;
+}
+
+/* Informations de la destination */
+
+.destination-card-continent,
+.destination-card-moyenne,
+.destination-card-devise,
+.destination-card-capitale,
+.destination-card-langage,
+.destination-card-temperature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 38px;
+
+  padding: 5px 8px;
+
+  color: #475569;
+
+  font-size: 14px;
+  text-align: center;
+}
+
+/* =====================================================
+   DRAPEAU
+   ===================================================== */
+
+.drapeau-emoji {
+  width: 30px;
+  height: auto;
+
+  display: inline-block;
+
+  object-fit: contain;
+}
+
+/* =====================================================
+   CORPS DE LA CARTE
+   ===================================================== */
+
+.destination-card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* =====================================================
+   PIED DE LA CARTE
+   ===================================================== */
+
+.destination-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 15px;
+  margin-top: auto;
+}
+
+/* =====================================================
+   BOUTON DESTINATION
+   ===================================================== */
+
+.destination-card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 9px;
+
+  background-color: #20a39e;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.destination-card-button:hover {
+  background-color: #178f8a;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 12px rgba(32, 163, 158, 0.25);
+}
+
+/* =====================================================
+   BOUTON AVIS
+   ===================================================== */
+
+.avis-card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 50%;
+
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 9px;
+
+  background-color: #155e75;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.avis-card-button:hover {
+  background-color: #0e7490;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 5px 12px rgba(21, 94, 117, 0.25);
+}
+
+/* =====================================================
+   PAGINATION
+   ===================================================== */
+
+.pagination-accueil {
+  display: flex;
+  justify-content: center;
+
+  margin: 10px 0 35px;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .destination-title {
+    margin-top: 25px;
+    font-size: 24px;
+  }
+
+  .destination-card-container {
+    grid-template-columns: minmax(280px, 325px);
+
+    padding: 15px 20px 30px;
+
+    gap: 25px;
+  }
+
+  .destination-card {
+    min-height: 450px;
+  }
+}
+
+@media (max-width: 480px) {
+  .destination-title {
+    font-size: 22px;
+  }
+
+  .destination-card-container {
+    grid-template-columns: 1fr;
+
+    padding: 10px 15px 25px;
+  }
+
+  .destination-card {
+    min-height: auto;
+  }
+
+  .destination-card-image-container {
+    height: 180px;
+  }
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .destination-hero,
+  .destination-hero-overlay {
+    min-height: 360px;
+  }
+
+  .destination-hero-content h1 {
+    font-size: 34px;
+  }
+
+  .destination-hero-content p {
+    font-size: 16px;
+  }
+
+  .destination-hero-button {
+    font-size: 15px;
+    padding: 11px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .destination-hero,
+  .destination-hero-overlay {
+    min-height: 320px;
+  }
+
+  .destination-hero-content h1 {
+    font-size: 28px;
+  }
+
+  .destination-hero-content p {
+    font-size: 15px;
+  }
+}
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.destination-hero,
+.destination-hero-overlay {
+  min-height: 280px;
+  display: flex;
+  justify-content: center;
+  background-color: #ebeff5;
+}
+
+.destination-hero-content {
+  font-size: 34px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.destination-hero-content p {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.destination-hero-content h1 {
+  font-size: 34px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.destination-hero-button {
+  font-size: 15px;
+  padding: 11px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  background-color: #178f8a;
+  color: white;
+}

@@ -73,7 +73,7 @@ async function ajouterEtape(req:Request,res:Response) {
                 hebergement:hebergement,
                 notes: notes ?? Prisma.skip,
                 voyageId:voyageid as any,
-                destinationId:destinationId
+                destinationId:Number(destinationId)
             }
             })
             return res.status(201).json(result)
@@ -117,7 +117,7 @@ async function ajouterEtape(req:Request,res:Response) {
                     hebergement:hebergement,
                     notes: notes ?? Prisma.skip,
                     voyageId:voyageid as any,
-                    destinationId:destinationId
+                    destinationId:Number(destinationId)
                 }
                 })
                 return res.status(201).json(result)
@@ -161,7 +161,8 @@ async function getEtapes(req:Request,res:Response) {
         etapes = await prisma.etape.findMany({
             where:{
                 voyageId:req.params.voyageid as string
-            }
+            },
+            orderBy: { dateDeb: 'asc'}
         })
 
         const meteoParDestinationJSON = Object.fromEntries(await recupererMeteo(etapes))
@@ -222,7 +223,7 @@ async function modifierEtape(req:Request, res:Response) {
             where:{id:Number(req.params.etapeid)},
             data:{
                 hebergement:req.body.hebergement ?? Prisma.skip,
-                destinationId:req.body.destinationId ?? Prisma.skip,
+                destinationId:Number(req.body.destinationId) ?? Prisma.skip,
                 notes:req.body.notes ?? Prisma.skip
             }
         })

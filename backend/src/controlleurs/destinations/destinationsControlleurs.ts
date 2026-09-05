@@ -7,6 +7,8 @@ import { count } from "node:console";
 import type { format } from "node:path";
 import { recupererInfosPays } from "../../routes/pays.routes.js";
 import destinationsRouter from "../../routes/destinations.routes.js";
+import { buildMeta, parsePagination } from "../../utils/paginate.js";
+import { type Continent } from "../../../../shared/types/destination.js";
 
 // La fonction pour récupérer le country code, la longitude et la latitude avec une APIT
 async function getInfosVille(nomVille: string) {
@@ -20,8 +22,14 @@ async function getInfosVille(nomVille: string) {
       },
     });
 
+    if (!data?.results || data.results.length === 0) {
+      return null;
+    }
+
     return {
-      infoSuppPaysId: data.results[0].country_code,
+      infoSuppPaysId: data.results[0].country_code
+        ? data.results[0].country_code.toUpperCase()
+        : "N/A",
       lat: data.results[0].latitude,
       long: data.results[0].longitude,
       nomPays: data.results[0].country,
@@ -116,9 +124,7 @@ export async function creerDestination(req: Request, res: Response) {
       },
     });
 
-    return res
-      .status(201)
-      .json({ message: `Destination ${ville} ajoutée avec succès !` });
+    return res.status(201).json(destination);
   } catch (e) {
     return res.status(500).json({ erreur: "Erreur de serveur." });
   }
@@ -127,14 +133,22 @@ export async function creerDestination(req: Request, res: Response) {
 // La fonction pour obtenir toutes les destinations
 export async function getDestinations(req: Request, res: Response) {
   try {
-    const destinations = await prisma.destination.findMany({
-      orderBy: { continent: "asc" },
-    });
+    const { page, limit, skip, take } = parsePagination(req.query); // Dans le query, on spécifie la pagination
 
-    if (!destinations) {
-      return res.status(404).json({ message: "Aucune destination trouvée." });
-    }
-    return res.json(destinations);
+    const [total, destinations] = await Promise.all([
+      prisma.destination.count(),
+      prisma.destination.findMany({
+        include: {
+          infosupppays: true,
+        },
+        orderBy: { id: "asc" },
+        skip,
+        take,
+      }),
+    ]);
+
+    const meta = buildMeta(page, limit, total);
+    return res.status(200).json({ data: destinations, meta });
   } catch (e) {
     res.status(400).json({ erreur: "La requête n'a pas fonctionné." });
   }
@@ -142,22 +156,42 @@ export async function getDestinations(req: Request, res: Response) {
 
 // La fonction pour filtrer les destinations par continent
 export async function getByContinent(req: Request, res: Response) {
-  const continent = req.query.continent || null;
+  const continent = req.query.continent as Continent;
   if (!continent) {
     return res.status(400).json({ erreur: "Vous devez donner un continent." });
   }
+
+  const continentsValides: Continent[] = [
+    "Asie",
+    "Afrique",
+    "Amerique",
+    "Europe",
+    "Oceanie",
+  ];
+
+  if (!continentsValides.includes(continent)) {
+    return res
+      .status(400)
+      .json({ erreur: "Le continent donné n'est pas valide." });
+  }
   try {
-    const destContinent = await prisma.destination.findMany({
-      where: { continent: continent as any },
-    });
+    const { page, limit, skip, take } = parsePagination(req.query);
 
-    if (!destContinent) {
-      return res
-        .status(404)
-        .json({ erreur: "Aucune destination trouvée avec ce continent" });
-    }
+    const [total, destContinent] = await Promise.all([
+      prisma.destination.count({ where: { continent } }),
+      prisma.destination.findMany({
+        where: { continent },
+        include: {
+          infosupppays: true,
+        },
+        skip,
+        take,
+      }),
+    ]);
 
-    return res.status(200).json(destContinent);
+    const meta = buildMeta(page, limit, total);
+
+    return res.status(200).json({ data: destContinent, meta });
   } catch (e) {
     return res.status(500).json({ erreur: "Erreur de serveur." });
   }
@@ -173,8 +207,11 @@ export async function getDestinationById(req: Request, res: Response) {
   }
 
   try {
-    const destination = await prisma.destination.findMany({
+    const destination = await prisma.destination.findUnique({
       where: { id },
+      include: {
+        infosupppays: true,
+      },
     });
 
     if (!destination) {
@@ -187,12 +224,14 @@ export async function getDestinationById(req: Request, res: Response) {
       where: { destinationId: id },
     });
 
-    const noteMoyenne = await prisma.avis.aggregate({
+    const noteMoyenneAggregation = await prisma.avis.aggregate({
       where: { destinationId: id },
       _avg: {
         nbEtoiles: true,
       },
     });
+
+    const noteMoyenne = noteMoyenneAggregation._avg.nbEtoiles ?? null; // je change la fonction pour obtenir la note moyenne plus facilement en frontend
 
     return res.status(200).json({ destination, listeAvis, noteMoyenne });
   } catch (e) {
@@ -204,6 +243,8 @@ export async function getDestinationById(req: Request, res: Response) {
 export async function modifierDestination(req: Request, res: Response) {
   const id = Number(req.params.id) || null;
 
+  const { ville, continent, infoSuppPaysId } = req.body;
+
   if (!id) {
     return res.status(400).json({ erreur: "Vous devez entrer un ID valide." });
   }
@@ -211,7 +252,11 @@ export async function modifierDestination(req: Request, res: Response) {
   try {
     const destination = await prisma.destination.update({
       where: { id },
-      data: req.body,
+      data: {
+        ville,
+        continent,
+        infoSuppPaysId,
+      },
     });
     return res.status(200).json(destination);
   } catch (e) {
@@ -236,5 +281,27 @@ export async function supprimerDestination(req: Request, res: Response) {
     });
   } catch (e) {
     return res.status(404).json({ erreur: "La destination n'existe pas" });
+  }
+}
+
+// Une fonction pour obtenir les 5 derniers avis sur une destination
+export async function getFiveLastAvis(req: Request, res: Response) {
+  const id = Number(req.params.id) || null;
+
+  if (!id) {
+    return res.status(400).json({ erreur: "Vous devez entrer un ID valide." });
+  }
+
+  try {
+    const cinqDerniersAvis = await prisma.avis.findMany({
+      where: { destinationId: id },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      include: { sujet: true },
+    });
+
+    return res.status(200).json({ data: cinqDerniersAvis });
+  } catch (e) {
+    return res.status(500).json({ erreur: "Erreur de serveur." });
   }
 }
