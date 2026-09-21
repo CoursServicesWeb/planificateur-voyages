@@ -12,7 +12,7 @@ import { AxiosError } from "axios";
 import { AjouterEtape } from "../components/mesvoyages/AjouterEtapeCard";
 import { useError } from "../context/ErrContext";
 import { ModalErreur } from "../components/common/ModalErreur";
-import "../components/mesvoyages/bootstrap/bootstrap-scoped.scss";
+import "../styles/bootstrap-scoped.css";
 
 export default function MesVoyages() {
   const token = localStorage.getItem("token");
