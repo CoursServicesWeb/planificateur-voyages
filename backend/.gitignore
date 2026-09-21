@@ -4,6 +4,7 @@ node_modules/
 test.http
 generated
 dist/
+build/
 
 
 /src/generated/prisma

@@ -37,6 +37,7 @@ app.use("/pays", paysRouter);
 // ---------- Avis --------------------------------- //
 app.use("/avis", avisRouteur);
 
-app.listen(PORT, () => {
+/*app.listen(PORT, () => {
   console.log(`Serveur prêt sur port ${PORT}`);
-});
+});*/
+export default app;
