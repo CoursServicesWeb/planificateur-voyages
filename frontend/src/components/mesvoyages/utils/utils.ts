@@ -17,12 +17,14 @@ export function genererPOSTBodyCreerVoyage(formValues : Partial<CreateVoyage>) :
     }
 
     for (const [k,v] of Object.entries(voyage)) {
+        v;
         if(k==='dateDeb' || k === 'dateFin') {
           voyage[k] = convertToISO8601(voyage[k] as string)
         }
     }
 
     for (const [k,v] of Object.entries(etape)) {
+        v;
         if(k==='dateDeb' || k === 'dateFin') {
           etape[k] = convertToISO8601(etape[k] as string)
         }
