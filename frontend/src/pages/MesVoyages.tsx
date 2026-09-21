@@ -170,8 +170,8 @@ export default function MesVoyages() {
   };
 
   return (
-    <div className="bootstrap-scope">
-      <CoreLayout navUserName={userData!.given_name}>
+    <CoreLayout navUserName={userData!.given_name}>
+      <div className="bootstrap-scope">
         <div className="container">
           <div className="row">
             <div className="col-6 bg-light">
@@ -226,8 +226,8 @@ export default function MesVoyages() {
             </div>
           </div>
         </div>
-        {showErrModal && <ModalErreur />}
-      </CoreLayout>
-    </div>
+      </div>
+      {showErrModal && <ModalErreur />}
+    </CoreLayout>
   );
 }

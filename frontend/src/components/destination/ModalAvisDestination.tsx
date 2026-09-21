@@ -46,30 +46,37 @@ export default function ModalAvisDestination({
     return () => document.removeEventListener("keydown", handleKeyDown); // Pour nettoyer une fois que l'événement s'est effectué
   }, [onClose]);
 
-  if (chargement) return <p>Chargement en cours...</p>;
-  if (erreur) return <p style={{ color: "red" }}>{erreur}</p>;
-
   return createPortal(
     <div className="modal-overlay" onClick={() => onClose()}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="custom-modal-content"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="modal-close-button" onClick={onClose}>
           X
         </button>
-        <div className="avis-card-container">
-          {avis.length !== 0 ? (
-            avis.map((a) => (
-              <AvisDestinationCard
-                key={a.id}
-                note={a.nbEtoiles}
-                sujet={a.sujet}
-                commentaire={a.commentaire}
-                nom={a.nom}
-              />
-            ))
-          ) : (
-            <h2 style={{ color: "black" }}>Aucun avis sur cette destination</h2>
-          )}
-        </div>
+        {chargement && <p>Chargement en cours...</p>}
+        {erreur && <p style={{ color: "red" }}>{erreur}</p>}
+
+        {!chargement && !erreur && (
+          <div className="avis-card-container">
+            {avis.length !== 0 ? (
+              avis.map((a) => (
+                <AvisDestinationCard
+                  key={a.id}
+                  note={a.nbEtoiles}
+                  sujet={a.sujet}
+                  commentaire={a.commentaire}
+                  nom={a.nom}
+                />
+              ))
+            ) : (
+              <h2 style={{ color: "black" }}>
+                Aucun avis sur cette destination
+              </h2>
+            )}
+          </div>
+        )}
       </div>
     </div>,
     document.body, // Pour permettre le modal des avis
