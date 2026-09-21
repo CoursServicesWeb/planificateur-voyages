@@ -18,15 +18,19 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://planificateur-voyages-backend.vercel.app",
-      /https:\/\/planificateur-voyages-.*\.vercel\.app$/,
+      "https://planificateur-voyages.vercel.app",
+      /^https:\/\/planificateur-voyages.*\.vercel\.app$/,
       "http://localhost:5173",
       "http://localhost:3000",
     ],
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   }),
 );
+
+// Gérer explicitement les requêtes préflight OPTIONS
+app.options("*", cors());
 
 app.use(express.json());
 
