@@ -19,7 +19,9 @@ app.use(
   cors({
     origin: [
       "https://planificateur-voyages-backend.vercel.app",
+      /https:\/\/planificateur-voyages-.*\.vercel\.app$/,
       "http://localhost:5173",
+      "http://localhost:3000",
     ],
     methods: ["GET", "POST", "PATCH", "DELETE"],
     credentials: true,
