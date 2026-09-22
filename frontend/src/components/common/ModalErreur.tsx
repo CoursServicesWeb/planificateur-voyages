@@ -18,7 +18,7 @@ export function ModalErreur() {
         aria-labelledby="errorModalLabel"
         aria-hidden="false"
       >
-        <div className="modal-dialog modal-dialog-centered" role="document">
+        <div className="modal-dialog modal-md modal-dialog-centered" role="document">
           <div className="modal-content border-danger">
             <div className="modal-header bg-danger text-white">
               <h5 className="modal-title" id="errorModalLabel">

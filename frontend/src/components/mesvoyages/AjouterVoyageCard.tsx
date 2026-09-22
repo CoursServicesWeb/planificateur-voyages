@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { ModalAjouterVoyage } from "./ModalAjouterVoyage"
 import type { CreateVoyage } from "../../../../shared/types/voyage"
+import "../../styles/voyages.css"
 
 
 
@@ -11,7 +12,7 @@ export function AjouterVoyage({ handleCreateVoyage } : AjouterVoyageProps) {
     return (
         <div className="col mt-4">
             <div 
-                className="card h-100 w-75 mx-auto text-center border-secondary border-dashed cursor-pointer shadow-sm-hover"
+                className="card h-100 w-75 mx-auto text-center border-secondary custom-hover border-dashed cursor-pointer shadow-sm-hover"
                 onClick={()=>{setOuvrirModal(true)}}
                 style={{ borderStyle: 'dashed', cursor: 'pointer' }}
             >

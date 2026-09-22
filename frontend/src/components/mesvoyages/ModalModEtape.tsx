@@ -2,9 +2,11 @@
 import { useState,useEffect } from "react";
 import type { Destination } from "../../../../shared/types/destination";
 import { api } from "../../api/axios";
+import { useError } from "../../context/ErrContext";
+import { AxiosError } from "axios";
 
 export function ModalModEtape({voyageId, etapeId, modifyHandler, onClose} : ModalModEtapeProps) {
-
+    const {addError} = useError()
     const [destinations, setDestinations] = useState<Destination[]>([])
     const [destId, setDestId] = useState('')
     const [hebergement, setHebergement] = useState<string>('');
@@ -16,11 +18,19 @@ export function ModalModEtape({voyageId, etapeId, modifyHandler, onClose} : Moda
         async function getDestinations() {
             
             const result = await api.get('/destinations');
+            if(result.status !==200) {
+                throw new Error(result.statusText);
+            }
             setDestinations(result.data.data)
         }
         try {
             getDestinations()
         } catch (error) {
+            if (error instanceof AxiosError) {
+                addError(error.message,error.code? error.code:"");
+            } else if(error instanceof Error) {
+                addError(error.message,"");
+            }
             console.error(error)
         }
     },[])

@@ -2,19 +2,43 @@ import { useEffect, useState } from "react"
 import { api } from "../../api/axios"
 import { ModalModEtape } from "./ModalModEtape";
 import { ModalConfirmerSuppression } from "./ModalConfirmerSuppresion";
+import imageCarte from '../../assets/images/international-travel-0_1684823087.webp'
+import { Axios, AxiosError } from "axios";
+import { useError } from "../../context/ErrContext";
+
 
 export function EtapeCard(
   {id, voyageId, destinationId, dateDeb, dateFin, hebergement,
     notes, updateHandler,deleteHandler} : EtapeCardProps) {
 
     const[ville, setVille] = useState<string>();
+    const {addError} = useError()
 
     useEffect(() => {
         const getDestination = async (id:number) => {
-            const resp = await api.get(`/destinations/${id}`)
-            setVille(resp.data.destination.ville);
+            try{
+              const resp = await api.get(`/destinations/${id}`)
+              setVille(resp.data.destination.ville);
+            } catch(error) {
+              if(error instanceof AxiosError) {
+                if (error.code) {
+                  addError(error.response?.data.erreur, `${error.status}-${error.code}`);
+                } 
+                console.error(error.response);
+              }   
+            }   
         }
-        getDestination(destinationId)
+        try {
+          getDestination(destinationId)
+        } catch(error) {
+          if (error instanceof AxiosError) {
+            if (error.code) {
+              addError(error.response?.data.message, `${error.status}-${error.code}`);
+            }
+            console.error(error.response);
+          } 
+        }
+        
     },[])
 
     const [estOuvertModalModifierEtape,setEstOuvertModalModifierEtape] = useState<Boolean>(false);
@@ -42,11 +66,11 @@ export function EtapeCard(
               className="btn-close position-absolute top-0 end-0 m-2" 
               onClick={deleteAction}
             ></button>
-            <img src="..." className="card-img-top" alt="..."/>
+            <img src={imageCarte} style={{height:'100px', objectFit: 'cover'}} alt="..."/>
             <div className="card-body">
               <h5 className="card-title">{ville}</h5>
               <h6 className="card-text">Dep: {dateDeb.split('T')[0]}</h6>
-              <h6 className="card-text">FIn: {dateFin.split('T')[0]}</h6>
+              <h6 className="card-text">Fin: {dateFin.split('T')[0]}</h6>
               <p>Hébergement: {hebergement}</p>
               <p>Notes: {notes}</p>
           </div>

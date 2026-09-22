@@ -1,0 +1,16 @@
+.custom-hover {
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+/* Elegant hover state */
+.custom-hover:hover {
+  transform: translateY(-5px); /* Lift the card slightly */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12); /* Soft deep shadow */
+  border-color: #0d6efd !important; /* Bootstrap primary blue border accent */
+}
+
+/* Prevent the close button from triggering or breaking the card hover styling */
+.custom-hover .btn-close {
+  z-index: 2; 
+}

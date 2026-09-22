@@ -39,6 +39,7 @@ export default function MesVoyages() {
   useEffect(() => {
     async function chargerVoyages() {
       const resp = await api.get("/voyages/moi");
+    
       setVoyages(resp.data.voyages);
     }
 
@@ -47,36 +48,39 @@ export default function MesVoyages() {
       setIsLoading(false);
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.error(error.response);
-        setIsLoading(false);
         if (error.code) {
-          addError(error.message, error.code);
-        } else {
-          addError(error.message, "");
-        }
-      } else {
-        console.error(error);
+          addError(error.response?.data.message, `${error.status}-${error.code}`);
+        } 
+
         setIsLoading(false);
-      }
     }
+  }
   }, [voyages]);
 
   const handleCreateVoyage = async (postBody: Partial<CreateVoyage>) => {
     try {
       const result = await api.post("/voyages", postBody);
+      
       const { voyage, etape } = result.data.result;
       setVoyages((prev) => [...prev, voyage]);
       setEtapes((prev) => [...prev, etape]);
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.code) {
+          addError(error.response?.data.message, `${error.status}-${error.code}`);
+        } 
         console.error(error.response);
-      }
+       
+      } 
     }
   };
 
   const handleDeleteVoyage = async (id: string) => {
     try {
-      await api.delete(`/voyages/${id}`);
+      const result = await api.delete(`/voyages/${id}`);
+      if(result.status !== 200) {
+        throw new Error(result.statusText);
+      }
       setVoyages((prev) => prev.filter((v) => v.id !== id));
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -86,6 +90,8 @@ export default function MesVoyages() {
           addError(error.message, "");
         }
         console.error(error.response);
+      } else if(error instanceof Error) {
+        addError(error.message,"");
       }
     }
   };
@@ -93,6 +99,7 @@ export default function MesVoyages() {
   const handleUpdateVoyage = async (id: string, formValues: Object) => {
     try {
       const result = await api.patch(`/voyages/${id}`, formValues);
+      
       const update: Voyage = result.data;
       const subsVoyage = (update: Voyage) => {
         setVoyages((prev) =>
@@ -102,8 +109,11 @@ export default function MesVoyages() {
       subsVoyage(update);
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.code) {
+          addError(error.response?.data.message, `${error.status}-${error.code}`);
+        } 
         console.error(error.response);
-      }
+      } 
     }
   };
 
@@ -111,27 +121,37 @@ export default function MesVoyages() {
     try {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       setIsLoadingE(true);
-      const resp = await api.get(`/etapes/moi/${id}`);
+      const resp = await api.get(`/etapes/moi/${id}`)
+      
       setEtapes(resp.data.etapes);
       setIsLoadingE(false);
       setIsVoyageSelected(true);
       setSelectedVoyageId(id);
+
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.code) {
+          addError(error.response?.data.message, `${error.status}-${error.code}`);
+        } 
         console.error(error.response);
         setIsLoading(false);
-      }
+
+      } 
     }
   };
 
   const handleCreateEtape = async (voyageId: string, postBody: CreateEtape) => {
     try {
       const result = await api.post(`/etapes/${voyageId}`, postBody);
+      
       setEtapes((prev) => [...prev, result.data]);
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.code) {
+          addError(error.response?.data.message, `${error.status}-${error.code}`);
+        } 
         console.error(error.response);
-      }
+      } 
     }
   };
 
@@ -145,6 +165,7 @@ export default function MesVoyages() {
         `/etapes/${voyageId}/${etapeId}`,
         formValues,
       );
+      
       const update: Etape = result.data;
       const subsEtape = (update: Etape) => {
         setEtapes((prev) => prev.map((e) => (e.id === update.id ? update : e)));
@@ -153,19 +174,26 @@ export default function MesVoyages() {
       getEtapes(voyageId);
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.code) {
+          addError(error.response?.data.message, `${error.status}-${error.code}`);
+        } 
         console.error(error.response);
-      }
+      } 
     }
   };
 
   const handleDeleteEtapes = async (vid: string, eid: number) => {
     try {
       await api.delete(`etapes/${vid}/${eid}`);
+
       setEtapes((prev) => prev.filter((e) => e.id !== eid));
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.code) {
+          addError(error.response?.data.message, `${error.status}-${error.code}`);
+        } 
         console.error(error.response);
-      }
+      } 
     }
   };
 

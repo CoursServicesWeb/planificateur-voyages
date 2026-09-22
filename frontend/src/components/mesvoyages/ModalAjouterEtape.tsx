@@ -4,9 +4,11 @@ import type { Destination } from "../../../../shared/types/destination";
 import { api } from "../../api/axios";
 import type { CreateEtape } from "../../../../shared/types/etape";
 import { convertToISO8601 } from "./utils/utils";
+import { useError } from "../../context/ErrContext";
+import { AxiosError } from "axios";
 
 export function ModalAjouterEtape({ voyageId, onClose, handleCreateEtape } : ModalCreateEtapeProps) {
-
+  const {addError} = useError()
   const [destinations, setDestinations] = useState<Destination[]>([])
   const [destId, setDestId] = useState('')
   const [hebergement, setHebergement] = useState<string>('');
@@ -18,12 +20,18 @@ export function ModalAjouterEtape({ voyageId, onClose, handleCreateEtape } : Mod
       async function getDestinations() {
           
           const result = await api.get('/destinations');
+          
           setDestinations(result.data.data)
       }
       try {
           getDestinations()
       } catch (error) {
-          console.error(error)
+        if (error instanceof AxiosError) {
+          if (error.code) {
+            addError(error.response?.data.erreur, `${error.status}-${error.code}`);
+          } 
+          console.error(error.response);
+        } 
       }
   },[])
 

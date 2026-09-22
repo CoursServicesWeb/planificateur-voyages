@@ -3,9 +3,12 @@ import type { Destination } from "../../../../shared/types/destination";
 import { api } from "../../api/axios";
 import { genererPOSTBodyCreerVoyage } from "./utils/utils";
 import type { CreateVoyage } from "../../../../shared/types/voyage";
+import { useError } from "../../context/ErrContext";
+import { AxiosError } from "axios";
 
 export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoyProps) {
 
+  const {addError} = useError()
   const [destinations, setDestinations] = useState<Destination[]>([])
   const [destId, setDestId] = useState('')
   const [hebergement, setHebergement] = useState<string>('');
@@ -17,12 +20,20 @@ export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoy
       async function getDestinations() {
           
           const result = await api.get('/destinations');
+          if (result.status !== 200) {
+            throw new Error(result.statusText);
+          }
           setDestinations(result.data.data)
           
       }
       try {
           getDestinations()
       } catch (error) {
+        if(error instanceof AxiosError) {
+          addError(error.message, error.code? error.code:"");
+        } else if(error instanceof Error) {
+          addError(error.message,"")
+        }
           console.error(error)
       }
   },[])
@@ -66,7 +77,7 @@ export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoy
                   <div className="col-md-6">
                       <label className="form-label fw-bold text-primary">
                           Choisissez pour votre voyage:
-                      </label>
+                      </label><br/>
                       <input 
                           type="text" 
                           className="form-col-custom form-control" 
@@ -88,7 +99,7 @@ export function ModalAjouterVoyage({ onClose, handleCreateVoyage } : ModalModVoy
                   <div className="col-md-6">
                       <label className="form-label fw-bold text-primary">
                           ...et pour la première étape:
-                      </label>
+                      </label><br/><br/>
                       <label htmlFor="dateDebE" className="form-label">
                         Début:
                       </label>

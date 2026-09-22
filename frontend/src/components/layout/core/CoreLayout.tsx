@@ -2,7 +2,7 @@ import Header from "./Header.tsx";
 import Nav from "./Nav.tsx";
 
 export default function CoreLayout({
-  headerTitle = "Planificateur Voyages",
+  headerTitle = "",
   navUserName = "User",
   children,
 }: CoreLayoutProps) {

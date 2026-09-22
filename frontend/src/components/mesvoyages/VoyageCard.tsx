@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ModalModVoyage } from './ModalModVoyage';
 import imageCarte from '../../assets/images/international-travel-0_1684823087.webp'
 import { ModalConfirmerSuppression } from './ModalConfirmerSuppresion';
+import "../../styles/voyages.css"
 
 export function VoyageCard(
   {id, titre, dateDeb, dateFin, statut, updateHandler, deleteHandler, handleCardClick} : VoyageCardProps) {
@@ -25,8 +26,8 @@ export function VoyageCard(
 
     return (
       <div className="col mt-4">
-        <div className={`card mx-auto h-100 position-relative$ {isSelected ? 'border-primary border-2' : ''}`}
-        style={{ cursor: 'pointer' }}
+        <div className= "card mx-5 h-100 position-relative custom-hover"
+        
         onClick={() => handleCardClick(id)}>
           <button 
             type="button" 
